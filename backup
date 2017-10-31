@@ -1,0 +1,26 @@
+#!/bin/sh
+set -eo pipefail
+
+RESTIC_BACKUP_SOURCES=${RESTIC_BACKUP_SOURCES:-/data}
+RESTIC_BACKUP_TAGS="${RESTIC_BACKUP_TAGS:-}"
+
+tags="$(echo "$RESTIC_BACKUP_TAGS" | tr "," "\n")"
+tag_options=""
+for tag in $tags; do
+  tag_options="${tag_options} --tag $tag"
+done
+
+start=`date +%s`
+echo Starting Backup at $(date +"%Y-%m-%d %H:%M:%S")
+
+restic backup ${tag_options} ${RESTIC_BACKUP_SOURCES}
+
+echo Backup successful
+
+if [ -n "${RESTIC_FORGET_ARGS}" ]; then
+  echo Forget about old snapshots based on RESTIC_FORGET_ARGS = ${RESTIC_FORGET_ARGS}
+  restic forget ${tag_options} ${RESTIC_FORGET_ARGS}
+fi
+
+end=`date +%s`
+echo Finished backup at $(date +"%Y-%m-%d %H:%M:%S") after $((end-start)) seconds

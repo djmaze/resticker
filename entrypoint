@@ -1,0 +1,16 @@
+#!/bin/sh
+
+if [ -z "${RESTIC_REPOSITORY##*:*}" ]; then
+  echo "Trying to initialize remote repository '${RESTIC_REPOSITORY}' (in case it has not been initialized yet)"
+  restic init
+elif [ ! -f "$RESTIC_REPOSITORY/config" ]; then
+  echo "Restic repository '${RESTIC_REPOSITORY}' does not exist. Running restic init"
+  restic init
+fi
+
+if [[ $# -gt 0 ]]; then
+  exec restic "$*"
+else
+  exec go-cron "$BACKUP_CRON" /usr/local/bin/backup
+fi
+
