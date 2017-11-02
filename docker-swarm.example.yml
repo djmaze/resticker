@@ -1,0 +1,19 @@
+version: "3.3"
+
+services:
+  app:
+    image: mazzolino/restic
+    environment:
+      BACKUP_CRON: "0 30 3 * * *"
+      RESTIC_REPOSITORY: b2:my-repo:/restic
+      RESTIC_PASSWORD: supersecret
+      RESTIC_BACKUP_SOURCES: /mnt/volumes
+      RESTIC_BACKUP_TAGS: docker-volumes
+      RESTIC_FORGET_ARGS: --prune --keep-last 14 --keep-daily 1
+      B2_ACCOUNT_ID: xxxxxxx
+      B2_ACCOUNT_KEY: yyyyyyyy
+    hostname: "{{.Node.ID}}"
+    volumes:
+      - /var/lib/docker/volumes:/mnt/volumes:ro
+    deploy:
+      mode: global
