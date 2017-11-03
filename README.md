@@ -9,7 +9,7 @@ Run automatic [restic](https://restic.github.io/) backups via a Docker container
 * add custom tags to backups
 * automatic forgetting of old backups
 * can be used as a (global) Docker swarm service in order to backup every cluster node
-* multi-arch: runs on `amd64` as well as `armv7` (for now)
+* multi-arch: the image `mazzolino/restic` runs on `amd64` as well as `armv7` (for now)
 
 ## Usage
 
