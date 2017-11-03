@@ -49,6 +49,18 @@ E.g.
 * `RESTIC_FORGET_ARGS` - Optional. If specified `restic forget` is run with the given arguments after each backup. E.g. `--prune --keep-last 14 --keep-daily 1`
 * (Additional variables as needed for the chosen backup target. E.g. `B2_ACCOUNT_ID` and `B2_ACCOUNT_KEY` for Backblaze B2.)
 
+## Build instructions
+
+Use the supplied [Makefile](Makefile) in order to build your own image:
+
+    make image IMAGE=myuser/restic
+
+You can also push images and build on a different architecture:
+
+    make image IMAGE=myuser/restic ARCH=arm
+
+For more targets, see the Makefile.
+
 ## Credits
 
 [restic-backup-docker](https://github.com/Lobaro/restic-backup-docker) was used as a starting point. Thanks!
