@@ -9,7 +9,7 @@ elif [ ! -f "$RESTIC_REPOSITORY/config" ]; then
 fi
 
 if [[ $# -gt 0 ]]; then
-  exec restic "$*"
+  exec restic $*
 else
   exec go-cron "$BACKUP_CRON" /usr/local/bin/backup
 fi
