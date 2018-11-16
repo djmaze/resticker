@@ -1,0 +1,81 @@
+kind: pipeline
+name: amd64
+
+platform:
+  os: linux
+  arch: amd64
+
+steps:
+  - name: build
+    image: plugins/docker
+    settings:
+      auto_tag: true
+      auto_tag_suffix: -amd64
+      repo: mazzolino/restic
+      username:
+        from_secret: docker_username
+      password:
+        from_secret: docker_password
+    when:
+      branch:
+        exclude:
+          - master
+      event:
+        exclude:
+          - pull_request
+
+---
+kind: pipeline
+name: arm
+
+platform:
+  os: linux
+  arch: arm
+
+steps:
+  - name: build
+    image: plugins/docker:linux-arm
+    settings:
+      auto_tag: true
+      auto_tag_suffix: -arm
+      repo: mazzolino/restic
+      username:
+        from_secret: docker_username
+      password:
+        from_secret: docker_password
+    when:
+      branch:
+        exclude:
+          - master
+      event:
+        exclude:
+          - pull_request
+
+---
+kind: pipeline
+name: manifest
+
+platform:
+  os: linux
+  arch: arm
+
+clone:
+  disable: true
+
+steps:
+  - name: manifest
+    image: plugins/manifest:linux-arm
+    settings:
+      spec: manifest.tmpl
+      auto_tag: true
+      username:
+        from_secret: docker_username
+      password:
+        from_secret: docker_password
+      platforms:
+        - linux/amd64
+        - linux/arm
+
+depends_on:
+  - amd64
+  - arm
