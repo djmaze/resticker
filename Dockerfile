@@ -1,9 +1,7 @@
 #
 # Builder image
 #
-FROM golang:alpine AS builder
-
-RUN apk add --update --no-cache curl git
+FROM golang AS builder
 
 ARG RESTIC_VERSION=0.9.3
 ARG RESTIC_SHA256=b95a258099aee9a56e620ccebcecabc246ee7f8390e3937ccedadd609c6d2dd0
