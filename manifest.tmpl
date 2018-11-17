@@ -7,12 +7,12 @@ tags:
 {{/if}}
 manifests:
   -
-    image: mazzolino/restic:{{#if build.tag}}{{trimPrefix build.tag "v"}}-{{/if}}-amd64
+    image: mazzolino/restic:{{#if build.tag}}{{trimPrefix build.tag "v"}}-{{/if}}amd64
     platform:
       architecture: amd64
       os: linux
   -
-    image: mazzolino/restic:{{#if build.tag}}{{trimPrefix build.tag "v"}}-{{/if}}-arm
+    image: mazzolino/restic:{{#if build.tag}}{{trimPrefix build.tag "v"}}-{{/if}}arm
     platform:
       architecture: arm
       os: linux
