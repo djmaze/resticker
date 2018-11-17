@@ -10,7 +10,7 @@ steps:
     image: plugins/docker
     settings:
       auto_tag: true
-      auto_tag_suffix: -amd64
+      auto_tag_suffix: amd64
       repo: mazzolino/restic
       username:
         from_secret: docker_username
@@ -37,7 +37,7 @@ steps:
     image: plugins/docker:linux-arm
     settings:
       auto_tag: true
-      auto_tag_suffix: -arm
+      auto_tag_suffix: arm
       repo: mazzolino/restic
       username:
         from_secret: docker_username
