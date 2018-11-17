@@ -59,9 +59,6 @@ platform:
   os: linux
   arch: arm
 
-clone:
-  disable: true
-
 steps:
   - name: manifest
     image: plugins/manifest:linux-arm
