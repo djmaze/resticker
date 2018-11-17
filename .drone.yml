@@ -61,7 +61,7 @@ platform:
 
 steps:
   - name: manifest
-    image: plugins/manifest:linux-arm
+    image: plugins/manifest:1
     settings:
       spec: manifest.tmpl
       auto_tag: true
