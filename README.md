@@ -1,5 +1,8 @@
 # Resticker
 
+[![Docker Pulls](https://img.shields.io/docker/pulls/mazzolino/restic.svg)](https://hub.docker.com/r/mazzolino/restic/)
+[![Build status](https://ci.strahlungsfrei.de/api/badges/djmaze/resticker/status.svg)](https://ci.strahlungsfrei.de/djmaze/resticker)
+
 Run automatic [restic](https://restic.github.io/) backups via a Docker container.
 
 ## Features
