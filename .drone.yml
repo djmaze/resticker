@@ -53,11 +53,33 @@ steps:
 
 ---
 kind: pipeline
-name: manifest
+name: arm64
 
 platform:
   os: linux
-  arch: arm
+  arch: arm64
+
+steps:
+  - name: build
+    image: plugins/docker:linux-arm64
+    settings:
+      auto_tag: true
+      auto_tag_suffix: arm64
+      repo: mazzolino/restic
+      username:
+        from_secret: docker_username
+      password:
+        from_secret: docker_password
+    when:
+      branch:
+        exclude:
+          - master
+      event:
+        exclude:
+          - pull_request
+---
+kind: pipeline
+name: manifest
 
 steps:
   - name: manifest
@@ -72,7 +94,9 @@ steps:
       platforms:
         - linux/amd64
         - linux/arm
+        - linux/arm64
 
 depends_on:
   - amd64
   - arm
+  - arm64

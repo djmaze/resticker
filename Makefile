@@ -10,4 +10,4 @@ push: image
 		docker push ${IMAGE}:${ARCH}
 
 manifest: push
-		manifest-tool push from-args --platforms linux/amd64,linux/arm --template ${IMAGE}:ARCH --target ${IMAGE}
+		manifest-tool push from-args --platforms linux/amd64,linux/arm,linux/arm64 --template ${IMAGE}:ARCH --target ${IMAGE}
