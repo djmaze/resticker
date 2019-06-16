@@ -31,7 +31,7 @@ RUN curl -sL -o restic.tar.gz https://github.com/restic/restic/releases/download
 #
 # Final image
 #
-FROM alpine:3.6
+FROM alpine:3.9
 
 RUN apk add --update --no-cache ca-certificates fuse nfs-utils openssh
 
