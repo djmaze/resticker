@@ -1,7 +1,7 @@
 #
 # Builder image
 #
-FROM golang AS builder
+FROM golang:1.12 AS builder
 
 ARG RESTIC_VERSION=0.9.5
 ARG RESTIC_SHA256=e22208e946ede07f56ef60c1c89de817b453967663ce4867628dff77761bd429
