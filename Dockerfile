@@ -33,7 +33,7 @@ RUN curl -sL -o restic.tar.gz https://github.com/restic/restic/releases/download
 #
 FROM alpine:3.9
 
-RUN apk add --update --no-cache ca-certificates fuse nfs-utils openssh
+RUN apk add --update --no-cache ca-certificates fuse nfs-utils openssh tzdata
 
 ENV RESTIC_REPOSITORY /mnt/restic
 
