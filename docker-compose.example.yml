@@ -13,5 +13,6 @@ services:
       RESTIC_FORGET_ARGS: --prune --keep-last 14 --keep-daily 1
       B2_ACCOUNT_ID: xxxxxxx
       B2_ACCOUNT_KEY: yyyyyyyy
+      TZ: Europe/Berlin
     volumes:
       - /var/lib/docker/volumes:/mnt/volumes:ro
