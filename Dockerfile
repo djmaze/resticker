@@ -31,7 +31,7 @@ RUN curl -sL -o restic.tar.gz https://github.com/restic/restic/releases/download
 #
 # Final image
 #
-FROM alpine:3.9
+FROM alpine:3.10
 
 RUN apk add --update --no-cache ca-certificates fuse nfs-utils openssh tzdata bash
 RUN apk add --no-cache --repository=http://dl-cdn.alpinelinux.org/alpine/edge/community/ docker-cli
