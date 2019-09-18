@@ -1,6 +1,9 @@
 #!/bin/sh
 set -eo pipefail
 
+PRE_COMMANDS="${PRE_COMMANDS:-}"
+while IFS= read -r cmd; do echo $cmd && eval $cmd ; done < <(printf '%s\n' "$PRE_COMMANDS")
+
 RESTIC_BACKUP_SOURCES=${RESTIC_BACKUP_SOURCES:-/data}
 RESTIC_BACKUP_TAGS="${RESTIC_BACKUP_TAGS:-}"
 

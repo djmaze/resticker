@@ -1,7 +1,7 @@
 #
 # Builder image
 #
-FROM golang AS builder
+FROM golang:1.12 AS builder
 
 ARG RESTIC_VERSION=0.9.5
 ARG RESTIC_SHA256=e22208e946ede07f56ef60c1c89de817b453967663ce4867628dff77761bd429
@@ -31,9 +31,10 @@ RUN curl -sL -o restic.tar.gz https://github.com/restic/restic/releases/download
 #
 # Final image
 #
-FROM alpine:3.9
+FROM alpine:3.10
 
-RUN apk add --update --no-cache ca-certificates fuse nfs-utils openssh
+RUN apk add --update --no-cache ca-certificates fuse nfs-utils openssh tzdata bash
+RUN apk add --no-cache --repository=http://dl-cdn.alpinelinux.org/alpine/edge/community/ docker-cli
 
 ENV RESTIC_REPOSITORY /mnt/restic
 

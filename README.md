@@ -51,6 +51,21 @@ E.g.
 * `RESTIC_BACKUP_TAGS` - Optional. Tags to set on each snapshot, separated by commas. E.g. `swarm,docker-volumes`
 * `RESTIC_FORGET_ARGS` - Optional. If specified `restic forget` is run with the given arguments after each backup. E.g. `--prune --keep-last 14 --keep-daily 1`
 * (Additional variables as needed for the chosen backup target. E.g. `B2_ACCOUNT_ID` and `B2_ACCOUNT_KEY` for Backblaze B2.)
+* `TZ` - Optional. Set your timezone for the correct cron execution time.
+
+## Execute commands prior to backup
+
+It's possible to optionally execute commands (like database dumps) before the actual backup starts. If you want to execute `docker` commands on the host, mount the Docker socket to the container. To do that add the following volume to the compose or swarm configuration:
+
+    - /var/run/docker.sock:/var/run/docker.sock
+
+You can add one or multiple commands by specifying the following environment variable:
+
+    PRE_COMMANDS: |-
+                docker exec nextcloud-postgres pg_dumpall -U nextcloud -f /data/nextcloud.sql
+                docker exec other-postgres pg_dumpall -U other -f /data/other.sql
+
+The commands specified in `PRE_COMMANDS` are executed one by one.
 
 ## Build instructions
 
