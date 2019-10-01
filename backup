@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 set -eo pipefail
 
 PRE_COMMANDS="${PRE_COMMANDS:-}"
