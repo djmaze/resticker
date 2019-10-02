@@ -55,7 +55,7 @@ E.g.
 
 ## Execute commands prior to backup
 
-It's possible to optionally execute commands (like database dumps) before the actual backup starts. If you want to execute `docker` commands on the host, mount the Docker socket to the container. To do that add the following volume to the compose or swarm configuration:
+It's possible to optionally execute commands (like database dumps, or stopping a running container to avoid inconsistent backup data) before the actual backup starts. If you want to execute `docker` commands on the host, mount the Docker socket to the container. To do that add the following volume to the compose or swarm configuration:
 
     - /var/run/docker.sock:/var/run/docker.sock
 
@@ -64,8 +64,30 @@ You can add one or multiple commands by specifying the following environment var
     PRE_COMMANDS: |-
                 docker exec nextcloud-postgres pg_dumpall -U nextcloud -f /data/nextcloud.sql
                 docker exec other-postgres pg_dumpall -U other -f /data/other.sql
+		docker stop my_container
 
 The commands specified in `PRE_COMMANDS` are executed one by one.
+
+## Execute commands prior to backup
+
+It's possible to optionally execute commands (like restarting a temporarily stopped container, send a mail...) once the actual backup has finished. Like for pre-backup copmands, if you want to execute `docker` commands on the host, mount the Docker socket to the container.
+
+You can add one or multiple commands by specifying the following environment variables:
+
+    POST_COMMANDS_SUCCESS: |-
+		/my/scripts/mail-success.sh
+
+    POST_COMMANDS_FAILURE: |-
+		/my/scripts/mail-failure.sh
+
+    POST_COMMANDS_EXIT: |-
+		docker start my_container
+
+The commands specified are executed one by one.
+POST_COMMANDS_SUCCESS commands will be executed after a successful backup run.
+POST_COMMANDS_FAILURE commande will be executed after a failed backup run.
+POST_COMMANDS_EXIT will always be executed, after both successful or failed backup runs.
+
 
 ## Build instructions
 
