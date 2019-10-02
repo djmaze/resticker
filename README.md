@@ -45,7 +45,7 @@ E.g.
 ## Configuration options
 
 * `BACKUP_CRON` - A cron expression for when to run the backup. E.g. `0 30 3 * * *` in order to run every night at 3:30 am. See [the go-cron documentation](https://godoc.org/github.com/robfig/cron) for details on the expression format
-* `RESTIC_REPOSITORY` - location of the restic repository. You can use [any target supported by restic](https://restic.readthedocs.io/en/stable/manual.html#initialize-a-repository). Default `/mnt/restic`
+* `RESTIC_REPOSITORY` - location of the restic repository. You can use [any target supported by restic](https://restic.readthedocs.io/en/stable/030_preparing_a_new_repo.html). Default `/mnt/restic`
 * `RESTIC_BACKUP_SOURCES` - source directory to backup. Make sure to mount this into the container as a volume (see the example configs). Default `/data`
 * `RESTIC_PASSWORD` - password for the restic repository. Will also be used to initialize the repository if it is not yet initialized
 * `RESTIC_BACKUP_TAGS` - Optional. Tags to set on each snapshot, separated by commas. E.g. `swarm,docker-volumes`
@@ -66,6 +66,10 @@ You can add one or multiple commands by specifying the following environment var
                 docker exec other-postgres pg_dumpall -U other -f /data/other.sql
 
 The commands specified in `PRE_COMMANDS` are executed one by one.
+
+## Using `rclone` repository type
+
+In order to use `rclone` repository type, you need to prepare a `rclone.conf` file and mount it inside the container to `/root/.config/rclone/rclone.conf`.
 
 ## Build instructions
 

@@ -8,6 +8,9 @@ ARG RESTIC_SHA256=e22208e946ede07f56ef60c1c89de817b453967663ce4867628dff77761bd4
 ARG GO_CRON_VERSION=0.0.2
 ARG GO_CRON_SHA256=ca2acebf00d61cede248b6ffa8dcb1ef5bb92e7921acff3f9d6f232f0b6cf67a
 
+RUN apt-get update -qq \
+ && apt-get install -yq unzip
+
 RUN curl -sL -o go-cron.tar.gz https://github.com/michaloo/go-cron/archive/v${GO_CRON_VERSION}.tar.gz \
  && echo "${GO_CRON_SHA256}  go-cron.tar.gz" | sha256sum -c - \
  && tar xzf go-cron.tar.gz \
@@ -27,6 +30,10 @@ RUN curl -sL -o restic.tar.gz https://github.com/restic/restic/releases/download
  && mv restic /usr/local/bin/restic \
  && cd .. \
  && rm restic.tar.gz restic-${RESTIC_VERSION} -fR
+
+RUN curl -O https://downloads.rclone.org/rclone-current-linux-amd64.zip \
+ && unzip -a rclone-current-linux-amd64.zip \
+ && mv rclone-*/rclone /usr/local/bin/rclone
 
 #
 # Final image
