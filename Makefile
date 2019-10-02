@@ -1,5 +1,5 @@
-IMAGE=mazzolino/restic
-ARCH=amd64
+IMAGE=nikkoura/restic
+ARCH=arm64
 
 default: image push manifest
 
@@ -10,4 +10,4 @@ push: image
 		docker push ${IMAGE}:${ARCH}
 
 manifest: push
-		manifest-tool push from-args --platforms linux/amd64,linux/arm,linux/arm64 --template ${IMAGE}:ARCH --target ${IMAGE}
+		manifest-tool push from-args --platforms linux/arm64 --template ${IMAGE}:ARCH --target ${IMAGE}

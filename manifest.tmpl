@@ -1,4 +1,4 @@
-image: mazzolino/restic:{{#if build.tag}}{{trimPrefix build.tag "v"}}{{else}}latest{{/if}}
+image: nikkoura/restic:{{#if build.tag}}{{trimPrefix build.tag "v"}}{{else}}latest{{/if}}
 {{#if build.tags}}
 tags:
 {{#each build.tags}}
@@ -7,12 +7,12 @@ tags:
 {{/if}}
 manifests:
   -
-    image: mazzolino/restic:{{#if build.tag}}{{trimPrefix build.tag "v"}}-{{/if}}amd64
+    image: nikkoura/restic:{{#if build.tag}}{{trimPrefix build.tag "v"}}-{{/if}}amd64
     platform:
       architecture: amd64
       os: linux
   -
-    image: mazzolino/restic:{{#if build.tag}}{{trimPrefix build.tag "v"}}-{{/if}}arm
+    image: nikkoura/restic:{{#if build.tag}}{{trimPrefix build.tag "v"}}-{{/if}}arm
     platform:
       architecture: arm
       os: linux

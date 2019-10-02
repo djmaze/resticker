@@ -1,8 +1,5 @@
 # Resticker
 
-[![Docker Pulls](https://img.shields.io/docker/pulls/mazzolino/restic.svg)](https://hub.docker.com/r/mazzolino/restic/)
-[![Build status](https://ci.strahlungsfrei.de/api/badges/djmaze/resticker/status.svg)](https://ci.strahlungsfrei.de/djmaze/resticker)
-
 Run automatic [restic](https://restic.github.io/) backups via a Docker container.
 
 ## Features
@@ -12,7 +9,7 @@ Run automatic [restic](https://restic.github.io/) backups via a Docker container
 * add custom tags to backups
 * automatic forgetting of old backups
 * can be used as a (global) Docker swarm service in order to backup every cluster node
-* multi-arch: the image `mazzolino/restic` runs on `amd64` as well as `armv7` (for now)
+* execute pre / post-commands
 
 ## Usage
 
@@ -103,4 +100,4 @@ For more targets, see the Makefile.
 
 ## Credits
 
-[restic-backup-docker](https://github.com/Lobaro/restic-backup-docker) was used as a starting point. Thanks!
+[restic-backup-docker](https://github.com/djmaze/resticker) was used as a starting point. Thanks!
