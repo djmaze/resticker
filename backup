@@ -2,13 +2,19 @@
 set -eo pipefail
 
 function run_commands {
-	COMMANDS="${!1:-}"
+	COMMANDS=$1
 	while IFS= read -r cmd; do echo $cmd && eval $cmd ; done < <(printf '%s\n' "$COMMANDS")
 }
 
-trap "run_commands POST_COMMANDS_EXIT" EXIT
+function run_exit_commands {
+	set +e
+	set +o pipefail
+	run_commands "${POST_COMMANDS_EXIT:-}"
+}
 
-run_commands PRE_COMMANDS
+trap run_exit_commands EXIT
+
+run_commands "${PRE_COMMANDS:-}"
 
 RESTIC_BACKUP_SOURCES=${RESTIC_BACKUP_SOURCES:-/data}
 RESTIC_BACKUP_TAGS="${RESTIC_BACKUP_TAGS:-}"
@@ -23,11 +29,11 @@ start=`date +%s`
 echo Starting Backup at $(date +"%Y-%m-%d %H:%M:%S")
 
 set +e
-restic backup ${tag_options} ${RESTIC_BACKUP_SOURCES} 
+restic backup ${tag_options} ${RESTIC_BACKUP_SOURCES}
 if [ $? -ne 0 ]
 then
 	set -e
-	run_commands POST_COMMANDS_FAILURE
+	run_commands "${POST_COMMANDS_FAILURE:-}"
 	exit
 else
 	set -e
@@ -43,4 +49,4 @@ fi
 end=`date +%s`
 echo Finished backup at $(date +"%Y-%m-%d %H:%M:%S") after $((end-start)) seconds
 
-run_commands POST_COMMANDS_SUCCESS
+run_commands "${POST_COMMANDS_SUCCESS:-}"
