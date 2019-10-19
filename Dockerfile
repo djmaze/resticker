@@ -21,6 +21,15 @@ RUN curl -sL -o go-cron.tar.gz https://github.com/michaloo/go-cron/archive/v${GO
  && cd .. \
  && rm go-cron.tar.gz go-cron-${GO_CRON_VERSION} -fR
 
+RUN curl -sL -o rclone.zip https://downloads.rclone.org/v${RCLONE_VERSION}/rclone-v${RCLONE_VERSION}-linux-amd64.zip \
+ && echo "${RCLONE_SHA256}  rclone.zip" | sha256sum -c - \
+ && apt-get update -qq \
+ && apt-get install -yq unzip \
+ && unzip -a rclone.zip \
+ && mv rclone-v${RCLONE_VERSION}-linux-amd64/rclone /usr/local/bin/rclone \
+ && rm rclone.zip rclone-v${RCLONE_VERSION}-linux-amd64 -fR \
+ && rm /var/lib/apt/lists/* -fR
+
 RUN curl -sL -o restic.tar.gz https://github.com/restic/restic/releases/download/v${RESTIC_VERSION}/restic-${RESTIC_VERSION}.tar.gz \
  && echo "${RESTIC_SHA256}  restic.tar.gz" | sha256sum -c - \
  && tar xzf restic.tar.gz \
@@ -29,13 +38,6 @@ RUN curl -sL -o restic.tar.gz https://github.com/restic/restic/releases/download
  && mv restic /usr/local/bin/restic \
  && cd .. \
  && rm restic.tar.gz restic-${RESTIC_VERSION} -fR
-
-RUN curl -sL -o rclone.zip https://downloads.rclone.org/v${RCLONE_VERSION}/rclone-v${RCLONE_VERSION}-linux-amd64.zip \
- && echo "${RCLONE_SHA256}  rclone.zip" | sha256sum -c - \
- && apt-get update -qq \
- && apt-get install -yq unzip \
- && unzip -a rclone.zip \
- && mv rclone-v${RCLONE_VERSION}-linux-amd64/rclone /usr/local/bin/rclone
 
 #
 # Final image
