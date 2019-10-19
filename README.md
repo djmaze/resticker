@@ -64,13 +64,13 @@ You can add one or multiple commands by specifying the following environment var
     PRE_COMMANDS: |-
                 docker exec nextcloud-postgres pg_dumpall -U nextcloud -f /data/nextcloud.sql
                 docker exec other-postgres pg_dumpall -U other -f /data/other.sql
-		docker stop my_container
+                docker stop my_container
 
 The commands specified in `PRE_COMMANDS` are executed one by one.
 
-## Execute commands prior to backup
+## Execute commands after backup
 
-It's possible to optionally execute commands (like restarting a temporarily stopped container, send a mail...) once the actual backup has finished. Like for pre-backup copmands, if you want to execute `docker` commands on the host, mount the Docker socket to the container.
+It's possible to optionally execute commands (like restarting a temporarily stopped container, send a mail...) once the actual backup has finished. Like for pre-backup commands, if you want to execute `docker` commands on the host, mount the Docker socket to the container.
 
 You can add one or multiple commands by specifying the following environment variables:
 
@@ -84,9 +84,10 @@ You can add one or multiple commands by specifying the following environment var
 		docker start my_container
 
 The commands specified are executed one by one.
-POST_COMMANDS_SUCCESS commands will be executed after a successful backup run.
-POST_COMMANDS_FAILURE commande will be executed after a failed backup run.
-POST_COMMANDS_EXIT will always be executed, after both successful or failed backup runs.
+
+* `POST_COMMANDS_SUCCESS` commands will be executed after a successful backup run.
+* `POST_COMMANDS_FAILURE` commande will be executed after a failed backup run.
+* `POST_COMMANDS_EXIT` will always be executed, after both successful or failed backup runs.
 
 
 ## Build instructions
