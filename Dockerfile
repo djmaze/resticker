@@ -5,19 +5,17 @@ FROM golang:1.12 AS builder
 
 ARG RESTIC_VERSION=0.9.5
 ARG RESTIC_SHA256=e22208e946ede07f56ef60c1c89de817b453967663ce4867628dff77761bd429
-ARG GO_CRON_VERSION=0.0.2
-ARG GO_CRON_SHA256=ca2acebf00d61cede248b6ffa8dcb1ef5bb92e7921acff3f9d6f232f0b6cf67a
+ARG GO_CRON_VERSION=0.0.4
+ARG GO_CRON_SHA256=6c8ac52637150e9c7ee88f43e29e158e96470a3aaa3fcf47fd33771a8a76d959
 ARG RCLONE_VERSION=1.49.5
 ARG RCLONE_SHA256=7922455f95e8e71f9e484f84ac3ae015379e65ccc3f7d93d804fc0a76515c973
 
-RUN curl -sL -o go-cron.tar.gz https://github.com/michaloo/go-cron/archive/v${GO_CRON_VERSION}.tar.gz \
+RUN curl -sL -o go-cron.tar.gz https://github.com/djmaze/go-cron/archive/v${GO_CRON_VERSION}.tar.gz \
  && echo "${GO_CRON_SHA256}  go-cron.tar.gz" | sha256sum -c - \
  && tar xzf go-cron.tar.gz \
  && cd go-cron-${GO_CRON_VERSION} \
- && export GOBIN=$GOPATH/bin \
- && go get \
  && go build \
- && mv $GOPATH/bin/go-cron-${GO_CRON_VERSION} /usr/local/bin/go-cron \
+ && mv go-cron /usr/local/bin/go-cron \
  && cd .. \
  && rm go-cron.tar.gz go-cron-${GO_CRON_VERSION} -fR
 
