@@ -1,6 +1,20 @@
 # Changelog
 
-## [1.0.0](https://github.com/djmaze/resticker/tree/1.0.0) (2019-10-19)
+## [1.0.1](https://github.com/djmaze/resticker/tree/1.0.1) (2019-10-26)
+
+[Full Changelog](https://github.com/djmaze/resticker/compare/1.0.0...1.0.1)
+
+As it turned out, the used version of **go-cron** did not work reliably any more. The image now includes a newer version which should fix those problems.
+
+**Implemented enhancements:**
+
+- Update go-cron [\#12](https://github.com/djmaze/resticker/pull/12) ([djmaze](https://github.com/djmaze))
+
+**Fixed bugs:**
+
+- Replace go-cron with crond from the already included BusyBox [\#11](https://github.com/djmaze/resticker/issues/11)
+
+## [1.0.0](https://github.com/djmaze/resticker/tree/1.0.0) (2019-10-24)
 
 [Full Changelog](https://github.com/djmaze/resticker/compare/0.9.5...1.0.0)
 
@@ -16,6 +30,7 @@ The new version does not indicate any kind of stability or feature freeze. It is
 
 **Fixed bugs:**
 
+- "syntax error: unexpected redirection" when using PRE\_COMMANDS [\#4](https://github.com/djmaze/resticker/issues/4)
 - Fix PRE\_COMMANDS error \('unexpected redirection'\) [\#7](https://github.com/djmaze/resticker/pull/7) ([nikkoura](https://github.com/nikkoura))
 
 ## [0.9.5](https://github.com/djmaze/resticker/tree/0.9.5) (2019-07-21)
