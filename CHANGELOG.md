@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.1.0](https://github.com/djmaze/resticker/tree/1.1.0) (2019-10-30)
+
+[Full Changelog](https://github.com/djmaze/resticker/compare/1.0.1...1.1.0)
+
+**Implemented enhancements:**
+
+- Feature : Add curl to final image \(for Slack webhook\) [\#14](https://github.com/djmaze/resticker/pull/14) ([y3lousso](https://github.com/y3lousso))
+
 ## [1.0.1](https://github.com/djmaze/resticker/tree/1.0.1) (2019-10-26)
 
 [Full Changelog](https://github.com/djmaze/resticker/compare/1.0.0...1.0.1)
