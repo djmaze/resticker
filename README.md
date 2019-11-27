@@ -30,6 +30,19 @@ Adjust the supplied [docker-swarm.yml](docker-swarm.example.yml) as needed. Then
 
     docker stack deploy -f docker-swarm.yml backup
 
+### Restoring
+
+In order to restore files on a host where the container is already running via Docker Compose, you can use `exec`:
+
+```bash
+# Find the latest snapshot for the current host (note the ID)
+docker-compose exec app snapshots -H <HOSTNAME>
+# Restore the given file on the host
+docker-compose exec app restore --include /path/to/file <ID>
+```
+
+When using Swarm mode, you need to manually SSH into the host and run `docker exec -it ..` accordingly.
+
 ### Advanced usage
 
 You can use the same config to run any restic command with the given configuration.
