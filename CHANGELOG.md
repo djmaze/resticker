@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.1.1](https://github.com/djmaze/resticker/tree/1.1.1) (2019-11-27)
+
+[Full Changelog](https://github.com/djmaze/resticker/compare/1.1.0...1.1.1)
+
+**Implemented enhancements:**
+
+- Restic 0.9.6 release [\#17](https://github.com/djmaze/resticker/issues/17)
+- doco and samples for restore [\#15](https://github.com/djmaze/resticker/issues/15)
+
+**Fixed bugs:**
+
+- Use proper sh semantics for the entrypoint [\#18](https://github.com/djmaze/resticker/pull/18) ([schue](https://github.com/schue))
+
 ## [1.1.0](https://github.com/djmaze/resticker/tree/1.1.0) (2019-10-30)
 
 [Full Changelog](https://github.com/djmaze/resticker/compare/1.0.1...1.1.0)
