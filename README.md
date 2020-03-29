@@ -36,9 +36,9 @@ In order to restore files on a host where the container is already running via D
 
 ```bash
 # Find the latest snapshot for the current host (note the ID)
-docker-compose exec app snapshots -H <HOSTNAME>
+docker-compose exec app restic snapshots -H <HOSTNAME>
 # Restore the given file on the host
-docker-compose exec app restore --include /path/to/file <ID>
+docker-compose exec app restic restore --include /path/to/file <ID>
 ```
 
 When using Swarm mode, you need to manually SSH into the host and run `docker exec -it ..` accordingly.
