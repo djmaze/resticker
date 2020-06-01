@@ -48,7 +48,7 @@ RUN apk add --no-cache --repository=http://dl-cdn.alpinelinux.org/alpine/edge/co
 ENV RESTIC_REPOSITORY /mnt/restic
 
 COPY --from=builder /usr/local/bin/* /usr/local/bin/
-COPY backup /usr/local/bin/
+COPY backup prune /usr/local/bin/
 COPY entrypoint /
 
 ENTRYPOINT ["/entrypoint"]

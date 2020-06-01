@@ -11,12 +11,15 @@ Run automatic [restic](https://restic.github.io/) backups via a Docker container
 * backup to any (local or remote) target supported by restic
 * add custom tags to backups
 * automatic forgetting of old backups
+* prune backups on a schedule
 * can be used as a (global) Docker swarm service in order to backup every cluster node
 * multi-arch: the image `mazzolino/restic` runs on `amd64` as well as `armv7` (for now)
 
 ## Usage
 
 Use the supplied example configs to set up a backup schedule.
+
+The Compose files contain a *backup* and a *prune* service which can be scheduled independently of each other. Feel free to remove the *prune* service if you want to run the prune jobs manually.
 
 ### With Docker Compose
 
@@ -57,7 +60,10 @@ E.g.
 
 ## Configuration options
 
-* `BACKUP_CRON` - A cron expression for when to run the backup. E.g. `0 30 3 * * *` in order to run every night at 3:30 am. See [the go-cron documentation](https://godoc.org/github.com/robfig/cron) for details on the expression format
+*Note: `BACKUP_CRON` and `PRUNE_CRON` are mutually exclusive.*
+
+* `BACKUP_CRON`- A cron expression for when to run the backup. E.g. `0 30 3 * * *` in order to run every night at 3:30 am. See [the go-cron documentation](https://godoc.org/github.com/robfig/cron) for details on the expression format
+* `PRUNE_CRON` - A cron expression for when to run the prune job. E.g. `0 0 4 * * *` in order to run every night at 4:00 am. See [the go-cron documentation](https://godoc.org/github.com/robfig/cron) for details on the expression format
 * `RESTIC_REPOSITORY` - location of the restic repository. You can use [any target supported by restic](https://restic.readthedocs.io/en/stable/030_preparing_a_new_repo.html). Default `/mnt/restic`
 * `RESTIC_BACKUP_SOURCES` - source directory to backup. Make sure to mount this into the container as a volume (see the example configs). Default `/data`
 * `RESTIC_PASSWORD` - password for the restic repository. Will also be used to initialize the repository if it is not yet initialized

@@ -1,8 +1,9 @@
-#!/bin/sh
+#!/bin/bash
+set -euo pipefail
 
 if [ -z "${RESTIC_REPOSITORY##*:*}" ]; then
   echo "Trying to initialize remote repository '${RESTIC_REPOSITORY}' (in case it has not been initialized yet)"
-  restic init
+  restic init || true
 elif [ ! -f "$RESTIC_REPOSITORY/config" ]; then
   echo "Restic repository '${RESTIC_REPOSITORY}' does not exist. Running restic init"
   restic init
@@ -11,6 +12,12 @@ fi
 if [[ $# -gt 0 ]]; then
   exec restic "$@"
 else
-  exec go-cron "$BACKUP_CRON" /usr/local/bin/backup
+  if [[ -n "${BACKUP_CRON:-}" ]]; then
+    exec go-cron "$BACKUP_CRON" /usr/local/bin/backup
+  fi
+  if [[ -n "${PRUNE_CRON:-}" ]]; then
+    exec go-cron "$PRUNE_CRON" /usr/local/bin/prune
+  fi
+  >&2 echo "No valid operating mode configured! Exiting."
 fi
 
