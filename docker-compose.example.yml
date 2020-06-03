@@ -1,7 +1,7 @@
 version: "3.3"
 
 services:
-  app:
+  backup:
     image: mazzolino/restic
     hostname: docker
     environment:
@@ -16,3 +16,14 @@ services:
       TZ: Europe/Berlin
     volumes:
       - /var/lib/docker/volumes:/mnt/volumes:ro
+
+  prune:
+    image: mazzolino/restic
+    hostname: docker
+    environment:
+      PRUNE_CRON: "0 0 4 * * *"
+      RESTIC_REPOSITORY: b2:my-repo:/restic
+      RESTIC_PASSWORD: supersecret
+      B2_ACCOUNT_ID: xxxxxxx
+      B2_ACCOUNT_KEY: yyyyyyyy
+      TZ: Europe/Berlin
