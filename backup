@@ -29,7 +29,7 @@ start=`date +%s`
 echo Starting Backup at $(date +"%Y-%m-%d %H:%M:%S")
 
 set +e
-restic backup ${tag_options} ${RESTIC_BACKUP_SOURCES}
+restic backup ${RESTIC_BACKUP_ARGS:-} ${tag_options} ${RESTIC_BACKUP_SOURCES}
 if [ $? -ne 0 ]
 then
 	set -e
