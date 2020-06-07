@@ -1,5 +1,19 @@
 # Changelog
 
+## [1.2.0](https://github.com/djmaze/resticker/tree/1.2.0) (2020-06-07)
+
+[Full Changelog](https://github.com/djmaze/resticker/compare/1.1.1...1.2.0)
+
+**Implemented enhancements:**
+
+- Allow custom backup arguments using RESTIC\_BACKUP\_ARGS [\#38](https://github.com/djmaze/resticker/pull/38) ([djmaze](https://github.com/djmaze))
+- Add prune support using a separate service and cron schedule [\#36](https://github.com/djmaze/resticker/pull/36) ([djmaze](https://github.com/djmaze))
+- update rclone to 1.50.2 [\#25](https://github.com/djmaze/resticker/pull/25) ([panakour](https://github.com/panakour))
+
+**Fixed bugs:**
+
+- PRE\_COMMANDS: Invalid interpolation format for "environment" option in service [\#31](https://github.com/djmaze/resticker/issues/31)
+
 ## [1.1.1](https://github.com/djmaze/resticker/tree/1.1.1) (2019-11-27)
 
 [Full Changelog](https://github.com/djmaze/resticker/compare/1.1.0...1.1.1)
