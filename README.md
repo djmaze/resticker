@@ -67,6 +67,7 @@ E.g.
 * `RESTIC_REPOSITORY` - location of the restic repository. You can use [any target supported by restic](https://restic.readthedocs.io/en/stable/030_preparing_a_new_repo.html). Default `/mnt/restic`
 * `RESTIC_BACKUP_SOURCES` - source directory to backup. Make sure to mount this into the container as a volume (see the example configs). Default `/data`
 * `RESTIC_PASSWORD` - password for the restic repository. Will also be used to initialize the repository if it is not yet initialized
+* `RESTIC_BACKUP_ARGS` - Optional. Additional arguments given to *restic backup*.
 * `RESTIC_BACKUP_TAGS` - Optional. Tags to set on each snapshot, separated by commas. E.g. `swarm,docker-volumes`
 * `RESTIC_FORGET_ARGS` - Optional. If specified `restic forget` is run with the given arguments after each backup. E.g. `--prune --keep-last 14 --keep-daily 1`
 * (Additional variables as needed for the chosen backup target. E.g. `B2_ACCOUNT_ID` and `B2_ACCOUNT_KEY` for Backblaze B2.)

@@ -9,6 +9,7 @@ services:
       RESTIC_REPOSITORY: b2:my-repo:/restic
       RESTIC_PASSWORD: supersecret
       RESTIC_BACKUP_SOURCES: /mnt/volumes
+      #RESTIC_BACKUP_ARGS: -v
       RESTIC_BACKUP_TAGS: docker-volumes
       RESTIC_FORGET_ARGS: --prune --keep-last 14 --keep-daily 1
       B2_ACCOUNT_ID: xxxxxxx
