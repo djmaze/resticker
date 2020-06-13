@@ -5,6 +5,7 @@ services:
     image: mazzolino/restic
     hostname: docker
     environment:
+      RUN_ON_STARTUP: "true"
       BACKUP_CRON: "0 30 3 * * *"
       RESTIC_REPOSITORY: b2:my-repo:/restic
       RESTIC_PASSWORD: supersecret
@@ -22,6 +23,7 @@ services:
     image: mazzolino/restic
     hostname: docker
     environment:
+      RUN_ON_STARTUP: "true"
       PRUNE_CRON: "0 0 4 * * *"
       RESTIC_REPOSITORY: b2:my-repo:/restic
       RESTIC_PASSWORD: supersecret
