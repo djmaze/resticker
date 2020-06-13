@@ -12,12 +12,25 @@ fi
 if [[ $# -gt 0 ]]; then
   exec restic "$@"
 else
+  if [[ -n "${BACKUP_CRON:-}" ]] && [[ -n "${PRUNE_CRON:-}" ]]; then
+    >&2 echo "Environment variables BACKUP_CRON and PRUNE_CRON are mutually exclusive. Please fix your configuration. Exiting."
+    exit 1
   if [[ -n "${BACKUP_CRON:-}" ]]; then
+    if [ "${RUN_ON_STARTUP}" == "true" ]; then
+      echo "Executing backup on startup ..."
+      /usr/local/bin/backup
+    fi
+    echo "Scheduling backup job according to cron expression."
     exec go-cron "$BACKUP_CRON" /usr/local/bin/backup
   fi
   if [[ -n "${PRUNE_CRON:-}" ]]; then
+    if [ "${RUN_ON_STARTUP}" == "true" ]; then
+      echo "Executing prune job on startup ..."
+      /usr/local/bin/prune
+    fi
+    echo "Scheduling prune job according to cron expression."
     exec go-cron "$PRUNE_CRON" /usr/local/bin/prune
   fi
   >&2 echo "No valid operating mode configured! Exiting."
+  exit 1
 fi
-
