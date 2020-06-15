@@ -19,7 +19,7 @@ main() {
   echo Starting prune at "$(date +"%Y-%m-%d %H:%M:%S")"
 
   set +e
-  if ! restic prune "${RESTIC_REPOSITORY}"; then
+  if ! restic prune ${RESTIC_PRUNE_ARGS:-} "${RESTIC_REPOSITORY}"; then
     set -e
     run_commands "${POST_COMMANDS_FAILURE:-}"
     exit
