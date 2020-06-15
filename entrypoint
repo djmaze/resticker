@@ -15,6 +15,7 @@ else
   if [[ -n "${BACKUP_CRON:-}" ]] && [[ -n "${PRUNE_CRON:-}" ]]; then
     >&2 echo "Environment variables BACKUP_CRON and PRUNE_CRON are mutually exclusive. Please fix your configuration. Exiting."
     exit 1
+  fi
   if [[ -n "${BACKUP_CRON:-}" ]]; then
     if [ "${RUN_ON_STARTUP}" == "true" ]; then
       echo "Executing backup on startup ..."
