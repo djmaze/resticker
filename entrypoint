@@ -17,7 +17,7 @@ else
     exit 1
   fi
   if [[ -n "${BACKUP_CRON:-}" ]]; then
-    if [ "${RUN_ON_STARTUP}" == "true" ]; then
+    if [ "${RUN_ON_STARTUP:-}" == "true" ]; then
       echo "Executing backup on startup ..."
       /usr/local/bin/backup
     fi
@@ -25,7 +25,7 @@ else
     exec go-cron "$BACKUP_CRON" /usr/local/bin/backup
   fi
   if [[ -n "${PRUNE_CRON:-}" ]]; then
-    if [ "${RUN_ON_STARTUP}" == "true" ]; then
+    if [ "${RUN_ON_STARTUP:-}" == "true" ]; then
       echo "Executing prune job on startup ..."
       /usr/local/bin/prune
     fi
