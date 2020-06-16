@@ -71,6 +71,7 @@ E.g.
 * `RESTIC_BACKUP_ARGS` - If specified `restic backup` is run with the given arguments, e.g. for tags, exclude definitions, or verbose logging: `--tag docker-volumes --exclude-file='exclude.txt' --verbose`. See the [restic backup documentation](https://restic.readthedocs.io/en/stable/040_backup.html) for available options
 * `RESTIC_BACKUP_TAGS` - *Deprecated*. Tags to set for each snapshot, separated by commas. This option will soon be removed. Please use `RESTIC_BACKUP_ARGS` to define tags.
 * `RESTIC_FORGET_ARGS` - If specified `restic forget` is run with the given arguments after each backup, e.g. `--prune --keep-last 14 --keep-daily 1`. See the [restic forget documentation](https://restic.readthedocs.io/en/stable/060_forget.html) for available options
+* `RESTIC_PRUNE_ARGS` - If specified `restic prune` is run with the given arguments, e.g. for B2 concurrent connection settings and verbose logging: `-o b2.connections=10 --verbose`.
 * (Additional variables as needed for the chosen backup target. E.g. `B2_ACCOUNT_ID` and `B2_ACCOUNT_KEY` for Backblaze B2. See official restic documentation about [supported environment variables](https://restic.readthedocs.io/en/stable/040_backup.html#environment-variables).)
 * `TZ` - Optional. Set your timezone for the correct cron execution time.
 
