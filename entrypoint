@@ -1,13 +1,23 @@
 #!/bin/bash
 set -euo pipefail
 
-if [ -z "${RESTIC_REPOSITORY##*:*}" ]; then
-  echo "Trying to initialize remote repository '${RESTIC_REPOSITORY}' (in case it has not been initialized yet)"
-  restic init || true
-elif [ ! -f "$RESTIC_REPOSITORY/config" ]; then
-  echo "Restic repository '${RESTIC_REPOSITORY}' does not exist. Running restic init"
-  restic init
+echo "Checking configured repository '${RESTIC_REPOSITORY}' ..."
+if restic cat config > /dev/null; then
+  echo "Repository found."
+else
+  echo "Could not access the configured repository. Trying to initialize (in case it has not been initialized yet) ..."
+  if restic init; then
+    echo "Repository successfully initialized."
+  else
+    if [ "${SKIP_INIT_CHECK:-}" == "true" ]; then
+      echo "Ignoring initialization errors because SKIP_INIT_CHECK is set in your configuration."
+    else
+      echo "Initialization failed. Please check error messages above and check your configuration. Exiting."
+      exit 1
+    fi
+  fi
 fi
+echo -e "\n"
 
 if [[ $# -gt 0 ]]; then
   exec restic "$@"
