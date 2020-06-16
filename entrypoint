@@ -10,9 +10,9 @@ else
     echo "Repository successfully initialized."
   else
     if [ "${SKIP_INIT_CHECK:-}" == "true" ]; then
-      echo "Ignoring initialization errors because SKIP_INIT_CHECK is set in your configuration."
+      echo "Initialization failed. Ignoring errors because SKIP_INIT_CHECK is set in your configuration."
     else
-      echo "Initialization failed. Please check error messages above and check your configuration. Exiting."
+      echo "Initialization failed. Please see error messages above and check your configuration. Exiting."
       exit 1
     fi
   fi
