@@ -31,7 +31,7 @@ services:
     hostname: docker
     environment:
       RUN_ON_STARTUP: "true"
-      PRUNE_CRON: "0 0 4 * * *"
+      PRUNE_CRON: "0 30 15 * * *"
       RESTIC_REPOSITORY: b2:my-repo:/restic
       RESTIC_PASSWORD: supersecret
       B2_ACCOUNT_ID: xxxxxxx
