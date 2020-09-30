@@ -115,6 +115,32 @@ The commands specified are executed one by one.
 * `POST_COMMANDS_FAILURE` commande will be executed after a failed backup run.
 * `POST_COMMANDS_EXIT` will always be executed, after both successful or failed backup runs.
 
+### Notification example
+
+The Resticker docker image does not contain any tools for sending notifications, apart from `curl`. You should thus connect a second container for that purpose. For example, this is how mail notifications can be sent using [apprise-microservice](https://github.com/djmaze/apprise-microservice):
+
+```yaml
+services:              
+  app:       
+    image: mazzolino/restic:1.1
+    environment:
+      # ...
+      POST_COMMANDS_FAILURE: |-
+        curl -X POST --data "{\"title\": \"Backup failed\", \"body\": \"\"}" http://notify:5000
+    networks:
+      - notification
+
+  notify:
+    image: mazzolino/apprise-microservice:0.1
+    environment:
+      NOTIFICATION_URLS: mailto://...
+    networks:
+      - notification
+
+networks:
+  notification:
+```
+
 ## Build instructions
 
 Use the supplied [Makefile](Makefile) in order to build your own image:
