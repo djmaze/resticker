@@ -6,7 +6,7 @@ services:
     hostname: docker
     environment:
       RUN_ON_STARTUP: "true"
-      BACKUP_CRON: "0 30 3 * * *"
+      BACKUP_CRON: "30 3 * * *"
       RESTIC_REPOSITORY: b2:my-repo:/restic
       RESTIC_PASSWORD: supersecret
       RESTIC_BACKUP_SOURCES: /mnt/volumes
@@ -31,7 +31,7 @@ services:
     hostname: docker
     environment:
       RUN_ON_STARTUP: "true"
-      PRUNE_CRON: "0 0 4 * * *"
+      PRUNE_CRON: "0 4 * * *"
       RESTIC_REPOSITORY: b2:my-repo:/restic
       RESTIC_PASSWORD: supersecret
       B2_ACCOUNT_ID: xxxxxxx
