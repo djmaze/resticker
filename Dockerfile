@@ -1,7 +1,7 @@
 #
 # Builder image
 #
-FROM golang:1.15 AS builder
+FROM golang:1.15-alpine3.12 AS builder
 
 ARG RESTIC_VERSION=0.11.0
 ARG RESTIC_SHA256=73cf434ec93e2e20aa3d593dc5eacb221a71d5ae0943ca59bdffedeaf238a9c6
@@ -9,6 +9,8 @@ ARG GO_CRON_VERSION=0.0.4
 ARG GO_CRON_SHA256=6c8ac52637150e9c7ee88f43e29e158e96470a3aaa3fcf47fd33771a8a76d959
 ARG RCLONE_VERSION=1.53.3
 ARG RCLONE_SHA256=f1e213bc6fb7c46f9a4cc8604ae0856718434bdafe07fa3ce449ae9a510a5763
+
+RUN apk add --no-cache curl gcc musl-dev
 
 RUN curl -sL -o go-cron.tar.gz https://github.com/djmaze/go-cron/archive/v${GO_CRON_VERSION}.tar.gz \
  && echo "${GO_CRON_SHA256}  go-cron.tar.gz" | sha256sum -c - \
