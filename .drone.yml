@@ -6,7 +6,7 @@ platform:
   arch: amd64
 
 steps:
-  - name: build
+  - name: build & push
     image: plugins/docker
     settings:
       auto_tag: true
@@ -17,9 +17,22 @@ steps:
       password:
         from_secret: docker_password
     when:
-      event:
+      repo:
+        - djmaze/resticker
+      ref:
+        - refs/heads/master
+        - refs/tags/*
+
+  - name: build
+    image: plugins/docker
+    settings:
+      repo: mazzolino/restic
+      dry_run: true
+    when:
+      ref:
         exclude:
-          - pull_request
+          - refs/heads/master
+          - refs/tags/*
 
 ---
 kind: pipeline
@@ -30,7 +43,7 @@ platform:
   arch: arm64
 
 steps:
-  - name: build
+  - name: build & push
     image: plugins/docker:linux-arm
     settings:
       auto_tag: true
@@ -41,9 +54,22 @@ steps:
       password:
         from_secret: docker_password
     when:
-      event:
+      repo:
+        - djmaze/resticker
+      ref:
+        - refs/heads/master
+        - refs/tags/*
+
+  - name: build
+    image: plugins/docker:linux-arm
+    settings:
+      repo: mazzolino/restic
+      dry_run: true
+    when:
+      ref:
         exclude:
-          - pull_request
+          - refs/heads/master
+          - refs/tags/*
 
 ---
 kind: pipeline
@@ -54,7 +80,7 @@ platform:
   arch: arm64
 
 steps:
-  - name: build
+  - name: build & push
     image: plugins/docker:linux-arm64
     settings:
       auto_tag: true
@@ -65,9 +91,23 @@ steps:
       password:
         from_secret: docker_password
     when:
-      event:
+      repo:
+        - djmaze/resticker
+      ref:
+        - refs/heads/master
+        - refs/tags/*
+
+  - name: build
+    image: plugins/docker:linux-arm64
+    settings:
+      repo: mazzolino/restic
+      dry_run: true
+    when:
+      ref:
         exclude:
-          - pull_request
+          - refs/heads/master
+          - refs/tags/*
+
 ---
 kind: pipeline
 name: manifest
