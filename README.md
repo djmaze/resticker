@@ -62,8 +62,8 @@ E.g.
 
 *Note: `BACKUP_CRON` and `PRUNE_CRON` are mutually exclusive.*
 
-* `BACKUP_CRON` - A cron expression for when to run the backup. E.g. `0 30 3 * * *` in order to run every night at 3:30 am. See [the go-cron documentation](https://godoc.org/github.com/robfig/cron) for details on the expression format
-* `PRUNE_CRON` - A cron expression for when to run the prune job. E.g. `0 0 4 * * *` in order to run every night at 4:00 am. See [the go-cron documentation](https://godoc.org/github.com/robfig/cron) for details on the expression format
+* `BACKUP_CRON` - A cron expression for when to run the backup. E.g. `0 30 3 * * *` in order to run every night at 3:30 am. See [the go-cron documentation](https://godoc.org/github.com/robfig/cron) for details on the expression format (a [customized go-cron](https://github.com/djmaze/go-cron/) is used which allows the definition of seconds as first parameter).
+* `PRUNE_CRON` - A cron expression for when to run the prune job. E.g. `0 0 4 * * *` in order to run every night at 4:00 am. See [the go-cron documentation](https://godoc.org/github.com/robfig/cron) for details on the expression format (a [customized go-cron](https://github.com/djmaze/go-cron/) is used which allows the definition of seconds as first parameter).
 * `RUN_ON_STARTUP` - Set to `"true"` to execute a backup or prune job right on startup, in addition to the given cron expression. Disabled by default
 * `RESTIC_REPOSITORY` - Location of the restic repository. You can use [any target supported by restic](https://restic.readthedocs.io/en/stable/030_preparing_a_new_repo.html). Default `/mnt/restic`
 * `RESTIC_BACKUP_SOURCES` - Source directory to backup. Make sure to mount this into the container as a volume (see the example configs). Default `/data`
