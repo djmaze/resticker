@@ -1,3 +1,4 @@
+---
 kind: pipeline
 name: amd64
 
@@ -6,7 +7,7 @@ platform:
   arch: amd64
 
 steps:
-  - name: build & push
+  - name: build release
     image: plugins/docker
     settings:
       auto_tag: true
@@ -17,22 +18,44 @@ steps:
       password:
         from_secret: docker_password
     when:
-      repo:
-        - djmaze/resticker
+      event:
+        exclude:
+          - pull_request
       ref:
-        - refs/heads/master
-        - refs/tags/*
+        include:
+          - refs/heads/master
+          - refs/tags/*
 
-  - name: build
+  - name: build branch
     image: plugins/docker
     settings:
-      repo: mazzolino/restic
-      dry_run: true
+      repo: mazzolino/restic-test
+      tags: ${DRONE_BRANCH}-amd64
+      username:
+        from_secret: docker_username
+      password:
+        from_secret: docker_password
     when:
+      event:
+        exclude:
+          - pull_request
       ref:
         exclude:
           - refs/heads/master
           - refs/tags/*
+
+  - name: build pr
+    image: plugins/docker
+    settings:
+      repo: mazzolino/restic-test
+      tags: pr-${DRONE_PULL_REQUEST}-amd64
+      username:
+        from_secret: docker_username
+      password:
+        from_secret: docker_password
+    when:
+      event:
+        - pull_request
 
 ---
 kind: pipeline
@@ -43,7 +66,7 @@ platform:
   arch: arm64
 
 steps:
-  - name: build & push
+  - name: build release
     image: plugins/docker:linux-arm
     settings:
       auto_tag: true
@@ -54,22 +77,44 @@ steps:
       password:
         from_secret: docker_password
     when:
-      repo:
-        - djmaze/resticker
+      event:
+        exclude:
+          - pull_request
       ref:
-        - refs/heads/master
-        - refs/tags/*
+        include:
+          - refs/heads/master
+          - refs/tags/*
 
-  - name: build
-    image: plugins/docker:linux-arm
+  - name: build branch
+    image: plugins/docker
     settings:
-      repo: mazzolino/restic
-      dry_run: true
+      repo: mazzolino/restic-test
+      tags: ${DRONE_BRANCH}-arm
+      username:
+        from_secret: docker_username
+      password:
+        from_secret: docker_password
     when:
+      event:
+        exclude:
+          - pull_request
       ref:
         exclude:
           - refs/heads/master
           - refs/tags/*
+
+  - name: build pr
+    image: plugins/docker
+    settings:
+      repo: mazzolino/restic-test
+      tags: pr-${DRONE_PULL_REQUEST}-arm
+      username:
+        from_secret: docker_username
+      password:
+        from_secret: docker_password
+    when:
+      event:
+        - pull_request
 
 ---
 kind: pipeline
@@ -80,7 +125,7 @@ platform:
   arch: arm64
 
 steps:
-  - name: build & push
+  - name: build release
     image: plugins/docker:linux-arm64
     settings:
       auto_tag: true
@@ -91,22 +136,44 @@ steps:
       password:
         from_secret: docker_password
     when:
-      repo:
-        - djmaze/resticker
+      event:
+        exclude:
+          - pull_request
       ref:
-        - refs/heads/master
-        - refs/tags/*
+        include:
+          - refs/heads/master
+          - refs/tags/*
 
-  - name: build
-    image: plugins/docker:linux-arm64
+  - name: build branch
+    image: plugins/docker
     settings:
-      repo: mazzolino/restic
-      dry_run: true
+      repo: mazzolino/restic-test
+      tags: ${DRONE_BRANCH}-arm64
+      username:
+        from_secret: docker_username
+      password:
+        from_secret: docker_password
     when:
+      event:
+        exclude:
+          - pull_request
       ref:
         exclude:
           - refs/heads/master
           - refs/tags/*
+
+  - name: build pr
+    image: plugins/docker
+    settings:
+      repo: mazzolino/restic-test
+      tags: pr-${DRONE_PULL_REQUEST}-arm64
+      username:
+        from_secret: docker_username
+      password:
+        from_secret: docker_password
+    when:
+      event:
+        - pull_request
 
 ---
 kind: pipeline
@@ -126,8 +193,17 @@ steps:
         - linux/amd64
         - linux/arm
         - linux/arm64
+    when:
+      event:
+        exclude:
+          - pull_request
 
 depends_on:
   - amd64
   - arm
   - arm64
+---
+kind: signature
+hmac: 00c04a0ea2e5ca2a4df1df24a46dc70f391642ab7a4814de3cb2077d06c6d2e2
+
+...
