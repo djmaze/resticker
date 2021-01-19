@@ -86,7 +86,7 @@ steps:
           - refs/tags/*
 
   - name: build branch
-    image: plugins/docker
+    image: plugins/docker:linux-arm
     settings:
       repo: mazzolino/restic-test
       tags: ${DRONE_BRANCH}-arm
@@ -104,7 +104,7 @@ steps:
           - refs/tags/*
 
   - name: build pr
-    image: plugins/docker
+    image: plugins/docker:linux-arm
     settings:
       repo: mazzolino/restic-test
       tags: pr-${DRONE_PULL_REQUEST}-arm
@@ -145,7 +145,7 @@ steps:
           - refs/tags/*
 
   - name: build branch
-    image: plugins/docker
+    image: plugins/docker:linux-arm64
     settings:
       repo: mazzolino/restic-test
       tags: ${DRONE_BRANCH}-arm64
@@ -163,7 +163,7 @@ steps:
           - refs/tags/*
 
   - name: build pr
-    image: plugins/docker
+    image: plugins/docker:linux-arm64
     settings:
       repo: mazzolino/restic-test
       tags: pr-${DRONE_PULL_REQUEST}-arm64
@@ -204,6 +204,6 @@ depends_on:
   - arm64
 ---
 kind: signature
-hmac: 00c04a0ea2e5ca2a4df1df24a46dc70f391642ab7a4814de3cb2077d06c6d2e2
+hmac: f23d1fbbfca201d3c980ba0388ada4a761375bef234ba409cddadf31f8f07ac8
 
 ...
