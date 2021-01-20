@@ -25,7 +25,7 @@ RUN curl -sL -o rclone.tar.gz https://github.com/rclone/rclone/releases/download
  && echo "${RCLONE_SHA256}  rclone.tar.gz" | sha256sum -c - \
  && tar xzf rclone.tar.gz \
  && cd rclone-v${RCLONE_VERSION} \
- && go build \
+ && CGO_ENABLED=0 GOOS=linux go build -a -ldflags '-extldflags "-static"' . \
  && mv rclone /usr/local/bin/rclone \
  && cd .. \
  && rm rclone.tar.gz rclone-v${RCLONE_VERSION} -fR
