@@ -10,7 +10,7 @@ ARG GO_CRON_SHA256=6c8ac52637150e9c7ee88f43e29e158e96470a3aaa3fcf47fd33771a8a76d
 ARG RCLONE_VERSION=1.53.3
 ARG RCLONE_SHA256=f1e213bc6fb7c46f9a4cc8604ae0856718434bdafe07fa3ce449ae9a510a5763
 
-RUN apk add --no-cache binutils curl gcc musl-dev
+RUN apk add --no-cache binutils-gold curl gcc musl-dev
 
 RUN curl -sL -o go-cron.tar.gz https://github.com/djmaze/go-cron/archive/v${GO_CRON_VERSION}.tar.gz \
  && echo "${GO_CRON_SHA256}  go-cron.tar.gz" | sha256sum -c - \
@@ -25,7 +25,7 @@ RUN curl -sL -o rclone.tar.gz https://github.com/rclone/rclone/releases/download
  && echo "${RCLONE_SHA256}  rclone.tar.gz" | sha256sum -c - \
  && tar xzf rclone.tar.gz \
  && cd rclone-v${RCLONE_VERSION} \
- && go build \
+ && CGO_ENABLED=0 GOOS=linux go build -a -ldflags '-extldflags "-static"' . \
  && mv rclone /usr/local/bin/rclone \
  && cd .. \
  && rm rclone.tar.gz rclone-v${RCLONE_VERSION} -fR
