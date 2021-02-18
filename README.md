@@ -68,6 +68,7 @@ E.g.
 * `RESTIC_REPOSITORY` - Location of the restic repository. You can use [any target supported by restic](https://restic.readthedocs.io/en/stable/030_preparing_a_new_repo.html). Default `/mnt/restic`
 * `RESTIC_BACKUP_SOURCES` - Source directory to backup. Make sure to mount this into the container as a volume (see the example configs). Default `/data`
 * `RESTIC_PASSWORD` - Password for the restic repository. Will also be used to initialize the repository if it is not yet initialized
+* `RESTIC_GLOBAL_ARGS` - If specified all `restic` invocations are run using the given arguments as global ar, e.g. verbose logging: `--verbose=4`
 * `RESTIC_BACKUP_ARGS` - If specified `restic backup` is run with the given arguments, e.g. for tags, exclude definitions, or verbose logging: `--tag docker-volumes --exclude-file='exclude.txt' --verbose`. See the [restic backup documentation](https://restic.readthedocs.io/en/stable/040_backup.html) for available options
 * `RESTIC_BACKUP_TAGS` - *Deprecated*. Tags to set for each snapshot, separated by commas. This option will soon be removed. Please use `RESTIC_BACKUP_ARGS` to define tags.
 * `RESTIC_FORGET_ARGS` - If specified `restic forget` is run with the given arguments after each backup, e.g. `--prune --keep-last 14 --keep-daily 1`. See the [restic forget documentation](https://restic.readthedocs.io/en/stable/060_forget.html) for available options
@@ -120,8 +121,8 @@ The commands specified are executed one by one.
 The Resticker docker image does not contain any tools for sending notifications, apart from `curl`. You should thus connect a second container for that purpose. For example, this is how mail notifications can be sent using [apprise-microservice](https://github.com/djmaze/apprise-microservice):
 
 ```yaml
-services:              
-  app:       
+services:
+  app:
     image: mazzolino/restic:1.1
     environment:
       # ...
