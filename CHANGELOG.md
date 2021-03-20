@@ -1,5 +1,27 @@
 # Change Log
 
+## [1.4.0](https://github.com/djmaze/resticker/tree/1.4.0) (2021-02-25)
+[Full Changelog](https://github.com/djmaze/resticker/compare/1.3.0...1.4.0)
+
+**Implemented enhancements:**
+
+- Update restic to 0.12.0 and rclone to 1.54.0 [\#73](https://github.com/djmaze/resticker/pull/73) ([jlelse](https://github.com/jlelse))
+- Build test images for branches & PRs [\#70](https://github.com/djmaze/resticker/pull/70) ([djmaze](https://github.com/djmaze))
+- drone: build branches & pull requests as well \(but don't push them\) [\#69](https://github.com/djmaze/resticker/pull/69) ([djmaze](https://github.com/djmaze))
+- Added hint for seconds option of customized go-cron [\#64](https://github.com/djmaze/resticker/pull/64) ([MartinEnders](https://github.com/MartinEnders))
+
+**Fixed bugs:**
+
+- Initialization failed with sftp backend [\#72](https://github.com/djmaze/resticker/issues/72)
+- Use correct arm docker plugin for arm builds [\#71](https://github.com/djmaze/resticker/pull/71) ([djmaze](https://github.com/djmaze))
+- Fix arm rclone build [\#68](https://github.com/djmaze/resticker/pull/68) ([escoand](https://github.com/escoand))
+- Build rclone in Dockerfile [\#67](https://github.com/djmaze/resticker/pull/67) ([escoand](https://github.com/escoand))
+
+**Closed issues:**
+
+- arm and arm64 compatibility [\#66](https://github.com/djmaze/resticker/issues/66)
+- Issues when using a SFTP repository [\#65](https://github.com/djmaze/resticker/issues/65)
+
 ## [1.3.0](https://github.com/djmaze/resticker/tree/1.3.0) (2020-11-19)
 [Full Changelog](https://github.com/djmaze/resticker/compare/1.2.0...1.3.0)
 
