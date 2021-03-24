@@ -1,6 +1,13 @@
 #!/bin/bash
 set -euo pipefail
 
+RCLONE_CONFIG_PATH="/run/secrets/rclone.conf"
+
+if [[ -f "$RCLONE_CONFIG_PATH" ]]; then
+  mkdir -p /root/.config/rclone
+  cp "$RCLONE_CONFIG_PATH" /root/.config/rclone/rclone.conf
+fi
+
 echo "Checking configured repository '${RESTIC_REPOSITORY}' ..."
 if restic cat config > /dev/null; then
   echo "Repository found."

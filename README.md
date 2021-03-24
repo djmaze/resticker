@@ -75,9 +75,36 @@ E.g.
 * (Additional variables as needed for the chosen backup target. E.g. `B2_ACCOUNT_ID` and `B2_ACCOUNT_KEY` for Backblaze B2. See official restic documentation about [supported environment variables](https://restic.readthedocs.io/en/stable/040_backup.html#environment-variables).)
 * `TZ` - Optional. Set your timezone for the correct cron execution time.
 
-### Using `rclone` repository type
+### Using the `rclone` repository type
 
-In order to use `rclone` repository type, you need to prepare a `rclone.conf` file and mount it inside the container to `/root/.config/rclone/rclone.conf`.
+In order to use the `rclone` repository type, you need to prepare a `rclone.conf` file and mount it inside the container at `/run/secrets/rclone.conf`.
+
+So when in swarm mode, you can just use `rclone.conf` as a *Docker secret*.
+
+Example for Docker Compose:
+
+```yaml
+services:
+  backup:
+    # ...
+    volumes:
+      ./rclone.conf:/run/secrets/rclone.conf:ro
+```
+
+Example for Docker swarm mode:
+
+```yaml
+services:
+  backup:
+    # ...
+    secrets:
+      - rclone.conf
+
+secrets:
+  rclone.conf:
+    file: ./rclone.conf
+```
+
 
 ## Execute commands prior to backup
 
