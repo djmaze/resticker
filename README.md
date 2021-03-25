@@ -77,7 +77,7 @@ E.g.
 
 ### Using the `rclone` repository type
 
-In order to use the `rclone` repository type, you need to prepare a `rclone.conf` file and mount it inside the container at `/run/secrets/rclone.conf`.
+In order to use the `rclone` repository type, you need to prepare an `rclone.conf` file and mount it inside the container at `/run/secrets/rclone.conf`.
 
 So when in swarm mode, you can just use `rclone.conf` as a *Docker secret*.
 
@@ -88,7 +88,7 @@ services:
   backup:
     # ...
     volumes:
-      ./rclone.conf:/run/secrets/rclone.conf:ro
+      - ./rclone.conf:/run/secrets/rclone.conf:ro
 ```
 
 Example for Docker swarm mode:
