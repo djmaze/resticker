@@ -4,7 +4,7 @@ ARCH=amd64
 default: image push manifest
 
 image:
-		docker build -t ${IMAGE}:${ARCH} .
+		docker build -t ${IMAGE}:${ARCH} --build-arg ARCH=${ARCH} .
 
 push: image
 		docker push ${IMAGE}:${ARCH}

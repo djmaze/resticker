@@ -12,6 +12,8 @@ steps:
     settings:
       auto_tag: true
       auto_tag_suffix: amd64
+      build_args:
+        ARCH: ${DRONE_STAGE_ARCH}
       repo: mazzolino/restic
       username:
         from_secret: docker_username
@@ -29,6 +31,8 @@ steps:
   - name: build branch
     image: plugins/docker
     settings:
+      build_args:
+        ARCH: ${DRONE_STAGE_ARCH}     
       repo: mazzolino/restic-test
       tags: ${DRONE_BRANCH}-amd64
       username:
@@ -47,6 +51,8 @@ steps:
   - name: build pr
     image: plugins/docker
     settings:
+      build_args:
+        ARCH: ${DRONE_STAGE_ARCH}   
       repo: mazzolino/restic-test
       tags: pr-${DRONE_PULL_REQUEST}-amd64
       username:
@@ -69,6 +75,8 @@ steps:
   - name: build release
     image: plugins/docker:linux-arm
     settings:
+      build_args:
+        ARCH: ${DRONE_STAGE_ARCH}
       auto_tag: true
       auto_tag_suffix: arm
       repo: mazzolino/restic
@@ -88,6 +96,8 @@ steps:
   - name: build branch
     image: plugins/docker:linux-arm
     settings:
+      build_args:
+        ARCH: ${DRONE_STAGE_ARCH} 
       repo: mazzolino/restic-test
       tags: ${DRONE_BRANCH}-arm
       username:
@@ -106,6 +116,8 @@ steps:
   - name: build pr
     image: plugins/docker:linux-arm
     settings:
+      build_args:
+        ARCH: ${DRONE_STAGE_ARCH}
       repo: mazzolino/restic-test
       tags: pr-${DRONE_PULL_REQUEST}-arm
       username:
@@ -130,6 +142,8 @@ steps:
     settings:
       auto_tag: true
       auto_tag_suffix: arm64
+      build_args:
+        ARCH: ${DRONE_STAGE_ARCH} 
       repo: mazzolino/restic
       username:
         from_secret: docker_username
@@ -147,6 +161,8 @@ steps:
   - name: build branch
     image: plugins/docker:linux-arm64
     settings:
+      build_args:
+        ARCH: ${DRONE_STAGE_ARCH}
       repo: mazzolino/restic-test
       tags: ${DRONE_BRANCH}-arm64
       username:
@@ -165,6 +181,8 @@ steps:
   - name: build pr
     image: plugins/docker:linux-arm64
     settings:
+      build_args:
+        ARCH: ${DRONE_STAGE_ARCH}  
       repo: mazzolino/restic-test
       tags: pr-${DRONE_PULL_REQUEST}-arm64
       username:
