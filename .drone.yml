@@ -9,11 +9,13 @@ platform:
 steps:
   - name: build release
     image: plugins/docker
+    environment:
+      ARCH: amd64
     settings:
       auto_tag: true
       auto_tag_suffix: amd64
-      build_args:
-        ARCH: ${DRONE_STAGE_ARCH}
+      build_args_from_env:
+        - ARCH
       repo: mazzolino/restic
       username:
         from_secret: docker_username
@@ -30,9 +32,11 @@ steps:
 
   - name: build branch
     image: plugins/docker
+    environment:
+      ARCH: amd64
     settings:
-      build_args:
-        ARCH: ${DRONE_STAGE_ARCH}     
+      build_args_from_env:
+        - ARCH
       repo: mazzolino/restic-test
       tags: ${DRONE_BRANCH}-amd64
       username:
@@ -50,9 +54,11 @@ steps:
 
   - name: build pr
     image: plugins/docker
+    environment:
+      ARCH: amd64
     settings:
-      build_args:
-        ARCH: ${DRONE_STAGE_ARCH}   
+      build_args_from_env:
+        - ARCH
       repo: mazzolino/restic-test
       tags: pr-${DRONE_PULL_REQUEST}-amd64
       username:
@@ -74,9 +80,11 @@ platform:
 steps:
   - name: build release
     image: plugins/docker:linux-arm
+    environment:
+      ARCH: arm
     settings:
-      build_args:
-        ARCH: ${DRONE_STAGE_ARCH}
+      build_args_from_env:
+        - ARCH
       auto_tag: true
       auto_tag_suffix: arm
       repo: mazzolino/restic
@@ -95,9 +103,11 @@ steps:
 
   - name: build branch
     image: plugins/docker:linux-arm
+    environment:
+      ARCH: arm
     settings:
-      build_args:
-        ARCH: ${DRONE_STAGE_ARCH} 
+      build_args_from_env:
+        - ARCH
       repo: mazzolino/restic-test
       tags: ${DRONE_BRANCH}-arm
       username:
@@ -115,9 +125,11 @@ steps:
 
   - name: build pr
     image: plugins/docker:linux-arm
+    environment:
+      ARCH: arm
     settings:
-      build_args:
-        ARCH: ${DRONE_STAGE_ARCH}
+      build_args_from_env:
+        - ARCH
       repo: mazzolino/restic-test
       tags: pr-${DRONE_PULL_REQUEST}-arm
       username:
@@ -139,11 +151,13 @@ platform:
 steps:
   - name: build release
     image: plugins/docker:linux-arm64
+    environment:
+      ARCH: arm64
     settings:
       auto_tag: true
       auto_tag_suffix: arm64
-      build_args:
-        ARCH: ${DRONE_STAGE_ARCH} 
+      build_args_from_env:
+        - ARCH
       repo: mazzolino/restic
       username:
         from_secret: docker_username
@@ -160,9 +174,11 @@ steps:
 
   - name: build branch
     image: plugins/docker:linux-arm64
+    environment:
+      ARCH: arm64
     settings:
-      build_args:
-        ARCH: ${DRONE_STAGE_ARCH}
+      build_args_from_env:
+        - ARCH
       repo: mazzolino/restic-test
       tags: ${DRONE_BRANCH}-arm64
       username:
@@ -180,9 +196,11 @@ steps:
 
   - name: build pr
     image: plugins/docker:linux-arm64
+    environment:
+      ARCH: arm64
     settings:
-      build_args:
-        ARCH: ${DRONE_STAGE_ARCH}  
+      build_args_from_env:
+        - ARCH
       repo: mazzolino/restic-test
       tags: pr-${DRONE_PULL_REQUEST}-arm64
       username:
