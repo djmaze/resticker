@@ -8,6 +8,15 @@ if [[ -f "$RCLONE_CONFIG_PATH" ]]; then
   cp "$RCLONE_CONFIG_PATH" /root/.config/rclone/rclone.conf
 fi
 
+SSH_CONFIG_PATH="/run/secrets/.ssh"
+
+if [[ -d "$SSH_CONFIG_PATH" ]]; then
+  mkdir -p /root/.ssh
+  chmod 700 /root/.ssh
+  cp -r "${SSH_CONFIG_PATH}"/* /root/.ssh
+  chmod -R u+rwX,go-rwx /root/.ssh
+fi
+
 echo "Checking configured repository '${RESTIC_REPOSITORY}' ..."
 if restic cat config > /dev/null; then
   echo "Repository found."
