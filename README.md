@@ -105,6 +105,19 @@ secrets:
     file: ./rclone.conf
 ```
 
+### Using `sftp` repository type
+
+In order to use the `sftp` repository type, you need to prepare a `.ssh` directory with your private ssh key(s), `known_hosts` (and an optional `config` file) and mount it inside the container at `/run/secrets/.ssh`.
+
+Example for Docker Compose:
+
+```yaml
+services:
+  backup:
+    # ...
+    volumes:
+      - ./.ssh:/run/secrets/.ssh:ro
+```
 
 ## Execute commands prior to backup
 
@@ -147,8 +160,8 @@ The commands specified are executed one by one.
 The Resticker docker image does not contain any tools for sending notifications, apart from `curl`. You should thus connect a second container for that purpose. For example, this is how mail notifications can be sent using [apprise-microservice](https://github.com/djmaze/apprise-microservice):
 
 ```yaml
-services:              
-  app:       
+services:
+  app:
     image: mazzolino/restic:1.1
     environment:
       # ...
