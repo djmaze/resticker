@@ -19,7 +19,7 @@ ARG RCLONE_SHA256_ARM64=df7cb781f9310ee813100f683eed73260d4e235e6055b26cbddd798e
 ARG GO_CRON_VERSION=0.0.4
 ARG GO_CRON_SHA256=6c8ac52637150e9c7ee88f43e29e158e96470a3aaa3fcf47fd33771a8a76d959
 
-RUN apk add --no-cache binutils-gold curl gcc musl-dev
+RUN apk add --no-cache curl
 
 RUN case "$ARCH" in \
   amd64 ) \
