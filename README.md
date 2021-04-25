@@ -152,7 +152,7 @@ You can add one or multiple commands by specifying the following environment var
 The commands specified are executed one by one.
 
 * `POST_COMMANDS_SUCCESS` commands will be executed after a successful backup run.
-* `POST_COMMANDS_FAILURE` commande will be executed after a failed backup run.
+* `POST_COMMANDS_FAILURE` commands will be executed after a failed backup run.
 * `POST_COMMANDS_EXIT` will always be executed, after both successful or failed backup runs.
 
 ### Notification example
