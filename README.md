@@ -60,10 +60,11 @@ E.g.
 
 ## Configuration options
 
-*Note: `BACKUP_CRON` and `PRUNE_CRON` are mutually exclusive.*
+*Note: `BACKUP_CRON`, `PRUNE_CRON` and `CHECK_CRON` are mutually exclusive.*
 
 * `BACKUP_CRON` - A cron expression for when to run the backup. E.g. `0 30 3 * * *` in order to run every night at 3:30 am. See [the go-cron documentation](https://godoc.org/github.com/robfig/cron) for details on the expression format (a [customized go-cron](https://github.com/djmaze/go-cron/) is used which allows the definition of seconds as first parameter).
 * `PRUNE_CRON` - A cron expression for when to run the prune job. E.g. `0 0 4 * * *` in order to run every night at 4:00 am. See [the go-cron documentation](https://godoc.org/github.com/robfig/cron) for details on the expression format (a [customized go-cron](https://github.com/djmaze/go-cron/) is used which allows the definition of seconds as first parameter).
+* `CHECK_CRON` - A cron expression for when to run the check job. E.g. `0 15 5 * * *` in order to run every night at 5:15 am. See [the go-cron documentation](https://godoc.org/github.com/robfig/cron) for details on the expression format (a [customized go-cron](https://github.com/djmaze/go-cron/) is used which allows the definition of seconds as first parameter).
 * `RUN_ON_STARTUP` - Set to `"true"` to execute a backup or prune job right on startup, in addition to the given cron expression. Disabled by default
 * `RESTIC_REPOSITORY` - Location of the restic repository. You can use [any target supported by restic](https://restic.readthedocs.io/en/stable/030_preparing_a_new_repo.html). Default `/mnt/restic`
 * `RESTIC_BACKUP_SOURCES` - Source directory to backup. Make sure to mount this into the container as a volume (see the example configs). Default `/data`
@@ -72,6 +73,7 @@ E.g.
 * `RESTIC_BACKUP_TAGS` - *Deprecated*. Tags to set for each snapshot, separated by commas. This option will soon be removed. Please use `RESTIC_BACKUP_ARGS` to define tags.
 * `RESTIC_FORGET_ARGS` - If specified `restic forget` is run with the given arguments after each backup, e.g. `--prune --keep-last 14 --keep-daily 1`. See the [restic forget documentation](https://restic.readthedocs.io/en/stable/060_forget.html) for available options
 * `RESTIC_PRUNE_ARGS` - If specified `restic prune` is run with the given arguments, e.g. for B2 concurrent connection settings and verbose logging: `-o b2.connections=10 --verbose`.
+* `RESTIC_CHECK_ARGS` - If specified `restic check` is run with the given arguments, e.g. `--read-data-subset=10%` to check a randomly choosen subset (10%) of the repository pack files. Without option, only the structure of the repository is checked. The option `--read-data-subset` will also check data, at the cost of transfering them from the repository.; e.g. for B2 concurrent connection settings and verbose logging: `-o b2.connections=10 --verbose`.
 * (Additional variables as needed for the chosen backup target. E.g. `B2_ACCOUNT_ID` and `B2_ACCOUNT_KEY` for Backblaze B2. See official restic documentation about [supported environment variables](https://restic.readthedocs.io/en/stable/040_backup.html#environment-variables).)
 * `TZ` - Optional. Set your timezone for the correct cron execution time.
 
