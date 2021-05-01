@@ -19,7 +19,7 @@ main() {
   echo Starting check at "$(date +"%Y-%m-%d %H:%M:%S")"
 
   set +e
-  if ! restic check ${RESTIC_CHECK_ARGS:-} --repo="${RESTIC_REPOSITORY}"; then
+  if ! restic --repo="${RESTIC_REPOSITORY}" check ${RESTIC_CHECK_ARGS:-}; then
     set -e
     run_commands "${POST_COMMANDS_FAILURE:-}"
     exit
