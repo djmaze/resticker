@@ -1,0 +1,39 @@
+#!/bin/bash
+set -euo pipefail
+
+function run_commands {
+	COMMANDS=$1
+	while IFS= read -r cmd; do echo $cmd && eval $cmd ; done < <(printf '%s\n' "$COMMANDS")
+}
+
+function run_exit_commands {
+	set +e
+	set +o pipefail
+	run_commands "${POST_COMMANDS_EXIT:-}"
+}
+
+main() {
+  run_commands "${PRE_COMMANDS:-}"
+
+  start=$(date +%s)
+  echo Starting check at "$(date +"%Y-%m-%d %H:%M:%S")"
+
+  set +e
+  if ! restic check ${RESTIC_CHECK_ARGS:-} --repo="${RESTIC_REPOSITORY}"; then
+    set -e
+    run_commands "${POST_COMMANDS_FAILURE:-}"
+    exit
+  else
+    set -e
+  fi
+
+  echo Check successful
+
+  end="$(date +%s)"
+  echo Finished check at "$(date +"%Y-%m-%d %H:%M:%S")" after $((end-start)) seconds
+
+  run_commands "${POST_COMMANDS_SUCCESS:-}"
+}
+
+trap run_exit_commands EXIT
+main "$@"
