@@ -42,6 +42,14 @@ else
     >&2 echo "Environment variables BACKUP_CRON and PRUNE_CRON are mutually exclusive. Please fix your configuration. Exiting."
     exit 1
   fi
+  if [[ -n "${BACKUP_CRON:-}" ]] && [[ -n "${CHECK_CRON:-}" ]]; then
+    >&2 echo "Environment variables BACKUP_CRON and CHECK_CRON are mutually exclusive. Please fix your configuration. Exiting."
+    exit 1
+  fi
+  if [[ -n "${PRUNE_CRON:-}" ]] && [[ -n "${CHECK_CRON:-}" ]]; then
+    >&2 echo "Environment variables PRUNE_CRON and CHECK_CRON are mutually exclusive. Please fix your configuration. Exiting."
+    exit 1
+  fi
   if [[ -n "${BACKUP_CRON:-}" ]]; then
     if [ "${RUN_ON_STARTUP:-}" == "true" ]; then
       echo "Executing backup on startup ..."
@@ -57,6 +65,14 @@ else
     fi
     echo "Scheduling prune job according to cron expression."
     exec go-cron "$PRUNE_CRON" /usr/local/bin/prune
+  fi
+  if [[ -n "${CHECK_CRON:-}" ]]; then
+    if [ "${RUN_ON_STARTUP:-}" == "true" ]; then
+      echo "Executing check job on startup ..."
+      /usr/local/bin/check
+    fi
+    echo "Scheduling check job according to cron expression."
+    exec go-cron "$CHECK_CRON" /usr/local/bin/check
   fi
   >&2 echo "No valid operating mode configured! Exiting."
   exit 1

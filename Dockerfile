@@ -74,7 +74,7 @@ RUN apk add --update --no-cache ca-certificates fuse nfs-utils openssh tzdata ba
 ENV RESTIC_REPOSITORY /mnt/restic
 
 COPY --from=builder /usr/local/bin/* /usr/local/bin/
-COPY backup prune /usr/local/bin/
+COPY backup prune check /usr/local/bin/
 COPY entrypoint /
 
 ENTRYPOINT ["/entrypoint"]

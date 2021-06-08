@@ -16,10 +16,10 @@ main() {
   run_commands "${PRE_COMMANDS:-}"
 
   start=$(date +%s)
-  echo Starting prune at "$(date +"%Y-%m-%d %H:%M:%S")"
+  echo Starting check at "$(date +"%Y-%m-%d %H:%M:%S")"
 
   set +e
-  if ! restic --repo="${RESTIC_REPOSITORY}" prune ${RESTIC_PRUNE_ARGS:-} ; then
+  if ! restic --repo="${RESTIC_REPOSITORY}" check ${RESTIC_CHECK_ARGS:-}; then
     set -e
     run_commands "${POST_COMMANDS_FAILURE:-}"
     exit
@@ -27,10 +27,10 @@ main() {
     set -e
   fi
 
-  echo Prune successful
+  echo Check successful
 
   end="$(date +%s)"
-  echo Finished prune at "$(date +"%Y-%m-%d %H:%M:%S")" after $((end-start)) seconds
+  echo Finished check at "$(date +"%Y-%m-%d %H:%M:%S")" after $((end-start)) seconds
 
   run_commands "${POST_COMMANDS_SUCCESS:-}"
 }
