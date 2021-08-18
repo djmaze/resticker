@@ -16,6 +16,12 @@ main() {
   run_commands "${PRE_COMMANDS:-}"
 
   start=$(date +%s)
+
+  if [ -n "${RESTIC_FORGET_ARGS}" ]; then
+    echo Forget about old snapshots based on RESTIC_FORGET_ARGS = ${RESTIC_FORGET_ARGS}
+    restic forget ${RESTIC_FORGET_ARGS}
+  fi
+
   echo Starting prune at "$(date +"%Y-%m-%d %H:%M:%S")"
 
   set +e
