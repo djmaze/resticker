@@ -79,7 +79,7 @@ platform:
 
 steps:
   - name: build release
-    image: plugins/docker:linux-arm
+    image: mazzolino/drone-docker:linux-arm
     environment:
       ARCH: arm
     settings:
@@ -102,7 +102,7 @@ steps:
           - refs/tags/*
 
   - name: build branch
-    image: plugins/docker:linux-arm
+    image: mazzolino/drone-docker:linux-arm
     environment:
       ARCH: arm
     settings:
@@ -124,7 +124,7 @@ steps:
           - refs/tags/*
 
   - name: build pr
-    image: plugins/docker:linux-arm
+    image: mazzolino/drone-docker:linux-arm
     environment:
       ARCH: arm
     settings:
