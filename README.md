@@ -12,6 +12,7 @@ Run automatic [restic](https://restic.github.io/) backups via a Docker container
 * support for tags, exclude definitions, and all other optional restic options
 * automatic forgetting of old backups
 * prune backups on a schedule
+* remove a stale repository lock
 * can be used as a (global) Docker swarm service in order to backup every cluster node
 * multi-arch: the image `mazzolino/restic` runs on `amd64` as well as `armv7` (for now)
 
@@ -57,6 +58,8 @@ When using the Docker Compose setup:
 E.g.
 
     docker-compose run --rm app snapshots
+
+When given the `unlock` command, the repository check will be skipped (because it will fail on a locked repository either way).
 
 ## Configuration options
 

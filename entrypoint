@@ -16,23 +16,27 @@ if [[ -d "$SSH_CONFIG_PATH" ]]; then
   chmod -R u+rwX,go-rwx /root/.ssh
 fi
 
-echo "Checking configured repository '${RESTIC_REPOSITORY}' ..."
-if restic cat config > /dev/null; then
-  echo "Repository found."
-else
-  echo "Could not access the configured repository. Trying to initialize (in case it has not been initialized yet) ..."
-  if restic init; then
-    echo "Repository successfully initialized."
+command="${1-}"
+
+if [[ "$command" != "unlock" ]]; then
+  echo "Checking configured repository '${RESTIC_REPOSITORY}' ..."
+  if restic cat config > /dev/null; then
+    echo "Repository found."
   else
-    if [ "${SKIP_INIT_CHECK:-}" == "true" ]; then
-      echo "Initialization failed. Ignoring errors because SKIP_INIT_CHECK is set in your configuration."
+    echo "Could not access the configured repository. Trying to initialize (in case it has not been initialized yet) ..."
+    if restic init; then
+      echo "Repository successfully initialized."
     else
-      echo "Initialization failed. Please see error messages above and check your configuration. Exiting."
-      exit 1
+      if [ "${SKIP_INIT_CHECK:-}" == "true" ]; then
+        echo "Initialization failed. Ignoring errors because SKIP_INIT_CHECK is set in your configuration."
+      else
+        echo "Initialization failed. Please see error messages above and check your configuration. Exiting."
+        exit 1
+      fi
     fi
   fi
+  echo -e "\n"
 fi
-echo -e "\n"
 
 if [[ $# -gt 0 ]]; then
   exec restic "$@"
