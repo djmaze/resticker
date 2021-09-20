@@ -17,7 +17,7 @@ main() {
 
   start=$(date +%s)
 
-  if [ -n "${RESTIC_FORGET_ARGS}" ]; then
+  if [ -n "${RESTIC_FORGET_ARGS:-}" ]; then
     echo Forget about old snapshots based on RESTIC_FORGET_ARGS = ${RESTIC_FORGET_ARGS}
     restic forget ${RESTIC_FORGET_ARGS}
   fi
