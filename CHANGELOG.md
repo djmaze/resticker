@@ -1,5 +1,35 @@
 # Change Log
 
+## [1.5.0](https://github.com/djmaze/resticker/tree/1.5.0) (2021-09-20)
+[Full Changelog](https://github.com/djmaze/resticker/compare/1.4.0...1.5.0)
+
+**Implemented enhancements:**
+
+- Switch to using the provided binaries instead of building everything from source [\#84](https://github.com/djmaze/resticker/issues/84)
+- Add restic check handling [\#90](https://github.com/djmaze/resticker/pull/90) ([skimpax](https://github.com/skimpax))
+- Do not install unnecessary build tools [\#88](https://github.com/djmaze/resticker/pull/88) ([smainz](https://github.com/smainz))
+- Allow mounting rclone.conf readonly / as a secret [\#83](https://github.com/djmaze/resticker/pull/83) ([djmaze](https://github.com/djmaze))
+- Skip repository check when unlock command is given [\#102](https://github.com/djmaze/resticker/pull/102) ([djmaze](https://github.com/djmaze))
+- copy whole /run/secrets/.ssh into container instead of only ordinary files [\#100](https://github.com/djmaze/resticker/pull/100) ([smainz](https://github.com/smainz))
+- feat: gzip added and version updates [\#97](https://github.com/djmaze/resticker/pull/97) ([schewara](https://github.com/schewara))
+- allow to run forget before pruning [\#93](https://github.com/djmaze/resticker/pull/93) ([schewara](https://github.com/schewara))
+- Enable ssh key auth [\#87](https://github.com/djmaze/resticker/pull/87) ([smainz](https://github.com/smainz))
+- Switch to using the provided binaries instead of building everything from source  [\#86](https://github.com/djmaze/resticker/pull/86) ([smainz](https://github.com/smainz))
+
+**Fixed bugs:**
+
+- Error when using restic with rclone [\#30](https://github.com/djmaze/resticker/issues/30)
+- Prune does not work when RESTIC\_FORGET\_ARGS is not set [\#99](https://github.com/djmaze/resticker/issues/99)
+- README: Fix post commands typo [\#89](https://github.com/djmaze/resticker/pull/89) ([jacobbaungard](https://github.com/jacobbaungard))
+- Allow running prune without forget \(args\) [\#101](https://github.com/djmaze/resticker/pull/101) ([djmaze](https://github.com/djmaze))
+- Fix arm builds [\#98](https://github.com/djmaze/resticker/pull/98) ([djmaze](https://github.com/djmaze))
+
+**Closed issues:**
+
+- Several hosts for only one repository [\#95](https://github.com/djmaze/resticker/issues/95)
+- Ssh configuration is sometimes not properly copied [\#94](https://github.com/djmaze/resticker/issues/94)
+- Many docker containers + volumes; only want to back up specifics [\#85](https://github.com/djmaze/resticker/issues/85)
+
 ## [1.4.0](https://github.com/djmaze/resticker/tree/1.4.0) (2021-02-25)
 [Full Changelog](https://github.com/djmaze/resticker/compare/1.3.0...1.4.0)
 
@@ -68,7 +98,6 @@
 
 - To check whether Cron job ran? PRE, POST, EXIT are executed? [\#34](https://github.com/djmaze/resticker/issues/34)
 - Logs for PRE, EXIT & SUCCESS commands [\#32](https://github.com/djmaze/resticker/issues/32)
-- Error when using restic with rclone [\#30](https://github.com/djmaze/resticker/issues/30)
 - Restore not working [\#28](https://github.com/djmaze/resticker/issues/28)
 - latest-tag does not represent the latest release [\#24](https://github.com/djmaze/resticker/issues/24)
 - high speed restore [\#23](https://github.com/djmaze/resticker/issues/23)
