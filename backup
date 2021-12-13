@@ -32,8 +32,13 @@ set +e
 restic --repo="${RESTIC_REPOSITORY}" backup ${RESTIC_BACKUP_ARGS:-} ${tag_options} ${RESTIC_BACKUP_SOURCES}
 rc=$?
 set -e
+
 if [ $rc -ne 0 ]; then
-	run_commands "${POST_COMMANDS_FAILURE:-}"
+  if [ $rc -eq 3 ]; then
+  	run_commands "${POST_COMMANDS_INCOMPLETE:-}"
+  else
+  	run_commands "${POST_COMMANDS_FAILURE:-}"
+  fi
 	exit $rc
 fi
 
