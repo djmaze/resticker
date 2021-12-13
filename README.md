@@ -7,20 +7,20 @@ Run automatic [restic](https://restic.github.io/) backups via a Docker container
 
 ## Features
 
-* run scheduled backups
-* backup to any (local or remote) target supported by restic
-* support for tags, exclude definitions, and all other optional restic options
-* automatic forgetting of old backups
-* prune backups on a schedule
-* remove a stale repository lock
-* can be used as a (global) Docker swarm service in order to backup every cluster node
-* multi-arch: the image `mazzolino/restic` runs on `amd64` as well as `armv7` (for now)
+- run scheduled backups
+- backup to any (local or remote) target supported by restic
+- support for tags, exclude definitions, and all other optional restic options
+- automatic forgetting of old backups
+- prune backups on a schedule
+- remove a stale repository lock
+- can be used as a (global) Docker swarm service in order to backup every cluster node
+- multi-arch: the image `mazzolino/restic` runs on `amd64` as well as `armv7` (for now)
 
 ## Usage
 
 Use the supplied example configs to set up a backup schedule.
 
-The Compose files contain a *backup* and a *prune* service which can be scheduled independently of each other. Feel free to remove the *prune* service if you want to run the prune jobs manually.
+The Compose files contain a _backup_ and a _prune_ service which can be scheduled independently of each other. Feel free to remove the _prune_ service if you want to run the prune jobs manually.
 
 ### With Docker Compose
 
@@ -63,28 +63,28 @@ When given the `unlock` command, the repository check will be skipped (because i
 
 ## Configuration options
 
-*Note: `BACKUP_CRON`, `PRUNE_CRON` and `CHECK_CRON` are mutually exclusive.*
+_Note: `BACKUP_CRON`, `PRUNE_CRON` and `CHECK_CRON` are mutually exclusive._
 
-* `BACKUP_CRON` - A cron expression for when to run the backup. E.g. `0 30 3 * * *` in order to run every night at 3:30 am. See [the go-cron documentation](https://godoc.org/github.com/robfig/cron) for details on the expression format (a [customized go-cron](https://github.com/djmaze/go-cron/) is used which allows the definition of seconds as first parameter).
-* `PRUNE_CRON` - A cron expression for when to run the prune job. E.g. `0 0 4 * * *` in order to run every night at 4:00 am. See [the go-cron documentation](https://godoc.org/github.com/robfig/cron) for details on the expression format (a [customized go-cron](https://github.com/djmaze/go-cron/) is used which allows the definition of seconds as first parameter).
-* `CHECK_CRON` - A cron expression for when to run the check job. E.g. `0 15 5 * * *` in order to run every night at 5:15 am. See [the go-cron documentation](https://godoc.org/github.com/robfig/cron) for details on the expression format (a [customized go-cron](https://github.com/djmaze/go-cron/) is used which allows the definition of seconds as first parameter).
-* `RUN_ON_STARTUP` - Set to `"true"` to execute a backup or prune job right on startup, in addition to the given cron expression. Disabled by default
-* `RESTIC_REPOSITORY` - Location of the restic repository. You can use [any target supported by restic](https://restic.readthedocs.io/en/stable/030_preparing_a_new_repo.html). Default `/mnt/restic`
-* `RESTIC_BACKUP_SOURCES` - Source directory to backup. Make sure to mount this into the container as a volume (see the example configs). Default `/data`
-* `RESTIC_PASSWORD` - Password for the restic repository. Will also be used to initialize the repository if it is not yet initialized
-* `RESTIC_BACKUP_ARGS` - If specified `restic backup` is run with the given arguments, e.g. for tags, exclude definitions, or verbose logging: `--tag docker-volumes --exclude-file='exclude.txt' --verbose`. See the [restic backup documentation](https://restic.readthedocs.io/en/stable/040_backup.html) for available options
-* `RESTIC_BACKUP_TAGS` - *Deprecated*. Tags to set for each snapshot, separated by commas. This option will soon be removed. Please use `RESTIC_BACKUP_ARGS` to define tags.
-* `RESTIC_FORGET_ARGS` - If specified `restic forget` is run with the given arguments after each backup or before every prune, e.g. `--prune --keep-last 14 --keep-daily 1`. See the [restic forget documentation](https://restic.readthedocs.io/en/stable/060_forget.html) for available options
-* `RESTIC_PRUNE_ARGS` - If specified `restic prune` is run with the given arguments, e.g. for B2 concurrent connection settings and verbose logging: `-o b2.connections=10 --verbose`.
-* `RESTIC_CHECK_ARGS` - If specified `restic check` is run with the given arguments, e.g. `--read-data-subset=10%` to check a randomly choosen subset (10%) of the repository pack files. Without option, only the structure of the repository is checked. The option `--read-data-subset` will also check data, at the cost of transfering them from the repository.; e.g. for B2 concurrent connection settings and verbose logging: `-o b2.connections=10 --verbose`.
-* (Additional variables as needed for the chosen backup target. E.g. `B2_ACCOUNT_ID` and `B2_ACCOUNT_KEY` for Backblaze B2. See official restic documentation about [supported environment variables](https://restic.readthedocs.io/en/stable/040_backup.html#environment-variables).)
-* `TZ` - Optional. Set your timezone for the correct cron execution time.
+- `BACKUP_CRON` - A cron expression for when to run the backup. E.g. `0 30 3 * * *` in order to run every night at 3:30 am. See [the go-cron documentation](https://godoc.org/github.com/robfig/cron) for details on the expression format (a [customized go-cron](https://github.com/djmaze/go-cron/) is used which allows the definition of seconds as first parameter).
+- `PRUNE_CRON` - A cron expression for when to run the prune job. E.g. `0 0 4 * * *` in order to run every night at 4:00 am. See [the go-cron documentation](https://godoc.org/github.com/robfig/cron) for details on the expression format (a [customized go-cron](https://github.com/djmaze/go-cron/) is used which allows the definition of seconds as first parameter).
+- `CHECK_CRON` - A cron expression for when to run the check job. E.g. `0 15 5 * * *` in order to run every night at 5:15 am. See [the go-cron documentation](https://godoc.org/github.com/robfig/cron) for details on the expression format (a [customized go-cron](https://github.com/djmaze/go-cron/) is used which allows the definition of seconds as first parameter).
+- `RUN_ON_STARTUP` - Set to `"true"` to execute a backup or prune job right on startup, in addition to the given cron expression. Disabled by default
+- `RESTIC_REPOSITORY` - Location of the restic repository. You can use [any target supported by restic](https://restic.readthedocs.io/en/stable/030_preparing_a_new_repo.html). Default `/mnt/restic`
+- `RESTIC_BACKUP_SOURCES` - Source directory to backup. Make sure to mount this into the container as a volume (see the example configs). Default `/data`
+- `RESTIC_PASSWORD` - Password for the restic repository. Will also be used to initialize the repository if it is not yet initialized
+- `RESTIC_BACKUP_ARGS` - If specified `restic backup` is run with the given arguments, e.g. for tags, exclude definitions, or verbose logging: `--tag docker-volumes --exclude-file='exclude.txt' --verbose`. See the [restic backup documentation](https://restic.readthedocs.io/en/stable/040_backup.html) for available options
+- `RESTIC_BACKUP_TAGS` - _Deprecated_. Tags to set for each snapshot, separated by commas. This option will soon be removed. Please use `RESTIC_BACKUP_ARGS` to define tags.
+- `RESTIC_FORGET_ARGS` - If specified `restic forget` is run with the given arguments after each backup or before every prune, e.g. `--prune --keep-last 14 --keep-daily 1`. See the [restic forget documentation](https://restic.readthedocs.io/en/stable/060_forget.html) for available options
+- `RESTIC_PRUNE_ARGS` - If specified `restic prune` is run with the given arguments, e.g. for B2 concurrent connection settings and verbose logging: `-o b2.connections=10 --verbose`.
+- `RESTIC_CHECK_ARGS` - If specified `restic check` is run with the given arguments, e.g. `--read-data-subset=10%` to check a randomly choosen subset (10%) of the repository pack files. Without option, only the structure of the repository is checked. The option `--read-data-subset` will also check data, at the cost of transfering them from the repository.; e.g. for B2 concurrent connection settings and verbose logging: `-o b2.connections=10 --verbose`.
+- (Additional variables as needed for the chosen backup target. E.g. `B2_ACCOUNT_ID` and `B2_ACCOUNT_KEY` for Backblaze B2. See official restic documentation about [supported environment variables](https://restic.readthedocs.io/en/stable/040_backup.html#environment-variables).)
+- `TZ` - Optional. Set your timezone for the correct cron execution time.
 
 ### Using the `rclone` repository type
 
 In order to use the `rclone` repository type, you need to prepare an `rclone.conf` file and mount it inside the container at `/run/secrets/rclone.conf`.
 
-So when in swarm mode, you can just use `rclone.conf` as a *Docker secret*.
+So when in swarm mode, you can just use `rclone.conf` as a _Docker secret_.
 
 Example for Docker Compose:
 
@@ -146,19 +146,19 @@ It's possible to optionally execute commands (like restarting a temporarily stop
 You can add one or multiple commands by specifying the following environment variables:
 
     POST_COMMANDS_SUCCESS: |-
-		/my/scripts/mail-success.sh
+    	/my/scripts/mail-success.sh
 
     POST_COMMANDS_FAILURE: |-
-		/my/scripts/mail-failure.sh
+    	/my/scripts/mail-failure.sh
 
     POST_COMMANDS_EXIT: |-
-		docker start my_container
+    	docker start my_container
 
 The commands specified are executed one by one.
 
-* `POST_COMMANDS_SUCCESS` commands will be executed after a successful backup run.
-* `POST_COMMANDS_FAILURE` commands will be executed after a failed backup run.
-* `POST_COMMANDS_EXIT` will always be executed, after both successful or failed backup runs.
+- `POST_COMMANDS_SUCCESS` commands will be executed after a successful backup run.
+- `POST_COMMANDS_FAILURE` commands will be executed after a failed backup run.
+- `POST_COMMANDS_EXIT` will always be executed, after both successful or failed backup runs.
 
 ### Notification example
 
@@ -197,6 +197,18 @@ You can also push images and build on a different architecture:
     make image IMAGE=myuser/restic ARCH=arm
 
 For more targets, see the Makefile.
+
+## Testing
+
+There are automated tests for the scripts running in the container. You need to install [shellspec](https://github.com/shellspec/shellspec/) to run them.
+
+The test suite can be executed by running the following in the resticker source directory:
+
+```bash
+shellspec
+```
+
+This will build the image, create a container and run the tests inside the container.
 
 ## Credits
 
