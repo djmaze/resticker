@@ -39,7 +39,6 @@ if [ $rc -ne 0 ]; then
   else
   	run_commands "${POST_COMMANDS_FAILURE:-}"
   fi
-	exit $rc
 fi
 
 echo Backup successful
@@ -51,5 +50,7 @@ fi
 
 end=`date +%s`
 echo Finished backup at $(date +"%Y-%m-%d %H:%M:%S") after $((end-start)) seconds
+
+[ $rc -ne 0 ] && exit $rc
 
 run_commands "${POST_COMMANDS_SUCCESS:-}"
