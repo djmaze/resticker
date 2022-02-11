@@ -10,12 +10,13 @@ Describe "backup script"
   local extra_env
 
   docker_exec() {
-    extra_args=""
-    [[ -f "$extra_env" ]] && extra_args="--env-file $extra_env"
+    extra_args=()
+    [[ -f "$extra_env" ]] && extra_args=(--env-file "${extra_env[@]}")
     
+    # shellcheck disable=SC2086
     $DOCKER exec -i \
       -e RESTIC_PASSWORD=test \
-      $extra_args \
+      "${extra_args[@]}" \
       "$container" \
       bash -c "$*; exit \$?"
   }
