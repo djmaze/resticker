@@ -26,7 +26,7 @@ Describe "backup script"
     container=$($DOCKER run -d --entrypoint bash "$IMAGE" -c "sleep 10000")
     extra_env="$(mktemp /tmp/extra.env.XXX)"
     docker_exec restic init
-    docker_exec "mkdir -p /data && echo 1 >/data/dummy"
+    docker_exec "mkdir -p /data && echo 123 >/data/dummy"
   }
 
   cleanup() {
