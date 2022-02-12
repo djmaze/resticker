@@ -26,7 +26,7 @@ Describe "backup script"
     container=$($DOCKER run -d --entrypoint bash "$IMAGE" -c "sleep 10000")
     extra_env="$(mktemp /tmp/extra.env.XXX)"
     docker_exec restic init
-    docker_exec "mkdir -p /data && echo 123 >/data/dummy"
+    docker_exec "mkdir -p /data && echo 123 >/data/dummy && mkdir -p /my\ data && echo 123 >/my\ data/dummy"
   }
 
   cleanup() {
@@ -38,6 +38,16 @@ Describe "backup script"
   }
 
   It "Runs a backup successfully"
+    When call docker_exec backup
+    The output should include "Backup successful"
+    The output should match pattern "*Added to the repo: 70? B*"
+    The status should be success
+  End
+
+  It "Runs a backup on a path with spaces successfully"
+    cat <<HERE >"$extra_env"
+      RESTIC_BACKUP_SOURCES=/my\ data
+HERE
     When call docker_exec backup
     The output should include "Backup successful"
     The output should match pattern "*Added to the repo: 70? B*"
