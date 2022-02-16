@@ -26,7 +26,7 @@ run_commands "${PRE_COMMANDS:-}"
 
 IFS=" " read -r -a RESTIC_BACKUP_SOURCES <<< "$(replace_spaces "${RESTIC_BACKUP_SOURCES:-/data}")"
 RESTIC_BACKUP_TAGS="${RESTIC_BACKUP_TAGS:-}"
-IFS=" " read -r -a RESTIC_BACKUP_ARGS <<< "$RESTIC_BACKUP_ARGS"
+IFS=" " read -r -a RESTIC_BACKUP_ARGS <<< "$(replace_spaces "$RESTIC_BACKUP_ARGS")"
 
 tags="$(echo "$RESTIC_BACKUP_TAGS" | tr "," "\n")"
 tag_options=()
@@ -40,11 +40,17 @@ for source in "${RESTIC_BACKUP_SOURCES[@]}"; do
   backup_sources=("${backup_sources[@]}" "$source")
 done
 
+backup_args=()
+for arg in "${RESTIC_BACKUP_ARGS[@]}"; do
+  arg="$(replace_spaces_back "$arg")"
+  backup_args=("${backup_args[@]}" "$arg")
+done
+
 start=$(date +%s)
 echo Starting Backup at $(date +"%Y-%m-%d %H:%M:%S")
 
 set +e
-restic --repo="${RESTIC_REPOSITORY}" backup "${RESTIC_BACKUP_ARGS[@]}" "${tag_options[@]}" "${backup_sources[@]}"
+restic --repo="${RESTIC_REPOSITORY}" backup "${backup_args[@]}" "${tag_options[@]}" "${backup_sources[@]}"
 rc=$?
 set -e
 if [ $rc -ne 0 ]; then
@@ -55,8 +61,9 @@ fi
 echo Backup successful
 
 if [ -n "${RESTIC_FORGET_ARGS}" ]; then
-  echo Forget about old snapshots based on RESTIC_FORGET_ARGS = "${RESTIC_FORGET_ARGS}"
-  restic forget "${tag_options[@]}" "${RESTIC_FORGET_ARGS}"
+  IFS=" " read -r -a RESTIC_FORGET_ARGS <<< "$RESTIC_FORGET_ARGS"
+  echo Forget about old snapshots based on RESTIC_FORGET_ARGS = "${RESTIC_FORGET_ARGS[@]}"
+  restic forget "${tag_options[@]}" "${RESTIC_FORGET_ARGS[@]}"
 fi
 
 end=$(date +%s)
