@@ -53,9 +53,13 @@ set +e
 restic --repo="${RESTIC_REPOSITORY}" backup "${backup_args[@]}" "${tag_options[@]}" "${backup_sources[@]}"
 rc=$?
 set -e
+
 if [ $rc -ne 0 ]; then
-	run_commands "${POST_COMMANDS_FAILURE:-}"
-	exit $rc
+  if [ $rc -eq 3 ] && [ -n "${POST_COMMANDS_INCOMPLETE:-}" ]; then
+  	run_commands "${POST_COMMANDS_INCOMPLETE:-}"
+  else
+  	run_commands "${POST_COMMANDS_FAILURE:-}"
+  fi
 fi
 
 echo Backup successful
@@ -68,5 +72,7 @@ fi
 
 end=$(date +%s)
 echo Finished backup at $(date +"%Y-%m-%d %H:%M:%S") after $((end-start)) seconds
+
+[ $rc -ne 0 ] && exit $rc
 
 run_commands "${POST_COMMANDS_SUCCESS:-}"

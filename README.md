@@ -151,13 +151,17 @@ You can add one or multiple commands by specifying the following environment var
     POST_COMMANDS_FAILURE: |-
     	/my/scripts/mail-failure.sh
 
+    POST_COMMANDS_INCOMPLETE: |-
+    	/my/scripts/mail-incomplete.sh
+
     POST_COMMANDS_EXIT: |-
     	docker start my_container
 
 The commands specified are executed one by one.
 
-- `POST_COMMANDS_SUCCESS` commands will be executed after a successful backup run.
+- `POST_COMMANDS_SUCCESS` commands will be executed after a fully successful backup run (i.e. all files could be read).
 - `POST_COMMANDS_FAILURE` commands will be executed after a failed backup run.
+- `POST_COMMANDS_INCOMPLETE` commands will be executed if the backup is incomplete (i.e. one or more files could not be read).
 - `POST_COMMANDS_EXIT` will always be executed, after both successful or failed backup runs.
 
 ### Notification example

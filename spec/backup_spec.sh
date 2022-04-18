@@ -76,6 +76,30 @@ HERE
     The status should eq 1
   End
 
+  It "Runs failure command if backup is incomplete and incomplete command is not specified"
+    cat <<HERE >"$extra_env"
+      RESTIC_BACKUP_SOURCES=/proc/self/mem
+      POST_COMMANDS_FAILURE=echo Total failure!
+HERE
+    When call docker_exec backup
+    The stderr should not include "Fatal:"
+    The output should include "Total failure!"
+    The status should eq 3
+  End
+
+  It "Runs incomplete command if backup is incomplete and incomplete command is specified"
+    cat <<HERE >"$extra_env"
+      RESTIC_BACKUP_SOURCES=/proc/self/mem
+      POST_COMMANDS_INCOMPLETE=echo Partial failure!
+      POST_COMMANDS_FAILURE=echo Total failure!
+HERE
+    When call docker_exec backup
+    The stderr should not include "Fatal:"
+    The output should not include "Total failure!"
+    The output should include "Partial failure!"
+    The status should eq 3
+  End
+
   It "Forgets old backups after backup"
     cat <<HERE >"$extra_env"
       RESTIC_FORGET_ARGS=--keep-last 1
@@ -84,5 +108,4 @@ HERE
     The status should be success
     The output should match pattern "*keep 1 snapshots*"
   End
-
 End
