@@ -1,245 +1,53 @@
 ---
 kind: pipeline
-name: amd64
-
-platform:
-  os: linux
-  arch: amd64
+name: release
 
 steps:
-  - name: build release
-    image: plugins/docker
-    environment:
-      ARCH: amd64
+  - name: build & push release
+    image: thegeeklab/drone-docker-buildx:20.11@sha256:327b6fb15dc841cf80c7c429f60d695efd7c7a476fe363afac25a58befd4c203
     settings:
       auto_tag: true
-      auto_tag_suffix: amd64
-      build_args_from_env:
-        - ARCH
       repo: mazzolino/restic
-      username:
-        from_secret: docker_username
-      password:
-        from_secret: docker_password
-    when:
-      event:
-        exclude:
-          - pull_request
-      ref:
-        include:
-          - refs/heads/master
-          - refs/tags/*
-
-  - name: build branch
-    image: plugins/docker
-    environment:
-      ARCH: amd64
-    settings:
-      build_args_from_env:
-        - ARCH
-      repo: mazzolino/restic-test
-      tags: ${DRONE_BRANCH}-amd64
-      username:
-        from_secret: docker_username
-      password:
-        from_secret: docker_password
-    when:
-      event:
-        exclude:
-          - pull_request
-      ref:
-        exclude:
-          - refs/heads/master
-          - refs/tags/*
-
-  - name: build pr
-    image: plugins/docker
-    environment:
-      ARCH: amd64
-    settings:
-      build_args_from_env:
-        - ARCH
-      repo: mazzolino/restic-test
-      tags: pr-${DRONE_PULL_REQUEST}-amd64
-      username:
-        from_secret: docker_username
-      password:
-        from_secret: docker_password
-    when:
-      event:
-        - pull_request
-
----
-kind: pipeline
-name: arm
-
-platform:
-  os: linux
-  arch: arm64
-
-steps:
-  - name: build release
-    image: mazzolino/drone-docker:linux-arm
-    environment:
-      ARCH: arm
-    settings:
-      build_args_from_env:
-        - ARCH
-      auto_tag: true
-      auto_tag_suffix: arm
-      repo: mazzolino/restic
-      username:
-        from_secret: docker_username
-      password:
-        from_secret: docker_password
-    when:
-      event:
-        exclude:
-          - pull_request
-      ref:
-        include:
-          - refs/heads/master
-          - refs/tags/*
-
-  - name: build branch
-    image: mazzolino/drone-docker:linux-arm
-    environment:
-      ARCH: arm
-    settings:
-      build_args_from_env:
-        - ARCH
-      repo: mazzolino/restic-test
-      tags: ${DRONE_BRANCH}-arm
-      username:
-        from_secret: docker_username
-      password:
-        from_secret: docker_password
-    when:
-      event:
-        exclude:
-          - pull_request
-      ref:
-        exclude:
-          - refs/heads/master
-          - refs/tags/*
-
-  - name: build pr
-    image: mazzolino/drone-docker:linux-arm
-    environment:
-      ARCH: arm
-    settings:
-      build_args_from_env:
-        - ARCH
-      repo: mazzolino/restic-test
-      tags: pr-${DRONE_PULL_REQUEST}-arm
-      username:
-        from_secret: docker_username
-      password:
-        from_secret: docker_password
-    when:
-      event:
-        - pull_request
-
----
-kind: pipeline
-name: arm64
-
-platform:
-  os: linux
-  arch: arm64
-
-steps:
-  - name: build release
-    image: plugins/docker:linux-arm64
-    environment:
-      ARCH: arm64
-    settings:
-      auto_tag: true
-      auto_tag_suffix: arm64
-      build_args_from_env:
-        - ARCH
-      repo: mazzolino/restic
-      username:
-        from_secret: docker_username
-      password:
-        from_secret: docker_password
-    when:
-      event:
-        exclude:
-          - pull_request
-      ref:
-        include:
-          - refs/heads/master
-          - refs/tags/*
-
-  - name: build branch
-    image: plugins/docker:linux-arm64
-    environment:
-      ARCH: arm64
-    settings:
-      build_args_from_env:
-        - ARCH
-      repo: mazzolino/restic-test
-      tags: ${DRONE_BRANCH}-arm64
-      username:
-        from_secret: docker_username
-      password:
-        from_secret: docker_password
-    when:
-      event:
-        exclude:
-          - pull_request
-      ref:
-        exclude:
-          - refs/heads/master
-          - refs/tags/*
-
-  - name: build pr
-    image: plugins/docker:linux-arm64
-    environment:
-      ARCH: arm64
-    settings:
-      build_args_from_env:
-        - ARCH
-      repo: mazzolino/restic-test
-      tags: pr-${DRONE_PULL_REQUEST}-arm64
-      username:
-        from_secret: docker_username
-      password:
-        from_secret: docker_password
-    when:
-      event:
-        - pull_request
-
----
-kind: pipeline
-name: manifest
-
-steps:
-  - name: manifest
-    image: plugins/manifest:1
-    settings:
-      spec: manifest.tmpl
-      auto_tag: true
-      username:
-        from_secret: docker_username
-      password:
-        from_secret: docker_password
       platforms:
         - linux/amd64
-        - linux/arm
         - linux/arm64
-    when:
-      event:
-        exclude:
-          - pull_request
+        - linux/armhf
+      username:
+        from_secret: docker_username
+      password:
+        from_secret: docker_password
 
-depends_on:
-  - amd64
-  - arm
-  - arm64
+trigger:
+  event:
+    exclude:
+      - pull_request
+
+---
+kind: pipeline
+name: pr
+
+steps:
+  - name: build & push PR
+    image: thegeeklab/drone-docker-buildx:20.11@sha256:327b6fb15dc841cf80c7c429f60d695efd7c7a476fe363afac25a58befd4c203
+    settings:
+      repo: mazzolino/restic
+      tags:
+        - pr-${DRONE_PULL_REQUEST}
+      platforms:
+        - linux/amd64
+        - linux/arm64
+        - linux/armhf
+      username:
+        from_secret: docker_username
+      password:
+        from_secret: docker_password
+
+trigger:
+  event:
+    - pull_request
+
 ---
 kind: signature
-hmac: 2f2c4d4cdf3e22ad6b6709a0a6bf4035f2939704b68a001d1fec069a24539dff
+hmac: 979eb024a97a0673a421c496f9442193b3cbb401abdcd649a1d93e495b86601f
 
 ...

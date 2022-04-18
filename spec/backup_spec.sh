@@ -10,12 +10,13 @@ Describe "backup script"
   local extra_env
 
   docker_exec() {
-    extra_args=""
-    [[ -f "$extra_env" ]] && extra_args="--env-file $extra_env"
+    extra_args=()
+    [[ -f "$extra_env" ]] && extra_args=(--env-file "${extra_env[@]}")
     
+    # shellcheck disable=SC2086
     $DOCKER exec -i \
       -e RESTIC_PASSWORD=test \
-      $extra_args \
+      "${extra_args[@]}" \
       "$container" \
       bash -c "$*; exit \$?"
   }
@@ -25,7 +26,7 @@ Describe "backup script"
     container=$($DOCKER run -d --entrypoint bash "$IMAGE" -c "sleep 10000")
     extra_env="$(mktemp /tmp/extra.env.XXX)"
     docker_exec restic init
-    docker_exec "mkdir -p /data && echo 1 >/data/dummy"
+    docker_exec "mkdir -p /data && echo 123 >/data/dummy && mkdir -p /my\ data && echo 123 >/my\ data/dummy && echo 456 >/my\ data/dreck"
   }
 
   cleanup() {
@@ -39,7 +40,18 @@ Describe "backup script"
   It "Runs a backup successfully"
     When call docker_exec backup
     The output should include "Backup successful"
-    The output should match pattern "*Added to the repo: 70? B*"
+    The output should match pattern "*processed 1 files*"
+    The status should be success
+  End
+
+  It "Runs a backup on a path with spaces successfully"
+    cat <<HERE >"$extra_env"
+      RESTIC_BACKUP_SOURCES=/my\ data
+      RESTIC_BACKUP_ARGS=--verbose=3 --exclude /my\ data/dreck
+HERE
+    When call docker_exec backup
+    The output should include "Backup successful"
+    The output should match pattern "*processed 1 files*"
     The status should be success
   End
 
@@ -86,5 +98,14 @@ HERE
     The output should not include "Total failure!"
     The output should include "Partial failure!"
     The status should eq 3
+  End
+
+  It "Forgets old backups after backup"
+    cat <<HERE >"$extra_env"
+      RESTIC_FORGET_ARGS=--keep-last 1
+HERE
+    When call docker_exec "backup && backup"
+    The status should be success
+    The output should match pattern "*keep 1 snapshots*"
   End
 End
