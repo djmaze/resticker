@@ -1,37 +1,16 @@
 ---
 kind: pipeline
-name: release
-
-steps:
-  - name: build & push release
-    image: thegeeklab/drone-docker-buildx:20.11@sha256:327b6fb15dc841cf80c7c429f60d695efd7c7a476fe363afac25a58befd4c203
-    settings:
-      auto_tag: true
-      repo: mazzolino/restic
-      platforms:
-        - linux/amd64
-        - linux/arm64
-        - linux/armhf
-      username:
-        from_secret: docker_username
-      password:
-        from_secret: docker_password
-
-trigger:
-  event:
-    exclude:
-      - pull_request
-
----
-kind: pipeline
-name: pr
+name: build
 
 steps:
   - name: test
-    image: mazzolino/docker-shellspec
+    image: mazzolino/docker-shellspec:0.1
     volumes:
       - name: dockersock
         path: /var/run
+    when:
+      event:
+        - push
 
   - name: build & push PR
     image: thegeeklab/drone-docker-buildx:20.11@sha256:327b6fb15dc841cf80c7c429f60d695efd7c7a476fe363afac25a58befd4c203
@@ -47,26 +26,57 @@ steps:
         from_secret: docker_username
       password:
         from_secret: docker_password
+    when:
+      event:
+        - push
+      ref:
+        include:
+          - refs/heads/**
+          - refs/pull/**
+      branch:
+        exclude:
+          - master
 
+  - name: build & push release
+    image: thegeeklab/drone-docker-buildx:20.11@sha256:327b6fb15dc841cf80c7c429f60d695efd7c7a476fe363afac25a58befd4c203
+    settings:
+      auto_tag: true
+      repo: mazzolino/restic
+      platforms:
+        - linux/amd64
+        - linux/arm64
+        - linux/armhf
+      username:
+        from_secret: docker_username
+      password:
+        from_secret: docker_password
+    when:
+      event:
+        - push
+        - tag
+      branch:
+        - master
+ 
 trigger:
   event:
-    - pull_request
+    exclude:
+      - pull_request
 
 services:
-    - name: docker
-      image: docker:20.10-dind
-      commands:
-        - dockerd
-      privileged: true
-      volumes:
-        - name: dockersock
-          path: /var/run
+  - name: docker
+    image: docker:20.10-dind
+    commands:
+      - dockerd
+    privileged: true
+    volumes:
+      - name: dockersock
+        path: /var/run
 
 volumes:
   - name: dockersock
     temp: {}
 ---
 kind: signature
-hmac: 2f3bf0a71c4acf8b32a593ba813e5deec96a46cf734ef710ff136a03bab6fd53
+hmac: cf364dd4911654bb21891c3a4a946a3d468ca1996a0ae123b010127da341d96e
 
 ...
