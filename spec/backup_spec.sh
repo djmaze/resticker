@@ -1,5 +1,5 @@
 IMAGE=restic:dev
-DOCKER="sudo -E docker"
+DOCKER="docker"
 
 Describe "backup script"
   BeforeAll "setup"
@@ -24,7 +24,7 @@ Describe "backup script"
   setup() {
     $DOCKER build --build-arg ARCH="${ARCH:-amd64}" -t "$IMAGE" .
     container=$($DOCKER run -d --entrypoint bash "$IMAGE" -c "sleep 10000")
-    extra_env="$(mktemp /tmp/extra.env.XXX)"
+    extra_env="$(mktemp /tmp/extra.env.XXXXXXXX)"
     docker_exec restic init
     docker_exec "mkdir -p /data && echo 123 >/data/dummy && mkdir -p /my\ data && echo 123 >/my\ data/dummy && echo 456 >/my\ data/dreck"
   }

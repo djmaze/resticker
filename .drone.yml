@@ -3,7 +3,7 @@ kind: pipeline
 name: release
 
 steps:
-  - name: build & push release
+  - name: build & push release image
     image: thegeeklab/drone-docker-buildx:20.11@sha256:327b6fb15dc841cf80c7c429f60d695efd7c7a476fe363afac25a58befd4c203
     settings:
       auto_tag: true
@@ -21,13 +21,21 @@ trigger:
   event:
     exclude:
       - pull_request
+  branch:
+    - master
 
 ---
 kind: pipeline
 name: pr
 
 steps:
-  - name: build & push PR
+  - name: test
+    image: mazzolino/docker-shellspec
+    volumes:
+      - name: dockersock
+        path: /var/run
+
+  - name: build & push PR image
     image: thegeeklab/drone-docker-buildx:20.11@sha256:327b6fb15dc841cf80c7c429f60d695efd7c7a476fe363afac25a58befd4c203
     settings:
       repo: mazzolino/restic
@@ -46,8 +54,21 @@ trigger:
   event:
     - pull_request
 
+services:
+    - name: docker
+      image: docker:20.10-dind
+      commands:
+        - dockerd
+      privileged: true
+      volumes:
+        - name: dockersock
+          path: /var/run
+
+volumes:
+  - name: dockersock
+    temp: {}
 ---
 kind: signature
-hmac: 979eb024a97a0673a421c496f9442193b3cbb401abdcd649a1d93e495b86601f
+hmac: 053665109aca58a5bf25dcbc46f676367568d8ac9b3236b9dbb787332c6ab2f7
 
 ...
