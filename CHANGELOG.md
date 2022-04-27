@@ -1,5 +1,27 @@
 # Change Log
 
+## [1.6.0](https://github.com/djmaze/resticker/tree/1.6.0) (2022-04-20)
+[Full Changelog](https://github.com/djmaze/resticker/compare/1.5.0...1.6.0)
+
+**Implemented enhancements:**
+
+- Run tests in drone \(dind\) [\#131](https://github.com/djmaze/resticker/pull/131) ([djmaze](https://github.com/djmaze))
+- Update restic to v0.13.1 and rclone to v1.58.0 [\#130](https://github.com/djmaze/resticker/pull/130) ([djmaze](https://github.com/djmaze))
+- Build images with buildx [\#121](https://github.com/djmaze/resticker/pull/121) ([djmaze](https://github.com/djmaze))
+- Add incomplete backup hook [\#109](https://github.com/djmaze/resticker/pull/109) ([djmaze](https://github.com/djmaze))
+- Add tests [\#108](https://github.com/djmaze/resticker/pull/108) ([djmaze](https://github.com/djmaze))
+
+**Fixed bugs:**
+
+- Zombie processes left [\#105](https://github.com/djmaze/resticker/issues/105)
+- Fix backup sources with spaces [\#120](https://github.com/djmaze/resticker/pull/120) ([djmaze](https://github.com/djmaze))
+- Fix \#105: No more zombies by using proper init [\#110](https://github.com/djmaze/resticker/pull/110) ([smainz](https://github.com/smainz))
+
+**Closed issues:**
+
+- Implement POST\_COMMAND\_INCOMPLETE? [\#107](https://github.com/djmaze/resticker/issues/107)
+- restic 0.13.0 [\#128](https://github.com/djmaze/resticker/issues/128)
+
 ## [1.5.0](https://github.com/djmaze/resticker/tree/1.5.0) (2021-09-20)
 [Full Changelog](https://github.com/djmaze/resticker/compare/1.4.0...1.5.0)
 
