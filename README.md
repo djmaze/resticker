@@ -110,6 +110,22 @@ secrets:
     file: ./rclone.conf
 ```
 
+#### Note for backends with token-based access
+
+If you are using rclone backends which make use of oauth refresh tokens (B2, OneDrive, Google) the `rclone.conf` needs to be writable inside the container. That means you need to directly mount a *directory* (r/w) which contains the config file to the final config directory inside the container.
+
+Example for Docker Compose:
+
+```yaml
+services:
+  backup:
+    # ...
+    volumes:
+      - ./rclone:/root/.config/rclone
+```
+
+Where `./rclone` should be a local directory which contains your `rclone.conf`.
+
 ### Using `sftp` repository type
 
 In order to use the `sftp` repository type, you need to prepare a `.ssh` directory with your private ssh key(s), `known_hosts` (and an optional `config` file) and mount it inside the container at `/run/secrets/.ssh`.
