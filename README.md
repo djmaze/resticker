@@ -140,6 +140,24 @@ services:
       - ./.ssh:/run/secrets/.ssh:ro
 ```
 
+## Using `restic mount`
+
+If you want to mount your backup repository *inside the container* using `restic mount`, you need to [give the container SYS_ADMIN privilege and allow the fuse device](https://stackoverflow.com/a/49021109).
+
+Example for Docker Compose:
+
+```yaml
+services:
+  backup:
+    # ...
+    cap_add:
+      - SYS_ADMIN
+    devices:
+      - /dev/fuse
+```
+
+Also the fuse kernel module should be loaded (`modprobe fuse`).
+
 ## Execute commands prior to backup
 
 It's possible to optionally execute commands (like database dumps, or stopping a running container to avoid inconsistent backup data) before the actual backup starts. If you want to execute `docker` commands on the host, mount the Docker socket to the container. To do that add the following volume to the compose or swarm configuration:
