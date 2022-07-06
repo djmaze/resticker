@@ -20,6 +20,18 @@ function replace_spaces_back {
   echo "${1/\\/ }"
 }
 
+function check_bool {
+  local var="$1"
+
+  if [ -n "$var" ]; then
+    if [ "$var" = "true" ] || [ "$var" = "1" ]; then
+      echo "true"
+      return
+    fi
+  fi
+  echo "false"
+}
+
 trap run_exit_commands EXIT
 
 run_commands "${PRE_COMMANDS:-}"
@@ -54,10 +66,21 @@ restic --repo="${RESTIC_REPOSITORY}" backup "${backup_args[@]}" "${tag_options[@
 rc=$?
 set -e
 
+success="true"
 if [ $rc -ne 0 ]; then
-  if [ $rc -eq 3 ] && [ -n "${POST_COMMANDS_INCOMPLETE:-}" ]; then
-  	run_commands "${POST_COMMANDS_INCOMPLETE:-}"
+  if [ $rc -eq 3 ]; then
+    if [ "$(check_bool "${SUCCESS_ON_INCOMPLETE_BACKUP:-}")" = "true" ]; then
+      run_commands "${POST_COMMANDS_INCOMPLETE:-}"
+    else
+      success="false"
+      if [ -n "${POST_COMMANDS_INCOMPLETE:-}" ]; then
+        run_commands "${POST_COMMANDS_INCOMPLETE:-}"
+      else
+        run_commands "${POST_COMMANDS_FAILURE:-}"
+      fi
+    fi
   else
+    success="false"
   	run_commands "${POST_COMMANDS_FAILURE:-}"
   fi
 fi
@@ -73,6 +96,8 @@ fi
 end=$(date +%s)
 echo Finished backup at $(date +"%Y-%m-%d %H:%M:%S") after $((end-start)) seconds
 
-[ $rc -ne 0 ] && exit $rc
+if [ "$success" == "true" ]; then
+  run_commands "${POST_COMMANDS_SUCCESS:-}"
+fi
 
-run_commands "${POST_COMMANDS_SUCCESS:-}"
+exit $rc
