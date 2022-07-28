@@ -4,6 +4,7 @@ services:
   backup:
     image: mazzolino/restic
     hostname: docker
+    restart: always
     environment:
       RUN_ON_STARTUP: "true"
       BACKUP_CRON: "0 30 3 * * *"
@@ -29,6 +30,7 @@ services:
   prune:
     image: mazzolino/restic
     hostname: docker
+    restart: always
     environment:
       RUN_ON_STARTUP: "true"
       PRUNE_CRON: "0 0 4 * * *"
@@ -41,6 +43,7 @@ services:
   check:
     image: mazzolino/restic
     hostname: docker
+    restart: always
     environment:
       RUN_ON_STARTUP: "false"
       CHECK_CRON: "0 15 5 * * *"
