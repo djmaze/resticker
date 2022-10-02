@@ -66,26 +66,27 @@ restic --repo="${RESTIC_REPOSITORY}" backup "${backup_args[@]}" "${tag_options[@
 rc=$?
 set -e
 
-success="true"
+result="success"
 if [ $rc -ne 0 ]; then
   if [ $rc -eq 3 ]; then
     if [ "$(check_bool "${SUCCESS_ON_INCOMPLETE_BACKUP:-}")" = "true" ]; then
-      run_commands "${POST_COMMANDS_INCOMPLETE:-}"
+      result="success"
     else
-      success="false"
-      if [ -n "${POST_COMMANDS_INCOMPLETE:-}" ]; then
-        run_commands "${POST_COMMANDS_INCOMPLETE:-}"
-      else
-        run_commands "${POST_COMMANDS_FAILURE:-}"
-      fi
+      result="incomplete"
     fi
   else
-    success="false"
-  	run_commands "${POST_COMMANDS_FAILURE:-}"
+    result="failure"
   fi
 fi
 
-echo Backup successful
+case "$result" in
+success)
+  echo Backup successful;;
+incomplete)
+  echo Backup incomplete;;
+failure)
+  echo Backup failed;;
+esac
 
 if [ -n "${RESTIC_FORGET_ARGS}" ]; then
   IFS=" " read -r -a RESTIC_FORGET_ARGS <<< "$RESTIC_FORGET_ARGS"
@@ -96,8 +97,17 @@ fi
 end=$(date +%s)
 echo Finished backup at $(date +"%Y-%m-%d %H:%M:%S") after $((end-start)) seconds
 
-if [ "$success" == "true" ]; then
-  run_commands "${POST_COMMANDS_SUCCESS:-}"
-fi
+case "$result" in
+success)
+  run_commands "${POST_COMMANDS_SUCCESS:-}";;
+incomplete)
+  if [ -n "${POST_COMMANDS_INCOMPLETE:-}" ]; then
+    run_commands "${POST_COMMANDS_INCOMPLETE:-}"
+  else
+    run_commands "${POST_COMMANDS_FAILURE:-}"
+  fi;;
+failure)
+  run_commands "${POST_COMMANDS_FAILURE:-}";;
+esac
 
 exit $rc
