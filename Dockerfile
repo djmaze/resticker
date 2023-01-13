@@ -1,7 +1,7 @@
 #
 # Builder image
 #
-FROM golang:1.15-alpine3.14 AS builder
+FROM golang:1.19.5-alpine3.17 AS builder
 
 ARG RESTIC_VERSION=0.14.0
 ARG RESTIC_SHA256_AMD64=c8da7350dc334cd5eaf13b2c9d6e689d51e7377ba1784cc6d65977bd44ee1165
@@ -77,7 +77,7 @@ RUN curl -sL -o go-cron.tar.gz https://github.com/djmaze/go-cron/archive/v${GO_C
 #
 # Final image
 #
-FROM alpine:3.14
+FROM alpine:3.17
 
 RUN apk add --update --no-cache ca-certificates fuse nfs-utils openssh tzdata bash curl docker-cli gzip tini
 
