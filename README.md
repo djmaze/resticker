@@ -34,6 +34,20 @@ Adjust the supplied [docker-swarm.yml](docker-swarm.example.yml) as needed. Then
 
     docker stack deploy -f docker-swarm.yml backup
 
+### Versioning scheme
+
+This project uses [semantic versioning](https://semver.org/). The docker images (under [`mazzolino/restic`](https://hub.docker.com/r/mazzolino/restic/)) are tagged accordingly:
+
+- `latest` - built from the latest `master` commit
+- `1.6.0` - one tag for each patch release
+- `1.6`, `1` - points to the latest patch release below that minor / major version (in this case `1.6.0`)
+
+It is recommended to pin to the latest patch version (e.g. `1.6.0`) and update the version manually (or using an automated process like [Renovate](https://docs.renovatebot.com/)).
+
+Look at the [CHANGELOG](CHANGELOG.md) or Github releases to find the latest version.
+
+Also, an image will be generated for each pull request. The tags are labeled `pr-xxx` where `xxx` is the id of the pull request.
+
 ### Restoring
 
 In order to restore files on a host where the container is already running via Docker Compose, you can use `exec`:
