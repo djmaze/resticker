@@ -198,6 +198,8 @@ The commands specified are executed one by one.
 - `POST_COMMANDS_INCOMPLETE` commands will be executed if the backup is incomplete (i.e. one or more files could not be read).
 - `POST_COMMANDS_EXIT` will always be executed, after both successful or failed backup runs.
 
+By default, when any file could not be backed up, the commands from `POST_COMMANDS_FAILURE` will be executed. When `SUCCESS_ON_INCOMPLETE_BACKUP` is set to `"true"`, the commands from `POST_COMMANDS_INCOMPLETE` will be executed instead. Unless those are not configured – then the commands from `POST_COMMANDS_SUCCESS` will be executed.
+
 ### Notification example
 
 The Resticker docker image does not contain any tools for sending notifications, apart from `curl`. You should thus connect a second container for that purpose. For example, this is how mail notifications can be sent using [apprise-microservice](https://github.com/djmaze/apprise-microservice):
