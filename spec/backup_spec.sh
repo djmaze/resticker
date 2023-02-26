@@ -89,7 +89,7 @@ HERE
 
   It "Runs incomplete command if backup is incomplete and incomplete command is specified"
     cat <<HERE >"$extra_env"
-      RESTIC_BACKUP_SOURCES=/proc/self/mem
+      RESTIC_BACKUP_SOURCES=/data /proc/self/mem
       POST_COMMANDS_INCOMPLETE=echo Partial failure!
       POST_COMMANDS_FAILURE=echo Total failure!
 HERE
@@ -97,6 +97,20 @@ HERE
     The stderr should not include "Fatal:"
     The output should not include "Total failure!"
     The output should include "Partial failure!"
+    The status should eq 3
+  End
+
+  It "Runs success command if backup is incomplete and \"success on incomplete backup\" is activated"
+    cat <<HERE >"$extra_env"
+      RESTIC_BACKUP_SOURCES=/data /proc/self/mem
+      POST_COMMANDS_SUCCESS=echo Great success!
+      POST_COMMANDS_FAILURE=echo Total failure!
+      SUCCESS_ON_INCOMPLETE_BACKUP=true
+HERE
+    When call docker_exec backup
+    The stderr should not include "Fatal:"
+    The output should not include "Total failure!"
+    The output should include "Great success!"
     The status should eq 3
   End
 
