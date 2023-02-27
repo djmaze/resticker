@@ -1,6 +1,37 @@
-# Change Log
+# Changelog
+
+## [1.7.0](https://github.com/djmaze/resticker/tree/1.7.0) (2023-02-27)
+
+[Full Changelog](https://github.com/djmaze/resticker/compare/1.6.0...1.7.0)
+
+**Implemented enhancements:**
+
+- restic 0.15.1 is out [\#157](https://github.com/djmaze/resticker/issues/157)
+- Update Restic to v0.15.1 [\#159](https://github.com/djmaze/resticker/pull/159) ([djmaze](https://github.com/djmaze))
+- Upgrade restic to 0.15.0 + upgrade go and rclone [\#151](https://github.com/djmaze/resticker/pull/151) ([chmey](https://github.com/chmey))
+- Update Restic \(v0.14.0\) [\#144](https://github.com/djmaze/resticker/pull/144) ([matt-laird](https://github.com/matt-laird))
+- Update example docker compose so services restart on crash [\#141](https://github.com/djmaze/resticker/pull/141) ([tobiasmuehl](https://github.com/tobiasmuehl))
+
+**Fixed bugs:**
+
+- cron not firing [\#155](https://github.com/djmaze/resticker/issues/155)
+- POST\_COMMAND\_FAILURE triggering if backup completes [\#133](https://github.com/djmaze/resticker/issues/133)
+- Fix incomplete backup handling [\#139](https://github.com/djmaze/resticker/pull/139) ([djmaze](https://github.com/djmaze))
+
+**Closed issues:**
+
+- Errors backing up with Docker Swarm [\#153](https://github.com/djmaze/resticker/issues/153)
+- Issue with restic backup sources  [\#150](https://github.com/djmaze/resticker/issues/150)
+- Cannot restore backup \(when using Git Bash\) [\#146](https://github.com/djmaze/resticker/issues/146)
+- Big memory usage [\#137](https://github.com/djmaze/resticker/issues/137)
+
+**Merged pull requests:**
+
+- Document the versioning scheme [\#160](https://github.com/djmaze/resticker/pull/160) ([djmaze](https://github.com/djmaze))
+- Update example Swarm file [\#154](https://github.com/djmaze/resticker/pull/154) ([ericvoshall](https://github.com/ericvoshall))
 
 ## [1.6.0](https://github.com/djmaze/resticker/tree/1.6.0) (2022-04-20)
+
 [Full Changelog](https://github.com/djmaze/resticker/compare/1.5.0...1.6.0)
 
 **Implemented enhancements:**
@@ -19,44 +50,48 @@
 
 **Closed issues:**
 
-- Implement POST\_COMMAND\_INCOMPLETE? [\#107](https://github.com/djmaze/resticker/issues/107)
 - restic 0.13.0 [\#128](https://github.com/djmaze/resticker/issues/128)
+- Implement POST\_COMMAND\_INCOMPLETE? [\#107](https://github.com/djmaze/resticker/issues/107)
 
 ## [1.5.0](https://github.com/djmaze/resticker/tree/1.5.0) (2021-09-20)
+
 [Full Changelog](https://github.com/djmaze/resticker/compare/1.4.0...1.5.0)
 
 **Implemented enhancements:**
 
 - Switch to using the provided binaries instead of building everything from source [\#84](https://github.com/djmaze/resticker/issues/84)
-- Add restic check handling [\#90](https://github.com/djmaze/resticker/pull/90) ([skimpax](https://github.com/skimpax))
-- Do not install unnecessary build tools [\#88](https://github.com/djmaze/resticker/pull/88) ([smainz](https://github.com/smainz))
-- Allow mounting rclone.conf readonly / as a secret [\#83](https://github.com/djmaze/resticker/pull/83) ([djmaze](https://github.com/djmaze))
 - Skip repository check when unlock command is given [\#102](https://github.com/djmaze/resticker/pull/102) ([djmaze](https://github.com/djmaze))
 - copy whole /run/secrets/.ssh into container instead of only ordinary files [\#100](https://github.com/djmaze/resticker/pull/100) ([smainz](https://github.com/smainz))
 - feat: gzip added and version updates [\#97](https://github.com/djmaze/resticker/pull/97) ([schewara](https://github.com/schewara))
 - allow to run forget before pruning [\#93](https://github.com/djmaze/resticker/pull/93) ([schewara](https://github.com/schewara))
+- Add restic check handling [\#90](https://github.com/djmaze/resticker/pull/90) ([skimpax](https://github.com/skimpax))
+- Do not install unnecessary build tools [\#88](https://github.com/djmaze/resticker/pull/88) ([smainz](https://github.com/smainz))
 - Enable ssh key auth [\#87](https://github.com/djmaze/resticker/pull/87) ([smainz](https://github.com/smainz))
 - Switch to using the provided binaries instead of building everything from source  [\#86](https://github.com/djmaze/resticker/pull/86) ([smainz](https://github.com/smainz))
+- Allow mounting rclone.conf readonly / as a secret [\#83](https://github.com/djmaze/resticker/pull/83) ([djmaze](https://github.com/djmaze))
 
 **Fixed bugs:**
 
-- Error when using restic with rclone [\#30](https://github.com/djmaze/resticker/issues/30)
 - Prune does not work when RESTIC\_FORGET\_ARGS is not set [\#99](https://github.com/djmaze/resticker/issues/99)
-- README: Fix post commands typo [\#89](https://github.com/djmaze/resticker/pull/89) ([jacobbaungard](https://github.com/jacobbaungard))
+- Error when using restic with rclone [\#30](https://github.com/djmaze/resticker/issues/30)
 - Allow running prune without forget \(args\) [\#101](https://github.com/djmaze/resticker/pull/101) ([djmaze](https://github.com/djmaze))
 - Fix arm builds [\#98](https://github.com/djmaze/resticker/pull/98) ([djmaze](https://github.com/djmaze))
+- README: Fix post commands typo [\#89](https://github.com/djmaze/resticker/pull/89) ([jacobbaungard](https://github.com/jacobbaungard))
 
 **Closed issues:**
 
 - Several hosts for only one repository [\#95](https://github.com/djmaze/resticker/issues/95)
 - Ssh configuration is sometimes not properly copied [\#94](https://github.com/djmaze/resticker/issues/94)
 - Many docker containers + volumes; only want to back up specifics [\#85](https://github.com/djmaze/resticker/issues/85)
+- Issues when using a SFTP repository [\#65](https://github.com/djmaze/resticker/issues/65)
 
 ## [1.4.0](https://github.com/djmaze/resticker/tree/1.4.0) (2021-02-25)
+
 [Full Changelog](https://github.com/djmaze/resticker/compare/1.3.0...1.4.0)
 
 **Implemented enhancements:**
 
+- Restic v0.11.0 [\#58](https://github.com/djmaze/resticker/issues/58)
 - Update restic to 0.12.0 and rclone to 1.54.0 [\#73](https://github.com/djmaze/resticker/pull/73) ([jlelse](https://github.com/jlelse))
 - Build test images for branches & PRs [\#70](https://github.com/djmaze/resticker/pull/70) ([djmaze](https://github.com/djmaze))
 - drone: build branches & pull requests as well \(but don't push them\) [\#69](https://github.com/djmaze/resticker/pull/69) ([djmaze](https://github.com/djmaze))
@@ -75,6 +110,7 @@
 - Issues when using a SFTP repository [\#65](https://github.com/djmaze/resticker/issues/65)
 
 ## [1.3.0](https://github.com/djmaze/resticker/tree/1.3.0) (2020-11-19)
+
 [Full Changelog](https://github.com/djmaze/resticker/compare/1.2.0...1.3.0)
 
 **Implemented enhancements:**
@@ -82,13 +118,16 @@
 - Restic Prune Args [\#43](https://github.com/djmaze/resticker/issues/43)
 - Halt if initialization fails [\#37](https://github.com/djmaze/resticker/issues/37)
 - Restic v0.11.0 [\#58](https://github.com/djmaze/resticker/issues/58)
+- Updated restic and rclone versions + hashes [\#59](https://github.com/djmaze/resticker/pull/59) ([LucaTNT](https://github.com/LucaTNT))
+- Update go, rclone and restic versions [\#52](https://github.com/djmaze/resticker/pull/52) ([jlelse](https://github.com/jlelse))
 - Replace repository checking logic [\#47](https://github.com/djmaze/resticker/pull/47) ([ThomDietrich](https://github.com/ThomDietrich))
 - Add RESTIC\_PRUNE\_ARGS [\#46](https://github.com/djmaze/resticker/pull/46) ([PhasecoreX](https://github.com/PhasecoreX))
 - Check for mutual exclusivity of cron expressions [\#41](https://github.com/djmaze/resticker/pull/41) ([ThomDietrich](https://github.com/ThomDietrich))
 - Add better docker-compose example [\#40](https://github.com/djmaze/resticker/pull/40) ([ThomDietrich](https://github.com/ThomDietrich))
 - Add RUN\_ON\_STARTUP for convenience and testing [\#39](https://github.com/djmaze/resticker/pull/39) ([ThomDietrich](https://github.com/ThomDietrich))
-- Updated restic and rclone versions + hashes [\#59](https://github.com/djmaze/resticker/pull/59) ([LucaTNT](https://github.com/LucaTNT))
-- Update go, rclone and restic versions [\#52](https://github.com/djmaze/resticker/pull/52) ([jlelse](https://github.com/jlelse))
+- Allow custom backup arguments using RESTIC\_BACKUP\_ARGS [\#38](https://github.com/djmaze/resticker/pull/38) ([djmaze](https://github.com/djmaze))
+- Add prune support using a separate service and cron schedule [\#36](https://github.com/djmaze/resticker/pull/36) ([djmaze](https://github.com/djmaze))
+- update rclone to 1.50.2 [\#25](https://github.com/djmaze/resticker/pull/25) ([panakour](https://github.com/panakour))
 
 **Fixed bugs:**
 
@@ -104,6 +143,7 @@
 - Sending mail on post backup [\#53](https://github.com/djmaze/resticker/issues/53)
 
 ## [1.2.0](https://github.com/djmaze/resticker/tree/1.2.0) (2020-06-07)
+
 [Full Changelog](https://github.com/djmaze/resticker/compare/1.1.1...1.2.0)
 
 **Implemented enhancements:**
@@ -128,6 +168,7 @@
 - Question: Is it possible to add backup arguments to cron jobs? [\#19](https://github.com/djmaze/resticker/issues/19)
 
 ## [1.1.1](https://github.com/djmaze/resticker/tree/1.1.1) (2019-11-27)
+
 [Full Changelog](https://github.com/djmaze/resticker/compare/1.1.0...1.1.1)
 
 **Implemented enhancements:**
@@ -140,14 +181,24 @@
 - Use proper sh semantics for the entrypoint [\#18](https://github.com/djmaze/resticker/pull/18) ([schue](https://github.com/schue))
 
 ## [1.1.0](https://github.com/djmaze/resticker/tree/1.1.0) (2019-10-30)
+
 [Full Changelog](https://github.com/djmaze/resticker/compare/1.0.1...1.1.0)
+
+As it turned out, the used version of **go-cron** did not work reliably any more. The image now includes a newer version which should fix those problems.
 
 **Implemented enhancements:**
 
 - Feature : Add curl to final image \(for Slack webhook\) [\#14](https://github.com/djmaze/resticker/pull/14) ([y3lousso](https://github.com/y3lousso))
 
+**Fixed bugs:**
+
+- Replace go-cron with crond from the already included BusyBox [\#11](https://github.com/djmaze/resticker/issues/11)
+
 ## [1.0.1](https://github.com/djmaze/resticker/tree/1.0.1) (2019-10-26)
+
 [Full Changelog](https://github.com/djmaze/resticker/compare/1.0.0...1.0.1)
+
+As it turned out, the used version of **go-cron** did not work reliably any more. The image now includes a newer version which should fix those problems.
 
 **Implemented enhancements:**
 
@@ -157,12 +208,13 @@
 
 - Replace go-cron with crond from the already included BusyBox [\#11](https://github.com/djmaze/resticker/issues/11)
 
-**Closed issues:**
-
-- Release notes for 1.0.1 [\#13](https://github.com/djmaze/resticker/issues/13)
-
 ## [1.0.0](https://github.com/djmaze/resticker/tree/1.0.0) (2019-10-24)
+
 [Full Changelog](https://github.com/djmaze/resticker/compare/0.9.5...1.0.0)
+
+In this release, there are a couple of new features. Also, Restic itself has not been updated in a while. So it makes sense to switch to our own versioning scheme now. In order to indicate this change, we are now continuing with 1.0.0.
+
+The new version does not indicate any kind of stability or feature freeze. It is just a new numbering scheme which is now uncoupled from the Restic version in use. 
 
 **Implemented enhancements:**
 
@@ -178,9 +230,9 @@
 **Closed issues:**
 
 - NextCloud in and out of maintenance mode [\#9](https://github.com/djmaze/resticker/issues/9)
-- Release notes for 1.0.0 [\#10](https://github.com/djmaze/resticker/issues/10)
 
 ## [0.9.5](https://github.com/djmaze/resticker/tree/0.9.5) (2019-07-21)
+
 [Full Changelog](https://github.com/djmaze/resticker/compare/0.9.3...0.9.5)
 
 **Implemented enhancements:**
@@ -189,5 +241,8 @@
 
 ## [0.9.3](https://github.com/djmaze/resticker/tree/0.9.3) (2019-05-22)
 
+[Full Changelog](https://github.com/djmaze/resticker/compare/6d9cfd3c141c373b77ceea418980f2b893222b86...0.9.3)
 
-\* *This Change Log was automatically generated by [github_changelog_generator](https://github.com/skywinder/Github-Changelog-Generator)*
+
+
+\* *This Changelog was automatically generated by [github_changelog_generator](https://github.com/github-changelog-generator/github-changelog-generator)*
