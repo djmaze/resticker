@@ -1,5 +1,21 @@
 # Changelog
 
+## [1.7.1](https://github.com/djmaze/resticker/tree/1.7.1) (2023-12-20)
+
+[Full Changelog](https://github.com/djmaze/resticker/compare/1.7.0...1.7.1)
+
+**Implemented enhancements:**
+
+- Update Restic to v1.16.2, RClone to v1.64.2 [\#176](https://github.com/djmaze/resticker/pull/176) ([CoordSpace](https://github.com/CoordSpace))
+- Update restic to 0.16.0 [\#175](https://github.com/djmaze/resticker/pull/175) ([cz3k](https://github.com/cz3k))
+
+**Closed issues:**
+
+- Feature Request: Support for docker secrets [\#177](https://github.com/djmaze/resticker/issues/177)
+- restic version update 0.16.0 [\#172](https://github.com/djmaze/resticker/issues/172)
+- Backup fails with large folder [\#166](https://github.com/djmaze/resticker/issues/166)
+- Not able to restore [\#163](https://github.com/djmaze/resticker/issues/163)
+
 ## [1.7.0](https://github.com/djmaze/resticker/tree/1.7.0) (2023-02-27)
 
 [Full Changelog](https://github.com/djmaze/resticker/compare/1.6.0...1.7.0)
