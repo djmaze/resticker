@@ -1,5 +1,26 @@
 # Changelog
 
+## [1.7.2](https://github.com/djmaze/resticker/tree/1.7.2) (2024-02-27)
+
+[Full Changelog](https://github.com/djmaze/resticker/compare/1.7.1...1.7.2)
+
+**Implemented enhancements:**
+
+- Update restic to 0.16.3 [\#182](https://github.com/djmaze/resticker/pull/182) ([cz3k](https://github.com/cz3k))
+
+**Fixed bugs:**
+
+- .ssh files copied to wrong location [\#184](https://github.com/djmaze/resticker/issues/184)
+- Fix documentation & example for excludes [\#187](https://github.com/djmaze/resticker/pull/187) ([djmaze](https://github.com/djmaze))
+
+**Closed issues:**
+
+- Plans for a new release? [\#179](https://github.com/djmaze/resticker/issues/179)
+
+**Merged pull requests:**
+
+- Fix copying contents of $ssh\_config\_path into /root/.ssh [\#185](https://github.com/djmaze/resticker/pull/185) ([nerdlich](https://github.com/nerdlich))
+
 ## [1.7.1](https://github.com/djmaze/resticker/tree/1.7.1) (2023-12-20)
 
 [Full Changelog](https://github.com/djmaze/resticker/compare/1.7.0...1.7.1)
