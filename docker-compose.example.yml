@@ -13,8 +13,9 @@ services:
       RESTIC_BACKUP_SOURCES: /mnt/volumes
       RESTIC_BACKUP_ARGS: >-
         --tag docker-volumes
-        --exclude='some-folder/cache'
-        --exclude='*.tmp'
+        --exclude some-folder/cache
+        --exclude another-folder/with\ space
+        --exclude *.tmp
         --verbose
       RESTIC_FORGET_ARGS: >-
         --keep-last 10
