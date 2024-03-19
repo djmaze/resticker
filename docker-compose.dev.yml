@@ -1,0 +1,56 @@
+version: "3.3"
+
+services:
+  backup:
+    image: mazzolino/restic:dev
+    hostname: docker
+    restart: unless-stopped
+    environment:
+      RUN_ON_STARTUP: "true"
+      BACKUP_CRON: "0 */2 * * * *"
+      RESTIC_PASSWORD: supersecret
+      RESTIC_BACKUP_SOURCES: /mnt/volumes
+      RESTIC_BACKUP_ARGS: >-
+        --tag docker-volumes
+        --exclude some-folder/cache
+        --exclude another-folder/with\ space
+        --exclude *.tmp
+        --verbose
+      RESTIC_FORGET_ARGS: >-
+        --keep-last 10
+        --keep-daily 7
+        --keep-weekly 5
+        --keep-monthly 12
+      TZ: Europe/Berlin
+    volumes:
+      - ./spec:/mnt/volumes:ro
+      - ./testing/restic-repository:/mnt/restic          
+
+  prune:
+    image: mazzolino/restic:dev
+    hostname: docker
+    restart: unless-stopped
+    environment:
+      SKIP_INIT: "true"
+      RUN_ON_STARTUP: "true"
+      PRUNE_CRON: "20 */2 * * * *"
+      RESTIC_PASSWORD: supersecret
+      RESTIC_BACKUP_SOURCES: /mnt/volumes
+      TZ: Europe/Berlin
+    volumes:
+      - ./testing/restic-repository:/mnt/restic    
+
+  check:
+    image: mazzolino/restic:dev
+    hostname: docker
+    restart: unless-stopped
+    environment:
+      SKIP_INIT: "true"
+      RUN_ON_STARTUP: "false"
+      CHECK_CRON: "40 */2 * * * *"
+      RESTIC_CHECK_ARGS: >-
+        --read-data-subset=10%
+      RESTIC_PASSWORD: supersecret
+      TZ: Europe/Berlin
+    volumes:
+      - ./testing/restic-repository:/mnt/restic    
