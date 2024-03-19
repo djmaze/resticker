@@ -33,6 +33,7 @@ services:
     hostname: docker
     restart: unless-stopped
     environment:
+      SKIP_INIT: "true"
       RUN_ON_STARTUP: "true"
       PRUNE_CRON: "0 0 4 * * *"
       RESTIC_REPOSITORY: b2:my-repo:/restic
@@ -46,6 +47,7 @@ services:
     hostname: docker
     restart: unless-stopped
     environment:
+      SKIP_INIT: "true"
       RUN_ON_STARTUP: "false"
       CHECK_CRON: "0 15 5 * * *"
       RESTIC_CHECK_ARGS: >-

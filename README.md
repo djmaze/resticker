@@ -20,7 +20,11 @@ Run automatic [restic](https://restic.github.io/) backups via a Docker container
 
 Use the supplied example configs to set up a backup schedule.
 
-The Compose files contain a _backup_ and a _prune_ service which can be scheduled independently of each other. Feel free to remove the _prune_ service if you want to run the prune jobs manually.
+The Compose files contain a _backup_, a _prune_ and a _check_ service which can be scheduled independently of each other. Feel free to remove the _prune_ and/or _check_ service if you want to run the prune jobs manually.
+
+If you have multiple services configured for the same repository, make sure, that at most one service is allowed to initialize the repository or a newly created repository might become corrupt.
+
+To do so, add a `SKIP_INIT=true` environment variable to the other services.
 
 ### With Docker Compose
 
@@ -93,6 +97,8 @@ _Note: `BACKUP_CRON`, `PRUNE_CRON` and `CHECK_CRON` are mutually exclusive._
 - `RESTIC_CHECK_ARGS` - If specified `restic check` is run with the given arguments, e.g. `--read-data-subset=10%` to check a randomly choosen subset (10%) of the repository pack files. Without option, only the structure of the repository is checked. The option `--read-data-subset` will also check data, at the cost of transfering them from the repository.; e.g. for B2 concurrent connection settings and verbose logging: `-o b2.connections=10 --verbose`.
 - (Additional variables as needed for the chosen backup target. E.g. `B2_ACCOUNT_ID` and `B2_ACCOUNT_KEY` for Backblaze B2. See official restic documentation about [supported environment variables](https://restic.readthedocs.io/en/stable/040_backup.html#environment-variables).)
 - `TZ` - Optional. Set your timezone for the correct cron execution time.
+- `SKIP_INIT` - Skip initialization of the restic repository, even if it can not be accessed.
+- `SKIP_INIT_CHECK`- Do not fail, if initialization of the restic repository fails for whatever reason.
 
 ### Using the `rclone` repository type
 
