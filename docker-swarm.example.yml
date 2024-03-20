@@ -23,6 +23,7 @@ services:
     image: mazzolino/restic
     hostname: docker
     environment:
+      SKIP_INIT: "true"
       PRUNE_CRON: "0 0 4 * * *"
       RESTIC_FORGET_ARGS: --prune --keep-last 14 --keep-daily 1
       RESTIC_REPOSITORY: b2:my-repo:/restic
@@ -35,6 +36,7 @@ services:
     image: mazzolino/restic
     hostname: docker
     environment:
+      SKIP_INIT: "true"
       RUN_ON_STARTUP: "false"
       CHECK_CRON: "0 15 5 * * *"
       RESTIC_CHECK_ARGS: --read-data-subset=10%

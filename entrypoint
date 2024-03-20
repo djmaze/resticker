@@ -23,15 +23,20 @@ if [[ "$command" != "unlock" ]]; then
   if restic cat config > /dev/null; then
     echo "Repository found."
   else
-    echo "Could not access the configured repository. Trying to initialize (in case it has not been initialized yet) ..."
-    if restic init; then
-      echo "Repository successfully initialized."
+    echo "Could not access the configured repository."
+    if [ "${SKIP_INIT:-}" == "true" ]; then
+      echo "Not trying to initialize because SKIP_INIT is set in your configuration.."
     else
-      if [ "${SKIP_INIT_CHECK:-}" == "true" ]; then
-        echo "Initialization failed. Ignoring errors because SKIP_INIT_CHECK is set in your configuration."
+      echo "Trying to initialize (in case it has not been initialized yet) ..."
+      if restic init; then
+        echo "Repository successfully initialized."
       else
-        echo "Initialization failed. Please see error messages above and check your configuration. Exiting."
-        exit 1
+        if [ "${SKIP_INIT_CHECK:-}" == "true" ]; then
+          echo "Initialization failed. Ignoring errors because SKIP_INIT_CHECK is set in your configuration."
+        else
+          echo "Initialization failed. Please see error messages above and check your configuration. Exiting."
+          exit 1
+        fi
       fi
     fi
   fi
