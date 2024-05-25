@@ -13,11 +13,11 @@ function run_exit_commands {
 }
 
 function replace_spaces {
-  echo "${1/\\ /\\}"
+  echo "${1//\\ /\\}"
 }
 
 function replace_spaces_back {
-  echo "${1/\\/ }"
+  echo "${1//\\/ }"
 }
 
 function check_bool {
