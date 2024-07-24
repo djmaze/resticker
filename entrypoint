@@ -82,6 +82,6 @@ else
     echo "Scheduling check job according to cron expression."
     exec go-cron "$CHECK_CRON" /usr/local/bin/check
   fi
-  >&2 echo "No valid operating mode configured! Exiting."
+  >&2 echo "No valid operating mode configured! Please set either the BACKUP_CRON, PRUNE_CRON or CHECK_CRON environment variable."
   exit 1
 fi
