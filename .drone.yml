@@ -56,7 +56,7 @@ trigger:
 
 services:
     - name: docker
-      image: docker:20.10-dind
+      image: docker:27.1-dind
       commands:
         - dockerd
       privileged: true
