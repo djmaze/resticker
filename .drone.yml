@@ -4,7 +4,7 @@ name: release
 
 steps:
   - name: build & push release image
-    image: thegeeklab/drone-docker-buildx:20.11@sha256:327b6fb15dc841cf80c7c429f60d695efd7c7a476fe363afac25a58befd4c203
+    image: thegeeklab/drone-docker-buildx:20.11@sha256:6edea41f1fdf2b3c0a536ce3f14da05ee261205919dfbdee6df58a050f2474a7
     settings:
       auto_tag: true
       repo: mazzolino/restic
@@ -36,7 +36,7 @@ steps:
         path: /var/run
 
   - name: build & push PR image
-    image: thegeeklab/drone-docker-buildx:20.11@sha256:327b6fb15dc841cf80c7c429f60d695efd7c7a476fe363afac25a58befd4c203
+    image: thegeeklab/drone-docker-buildx:20.11@sha256:6edea41f1fdf2b3c0a536ce3f14da05ee261205919dfbdee6df58a050f2474a7
     settings:
       repo: mazzolino/restic
       tags:
