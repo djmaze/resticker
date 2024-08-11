@@ -73,7 +73,7 @@ HERE
     When call docker_exec backup
     The stderr should include "Fatal:"
     The output should include "Total failure!"
-    The status should eq 1
+    The status should eq 10
   End
 
   It "Runs failure command if backup is incomplete and incomplete command is not specified"
