@@ -79,12 +79,12 @@ RUN curl -sL -o go-cron.tar.gz https://github.com/djmaze/go-cron/archive/v${GO_C
 #
 FROM alpine:3.20
 
-RUN apk add --update --no-cache ca-certificates fuse nfs-utils openssh tzdata bash curl docker-cli gzip tini
+RUN apk add --update --no-cache ca-certificates jq fuse nfs-utils openssh tzdata bash curl docker-cli gzip tini
 
 ENV RESTIC_REPOSITORY /mnt/restic
 
 COPY --from=builder /usr/local/bin/* /usr/local/bin/
-COPY backup prune check /usr/local/bin/
+COPY backup prune check notify /usr/local/bin/
 COPY entrypoint /
 
 ENTRYPOINT ["/sbin/tini", "--", "/entrypoint"]
