@@ -1,0 +1,83 @@
+#!/bin/bash
+set -eo pipefail
+# Define the log file variable (make sure to replace this with the actual log file path)
+APPRISE_SERVICES_URL=$1
+APPRISE_ENDPOINT=$2
+# Check if LOG_FILE is set
+if [ -z "$LOG_FILE" ]; then
+    echo "LOG_FILE is not set"
+    exit 1
+fi
+
+# Perform the notification using LOG_FILE
+echo "Notifying about the log file: $LOG_FILE"
+
+# Extract information from the log file
+extract_field() {
+    jq -r "select(.message_type == \"$1\") | .$2" < "$LOG_FILE"
+}
+
+# Extract summary information
+files_new=$(extract_field "summary" "files_new")
+files_changed=$(extract_field "summary" "files_changed")
+files_unmodified=$(extract_field "summary" "files_unmodified")
+dirs_new=$(extract_field "summary" "dirs_new")
+dirs_changed=$(extract_field "summary" "dirs_changed")
+dirs_unmodified=$(extract_field "summary" "dirs_unmodified")
+data_blobs=$(extract_field "summary" "data_blobs")
+tree_blobs=$(extract_field "summary" "tree_blobs")
+data_added=$(extract_field "summary" "data_added")
+total_files_processed=$(extract_field "summary" "total_files_processed")
+total_bytes_processed=$(extract_field "summary" "total_bytes_processed")
+total_duration=$(extract_field "summary" "total_duration")
+snapshot_id=$(extract_field "summary" "snapshot_id")
+
+# Extract error information
+error_message=$(extract_field "error" "error")
+error_during=$(extract_field "error" "during")
+error_item=$(extract_field "error" "item")
+
+# Handle cases where error and verbose status might be empty
+if [[ -z "$error_message" ]]; then
+    error_section="No errors reported."
+else
+    error_section="Error encountered:
+- Message: $error_message
+- During: $error_during
+- Item: $error_item"
+fi
+
+# Create a message with status, summary, error, and verbose details
+MESSAGE="Restic Backup Report
+Summary:
+- Files New: $files_new
+- Files Changed: $files_changed
+- Files Unmodified: $files_unmodified
+- Dirs New: $dirs_new
+- Dirs Changed: $dirs_changed
+- Dirs Unmodified: $dirs_unmodified
+- Data Blobs: $data_blobs
+- Tree Blobs: $tree_blobs
+- Data Added: $data_added bytes
+- Total Files Processed: $total_files_processed
+- Total Bytes Processed: $total_bytes_processed
+- Total Duration: $total_duration seconds
+- Snapshot ID: $snapshot_id
+Errors:
+$error_section"
+
+# Print the message to the console (for debugging purposes)
+echo "$MESSAGE"
+
+# Create the JSON payload for Apprise
+PAYLOAD=$(jq -n \
+    --arg urls "$APPRISE_SERVICES_URL" \
+    --arg body "$MESSAGE" \
+    '{
+        "urls": $urls,
+        "body": $body
+    }'
+)
+
+# Send the payload using curl
+curl -X POST "$APPRISE_ENDPOINT" -H 'Content-Type: application/json' -d "$PAYLOAD"
