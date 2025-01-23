@@ -1,0 +1,72 @@
+version: "3.3"
+
+services:
+  backup:
+    build:
+      context: .
+    hostname: docker
+    restart: unless-stopped
+    environment:
+      RUN_ON_STARTUP: "true"
+      BACKUP_CRON: "0 30 3 * * *"
+      RESTIC_PASSWORD: supersecret
+      RESTIC_BACKUP_SOURCES: /mnt/volumes
+      ENABLE_JSON_LOGGING: "true"
+      POST_COMMANDS_EXIT: |-
+        notify "discord://" "http://apprise:8080/notify"
+      RESTIC_BACKUP_ARGS: >-
+        --tag docker-volumes
+        --exclude some-folder/cache
+        --exclude another-folder/with\ space
+        --exclude *.tmp
+      RESTIC_FORGET_ARGS: >-
+        --keep-last 10
+        --keep-daily 7
+        --keep-weekly 5
+        --keep-monthly 12
+      B2_ACCOUNT_ID: xxxxxxx
+      B2_ACCOUNT_KEY: yyyyyyyy
+      TZ: Europe/Berlin
+    volumes:
+      - /var/lib/docker/volumes:/mnt/volumes:ro
+
+  prune:
+    build:
+      context: .
+    hostname: docker
+    restart: unless-stopped
+    environment:
+      SKIP_INIT: "true"
+      RUN_ON_STARTUP: "true"
+      PRUNE_CRON: "0 0 4 * * *"
+      RESTIC_REPOSITORY: b2:my-repo:/restic
+      RESTIC_PASSWORD: supersecret
+      B2_ACCOUNT_ID: xxxxxxx
+      B2_ACCOUNT_KEY: yyyyyyyy
+      TZ: Europe/Berlin
+
+  check:
+    build:
+      context: .
+    hostname: docker
+    restart: unless-stopped
+    environment:
+      SKIP_INIT: "true"
+      RUN_ON_STARTUP: "false"
+      CHECK_CRON: "0 15 5 * * *"
+      RESTIC_CHECK_ARGS: >-
+        --read-data-subset=10%
+      RESTIC_REPOSITORY: b2:my-repo:/restic
+      RESTIC_PASSWORD: supersecret
+      B2_ACCOUNT_ID: xxxxxxx
+      B2_ACCOUNT_KEY: yyyyyyyy
+      TZ: Europe/Berlin
+
+  apprise: 
+    image: caronc/apprise:latest
+    hostname: docker
+    restart: unless-stopped
+    environment:
+      TZ: Europe/Berlin
+    ports:
+      - 8080:8080
