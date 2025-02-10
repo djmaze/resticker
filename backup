@@ -32,6 +32,14 @@ function check_bool {
   echo "false"
 }
 
+BACKUP_RUNNING="${BACKUP_RUNNING:-false}"
+if [ "$BACKUP_RUNNING" = "true" ]; then
+  echo Backup already running, exiting gracefully
+  exit 0
+fi
+
+export BACKUP_RUNNING=true
+
 trap run_exit_commands EXIT
 
 run_commands "${PRE_COMMANDS:-}"
@@ -109,5 +117,7 @@ incomplete)
 failure)
   run_commands "${POST_COMMANDS_FAILURE:-}";;
 esac
+
+export BACKUP_RUNNING=false
 
 exit $rc
