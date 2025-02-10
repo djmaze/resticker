@@ -34,7 +34,7 @@ function check_bool {
 
 BACKUP_RUNNING="${BACKUP_RUNNING:-false}"
 if [ "$BACKUP_RUNNING" = "true" ]; then
-  echo Backup already running, exiting gracefully
+  echo -e "Backup already running, exiting gracefully"
   exit 0
 fi
 
