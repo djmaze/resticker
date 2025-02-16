@@ -32,13 +32,13 @@ function check_bool {
   echo "false"
 }
 
-BACKUP_RUNNING="${BACKUP_RUNNING:-false}"
-if [ "$BACKUP_RUNNING" = "true" ]; then
-  echo -e "Backup already running, exiting gracefully"
-  exit 0
+# Check if another backup is running
+if [ -f /usr/backup.lock ]; then
+  echo Backup already running, skipping backup at $(date +"%Y-%m-%d %H:%M:%S")
+  exit 1
 fi
 
-export BACKUP_RUNNING=true
+touch /usr/backup.lock
 
 trap run_exit_commands EXIT
 
@@ -118,6 +118,6 @@ failure)
   run_commands "${POST_COMMANDS_FAILURE:-}";;
 esac
 
-export BACKUP_RUNNING=false
+rm -f /usr/backup.lock
 
 exit $rc

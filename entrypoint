@@ -16,6 +16,8 @@ if [[ -d "$SSH_CONFIG_PATH" ]]; then
   chmod -R u+rwX,go-rwx /root/.ssh
 fi
 
+rm -f /usr/backup.lock
+
 command="${1-}"
 
 if [[ "$command" != "unlock" ]]; then
