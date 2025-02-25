@@ -33,12 +33,12 @@ function check_bool {
 }
 
 # Check if another backup is running
-if [ -f /usr/backup.lock ]; then
+if [ -f /run/lock/backup.lock ]; then
   echo Backup already running, skipping backup at $(date +"%Y-%m-%d %H:%M:%S")
   exit 1
 fi
 
-touch /usr/backup.lock
+touch /run/lock/backup.lock
 
 trap run_exit_commands EXIT
 
@@ -118,6 +118,6 @@ failure)
   run_commands "${POST_COMMANDS_FAILURE:-}";;
 esac
 
-rm -f /usr/backup.lock
+rm -f /run/lock/backup.lock
 
 exit $rc

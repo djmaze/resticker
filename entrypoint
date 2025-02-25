@@ -16,7 +16,7 @@ if [[ -d "$SSH_CONFIG_PATH" ]]; then
   chmod -R u+rwX,go-rwx /root/.ssh
 fi
 
-rm -f /usr/backup.lock
+rm -f /run/lock/backup.lock
 
 command="${1-}"
 
