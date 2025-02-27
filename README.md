@@ -99,7 +99,10 @@ _Note: `BACKUP_CRON`, `PRUNE_CRON` and `CHECK_CRON` are mutually exclusive._
 - `TZ` - Optional. Set your timezone for the correct cron execution time.
 - `SKIP_INIT` - Skip initialization of the restic repository, even if it can not be accessed.
 - `SKIP_INIT_CHECK`- Do not fail, if initialization of the restic repository fails for whatever reason.
-
+- `ENABLE_JSON_LOGGING` = Converts Restic's standard output to JSON format. This allows users to leverage tools like `jq` to extract specific fields from the metadata. Additionally, it supports calling external scripts for further processing, such as [executing commands after a backup](#execute-commands-after-backup). For example:
+```sh
+notify "discord://,telegram://,slack://" "http://apprise:8000/notify"
+```
 ### Using the `rclone` repository type
 
 In order to use the `rclone` repository type, you need to prepare an `rclone.conf` file and mount it inside the container at `/run/secrets/rclone.conf`.

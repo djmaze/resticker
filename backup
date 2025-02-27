@@ -1,6 +1,6 @@
 #!/bin/bash
 set -eo pipefail
-
+LOG_FILE=""
 function run_commands {
 	COMMANDS=$1
 	while IFS= read -r cmd; do echo "$cmd" && eval "$cmd" ; done < <(printf '%s\n' "$COMMANDS")
@@ -70,7 +70,14 @@ start=$(date +%s)
 echo Starting Backup at $(date +"%Y-%m-%d %H:%M:%S")
 
 set +e
-restic --repo="${RESTIC_REPOSITORY}" backup "${backup_args[@]}" "${tag_options[@]}" "${backup_sources[@]}"
+if [ "$(check_bool "${ENABLE_JSON_LOGGING:-}")" = "true" ]; then
+  # Set LOG_FILE
+  LOG_FILE="/var/log/restic_backup_$(date +%Y%m%d_%H%M%S).json"
+  export LOG_FILE
+  restic --repo="${RESTIC_REPOSITORY}" backup "${backup_args[@]}" "${tag_options[@]}" "${backup_sources[@]}" --json | tee "$LOG_FILE"
+else 
+  restic --repo="${RESTIC_REPOSITORY}" backup "${backup_args[@]}" "${tag_options[@]}" "${backup_sources[@]}"
+fi
 rc=$?
 set -e
 
