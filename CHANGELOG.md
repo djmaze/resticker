@@ -1,5 +1,41 @@
 # Changelog
 
+## [1.8.0](https://github.com/djmaze/resticker/tree/1.8.0) (2025-04-21)
+
+[Full Changelog](https://github.com/djmaze/resticker/compare/1.7.2...1.8.0)
+
+**Implemented enhancements:**
+
+- Add example for restarting containers to the readme [\#231](https://github.com/djmaze/resticker/pull/231) ([djmaze](https://github.com/djmaze))
+- Update restic and rclone [\#227](https://github.com/djmaze/resticker/pull/227) ([dodgex](https://github.com/dodgex))
+- Skip backup if already running [\#225](https://github.com/djmaze/resticker/pull/225) ([jljl1337](https://github.com/jljl1337))
+- Update restic, rclone, alpine to latest versions [\#223](https://github.com/djmaze/resticker/pull/223) ([thueske](https://github.com/thueske))
+- Update restic to v0.17.0 [\#210](https://github.com/djmaze/resticker/pull/210) ([djmaze](https://github.com/djmaze))
+
+**Fixed bugs:**
+
+- Backup job container restarting constantly [\#190](https://github.com/djmaze/resticker/issues/190)
+- Race condition when startung multiple containers and repo does not exist -\> repo corrupt [\#188](https://github.com/djmaze/resticker/issues/188)
+- Prevent the container entrypoint script from exiting on any error [\#230](https://github.com/djmaze/resticker/pull/230) ([djmaze](https://github.com/djmaze))
+- Improve error message when operating mode is not specified [\#202](https://github.com/djmaze/resticker/pull/202) ([djmaze](https://github.com/djmaze))
+- allow escaping of multiple spaces [\#192](https://github.com/djmaze/resticker/pull/192) ([marzzzello](https://github.com/marzzzello))
+
+**Closed issues:**
+
+- Problems with Repo Locks on several systems [\#221](https://github.com/djmaze/resticker/issues/221)
+- Not working with VPN : TLS handshake timeout [\#219](https://github.com/djmaze/resticker/issues/219)
+- open: s3.getCredentials: no credentials found. Use `-o s3.unsafe-anonymous-auth=true` for anonymous authentication [\#218](https://github.com/djmaze/resticker/issues/218)
+- Rclone Update for Rclone Bug [\#196](https://github.com/djmaze/resticker/issues/196)
+
+**Merged pull requests:**
+
+- Update thegeeklab/drone-docker-buildx Docker tag to v24 [\#213](https://github.com/djmaze/resticker/pull/213) ([renovate-djmaze[bot]](https://github.com/apps/renovate-djmaze))
+- Update golang Docker tag to v1.21.5 [\#211](https://github.com/djmaze/resticker/pull/211) ([renovate-djmaze[bot]](https://github.com/apps/renovate-djmaze))
+- Update alpine Docker tag to v3.20 [\#207](https://github.com/djmaze/resticker/pull/207) ([renovate-djmaze[bot]](https://github.com/apps/renovate-djmaze))
+- Add renovate.json to automate Dockerfile dependency updates [\#204](https://github.com/djmaze/resticker/pull/204) ([cz3k](https://github.com/cz3k))
+- Update restic in Dockerfile [\#198](https://github.com/djmaze/resticker/pull/198) ([cz3k](https://github.com/cz3k))
+- Update Rclone in Dockerfile [\#197](https://github.com/djmaze/resticker/pull/197) ([zaunza](https://github.com/zaunza))
+
 ## [1.7.2](https://github.com/djmaze/resticker/tree/1.7.2) (2024-02-27)
 
 [Full Changelog](https://github.com/djmaze/resticker/compare/1.7.1...1.7.2)
@@ -175,7 +211,6 @@
 
 - Resticker Loop [\#60](https://github.com/djmaze/resticker/issues/60)
 - Wrong image on docker hub [\#57](https://github.com/djmaze/resticker/issues/57)
-- Best way to backup docker volumes [\#56](https://github.com/djmaze/resticker/issues/56)
 - Restic seems to not exclude my dir [\#54](https://github.com/djmaze/resticker/issues/54)
 - Sending mail on post backup [\#53](https://github.com/djmaze/resticker/issues/53)
 
