@@ -182,14 +182,18 @@ Also the fuse kernel module should be loaded (`modprobe fuse`).
 
 It's possible to optionally execute commands (like database dumps, or stopping a running container to avoid inconsistent backup data) before the actual backup starts. If you want to execute `docker` commands on the host, mount the Docker socket to the container. To do that add the following volume to the compose or swarm configuration:
 
-    - /var/run/docker.sock:/var/run/docker.sock
+```yaml
+  - /var/run/docker.sock:/var/run/docker.sock:ro
+```
 
 You can add one or multiple commands by specifying the following environment variable:
 
-    PRE_COMMANDS: |-
-                docker exec nextcloud-postgres pg_dumpall -U nextcloud -f /data/nextcloud.sql
-                docker exec other-postgres pg_dumpall -U other -f /data/other.sql
-                docker stop my_container
+```yaml
+PRE_COMMANDS: |-
+  docker exec nextcloud-postgres pg_dumpall -U nextcloud -f /data/nextcloud.sql
+  docker exec other-postgres pg_dumpall -U other -f /data/other.sql
+  docker stop my_container
+```
 
 The commands specified in `PRE_COMMANDS` are executed one by one.
 
@@ -199,17 +203,19 @@ It's possible to optionally execute commands (like restarting a temporarily stop
 
 You can add one or multiple commands by specifying the following environment variables:
 
-    POST_COMMANDS_SUCCESS: |-
-    	/my/scripts/mail-success.sh
+```yaml
+POST_COMMANDS_SUCCESS: |-
+ 	/my/scripts/mail-success.sh
 
-    POST_COMMANDS_FAILURE: |-
-    	/my/scripts/mail-failure.sh
+POST_COMMANDS_FAILURE: |-
+ 	/my/scripts/mail-failure.sh
 
-    POST_COMMANDS_INCOMPLETE: |-
-    	/my/scripts/mail-incomplete.sh
+POST_COMMANDS_INCOMPLETE: |-
+ 	/my/scripts/mail-incomplete.sh
 
-    POST_COMMANDS_EXIT: |-
-    	docker start my_container
+POST_COMMANDS_EXIT: |-
+ 	docker start my_container
+```
 
 The commands specified are executed one by one.
 
@@ -220,13 +226,31 @@ The commands specified are executed one by one.
 
 By default, when any file could not be backed up, the commands from `POST_COMMANDS_FAILURE` will be executed. When `SUCCESS_ON_INCOMPLETE_BACKUP` is set to `"true"`, the commands from `POST_COMMANDS_INCOMPLETE` will be executed instead. Unless those are not configured – then the commands from `POST_COMMANDS_SUCCESS` will be executed.
 
-### Notification example
+### Example: Stopping & starting other containers
+
+To stop and start containers running on the host system before and after the backup, even if they are usually stopped and started using Docker Compose, set the following environment variables and mount the docker socket into the container as follows:
+
+```yaml
+services:
+  backup:
+    # ...
+    environment:
+      # ...
+      PRE_COMMANDS: |-
+        docker stop containername
+      POST_COMMANDS_SUCCESS: |-
+        docker start containername
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+```
+
+### Example: Send notifications
 
 The Resticker docker image does not contain any tools for sending notifications, apart from `curl`. You should thus connect a second container for that purpose. For example, this is how mail notifications can be sent using [apprise-microservice](https://github.com/djmaze/apprise-microservice):
 
 ```yaml
 services:
-  app:
+  backup:
     image: mazzolino/restic:1.1
     environment:
       # ...
