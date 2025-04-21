@@ -63,7 +63,7 @@ else
   if [[ -n "${BACKUP_CRON:-}" ]]; then
     if [ "${RUN_ON_STARTUP:-}" == "true" ]; then
       echo "Executing backup on startup ..."
-      /usr/local/bin/backup
+      /usr/local/bin/backup || true
     fi
     echo "Scheduling backup job according to cron expression."
     exec go-cron "$BACKUP_CRON" /usr/local/bin/backup
@@ -71,7 +71,7 @@ else
   if [[ -n "${PRUNE_CRON:-}" ]]; then
     if [ "${RUN_ON_STARTUP:-}" == "true" ]; then
       echo "Executing prune job on startup ..."
-      /usr/local/bin/prune
+      /usr/local/bin/prune || true
     fi
     echo "Scheduling prune job according to cron expression."
     exec go-cron "$PRUNE_CRON" /usr/local/bin/prune
@@ -79,7 +79,7 @@ else
   if [[ -n "${CHECK_CRON:-}" ]]; then
     if [ "${RUN_ON_STARTUP:-}" == "true" ]; then
       echo "Executing check job on startup ..."
-      /usr/local/bin/check
+      /usr/local/bin/check || true
     fi
     echo "Scheduling check job according to cron expression."
     exec go-cron "$CHECK_CRON" /usr/local/bin/check

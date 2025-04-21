@@ -99,7 +99,13 @@ esac
 if [ -n "${RESTIC_FORGET_ARGS}" ]; then
   IFS=" " read -r -a RESTIC_FORGET_ARGS <<< "$RESTIC_FORGET_ARGS"
   echo Forget about old snapshots based on RESTIC_FORGET_ARGS = "${RESTIC_FORGET_ARGS[@]}"
+  set +e
   restic forget "${tag_options[@]}" "${RESTIC_FORGET_ARGS[@]}"
+  forget_rc=$?
+  set -e
+  if [ $forget_rc -ne 0 ]; then
+      echo "Forget failed"
+  fi
 fi
 
 end=$(date +%s)
