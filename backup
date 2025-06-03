@@ -35,6 +35,7 @@ function check_bool {
 # Check if another backup is running
 if [ -f /run/lock/backup.lock ]; then
   echo Backup already running, skipping backup at $(date +"%Y-%m-%d %H:%M:%S")
+  run_commands "${SKIP_COMMANDS:-}"
   exit 1
 fi
 
