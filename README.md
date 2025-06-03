@@ -226,6 +226,22 @@ The commands specified are executed one by one.
 
 By default, when any file could not be backed up, the commands from `POST_COMMANDS_FAILURE` will be executed. When `SUCCESS_ON_INCOMPLETE_BACKUP` is set to `"true"`, the commands from `POST_COMMANDS_INCOMPLETE` will be executed instead. Unless those are not configured – then the commands from `POST_COMMANDS_SUCCESS` will be executed.
 
+## Execute commands when skipping backup
+
+It's possible to optionally execute commands (like restarting a temporarily stopped container, send a mail...) if the backup is skipped. Like for pre-backup and post-backup commands, if you want to execute `docker` commands on the host, mount the Docker socket to the container.
+
+You can add one or multiple commands by specifying the following environment variable:
+
+```yaml
+SKIP_COMMANDS: |-
+  /my/scripts/mail-skip.sh
+  docker start my_container
+```
+
+The commands specified in `SKIP_COMMANDS` are executed one by one.
+
+Note that the pre-backup and post-backup commands are executed only if the backup is not skipped. If the backup is skipped, the commands specified in `SKIP_COMMANDS` will be executed instead.
+
 ### Example: Stopping & starting other containers
 
 To stop and start containers running on the host system before and after the backup, even if they are usually stopped and started using Docker Compose, set the following environment variables and mount the docker socket into the container as follows:
