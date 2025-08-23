@@ -49,7 +49,19 @@ touch /run/lock/backup.lock
 
 trap run_exit_commands EXIT
 
+set +e
 run_commands "${PRE_COMMANDS:-}"
+pre_result=$?
+set -e
+if [ $pre_result -ne 0 ]; then
+  echo "Warning: At least one command of PRE_COMMANDS exited with a non-zero exit code."
+  run_commands "${PRE_COMMANDS_FAILURE:-}"
+
+  if [ "${ABORT_ON_PRE_COMMANDS_FAILURE:-}" == "true" ]; then
+    rm -f /run/lock/backup.lock
+    exit 1
+  fi
+fi
 
 IFS=" " read -r -a RESTIC_BACKUP_SOURCES <<< "$(replace_spaces "${RESTIC_BACKUP_SOURCES:-/data}")"
 RESTIC_BACKUP_TAGS="${RESTIC_BACKUP_TAGS:-}"
