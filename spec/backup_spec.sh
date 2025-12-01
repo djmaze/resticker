@@ -14,7 +14,7 @@ Describe "backup script"
     [[ -f "$extra_env" ]] && extra_args=(--env-file "${extra_env[@]}")
     
     # shellcheck disable=SC2086
-    $DOCKER exec -i \
+    $DOCKER exec \
       -e RESTIC_PASSWORD=test \
       "${extra_args[@]}" \
       "$container" \
@@ -132,5 +132,18 @@ HERE
     When call docker_exec backup
     The status should eq 1
     The output should include "Well, I skipped this"
+  End
+
+  It "Runs a backup successfully with RESTIC_REPOSITORY_FILE"
+    docker_exec mv /mnt/restic /mnt/restic2
+    repository_file="/tmp/repofile"
+    docker_exec "echo /mnt/restic2 >$repository_file"
+    cat <<HERE >"$extra_env"
+        RESTIC_REPOSITORY_FILE=$repository_file
+HERE
+    When call docker_exec backup
+    The output should include "Backup successful"
+    The output should match pattern "*processed 1 files*"
+    The status should be success
   End
 End

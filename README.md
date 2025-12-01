@@ -102,21 +102,9 @@ _Note: `BACKUP_CRON`, `PRUNE_CRON` and `CHECK_CRON` are mutually exclusive._
 
 ### Using the `rclone` repository type
 
-In order to use the `rclone` repository type, you need to prepare an `rclone.conf` file and mount it inside the container at `/run/secrets/rclone.conf`.
+In order to use the `rclone` repository type, you need to prepare an `rclone.conf` file and use it as a _Docker secret_:
 
-So when in swarm mode, you can just use `rclone.conf` as a _Docker secret_.
-
-Example for Docker Compose:
-
-```yaml
-services:
-  backup:
-    # ...
-    volumes:
-      - ./rclone.conf:/run/secrets/rclone.conf:ro
-```
-
-Example for Docker swarm mode:
+Example for Docker Compose/Swarm:
 
 ```yaml
 services:
