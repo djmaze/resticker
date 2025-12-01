@@ -20,8 +20,13 @@ rm -f /run/lock/backup.lock
 
 command="${1-}"
 
+if [ -n "$RESTIC_REPOSITORY_FILE" ]; then
+  echo Using restic repository file at $RESTIC_REPOSITORY_FILE
+  unset RESTIC_REPOSITORY
+fi
+
 if [[ "$command" != "unlock" ]]; then
-  echo "Checking configured repository '${RESTIC_REPOSITORY}' ..."
+  echo "Checking configured repository '${RESTIC_REPOSITORY:-$(cat $RESTIC_REPOSITORY_FILE)}' ..."
   if restic cat config > /dev/null; then
     echo "Repository found."
   else

@@ -15,11 +15,18 @@ function run_exit_commands {
 main() {
   run_commands "${PRE_COMMANDS:-}"
 
+  repo_arg="--repo=${RESTIC_REPOSITORY}"
+  if [ -n "$RESTIC_REPOSITORY_FILE" ]; then
+    echo Using restic repository file at $RESTIC_REPOSITORY_FILE
+    repo_arg="--repository-file=${RESTIC_REPOSITORY_FILE}"
+    unset RESTIC_REPOSITORY
+  fi
+
   start=$(date +%s)
   echo Starting check at "$(date +"%Y-%m-%d %H:%M:%S")"
 
   set +e
-  if ! restic --repo="${RESTIC_REPOSITORY}" check ${RESTIC_CHECK_ARGS:-}; then
+  if ! restic "${repo_arg}" check ${RESTIC_CHECK_ARGS:-}; then
     set -e
     run_commands "${POST_COMMANDS_FAILURE:-}"
     exit

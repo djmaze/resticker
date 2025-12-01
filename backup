@@ -66,11 +66,18 @@ for arg in "${RESTIC_BACKUP_ARGS[@]}"; do
   backup_args=("${backup_args[@]}" "$arg")
 done
 
+repo_arg="--repo=${RESTIC_REPOSITORY}"
+if [ -n "$RESTIC_REPOSITORY_FILE" ]; then
+  echo Using restic repository file at $RESTIC_REPOSITORY_FILE
+  repo_arg="--repository-file=${RESTIC_REPOSITORY_FILE}"
+  unset RESTIC_REPOSITORY
+fi
+
 start=$(date +%s)
 echo Starting Backup at $(date +"%Y-%m-%d %H:%M:%S")
 
 set +e
-restic --repo="${RESTIC_REPOSITORY}" backup "${backup_args[@]}" "${tag_options[@]}" "${backup_sources[@]}"
+restic "${repo_arg}" backup "${backup_args[@]}" "${tag_options[@]}" "${backup_sources[@]}"
 rc=$?
 set -e
 
