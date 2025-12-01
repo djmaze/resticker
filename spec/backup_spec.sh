@@ -122,4 +122,17 @@ HERE
     The status should be success
     The output should match pattern "*keep 1 snapshots*"
   End
+
+  It "Runs a backup successfully with RESTIC_REPOSITORY_FILE"
+    docker_exec mv /mnt/restic /mnt/restic2
+    repository_file="/tmp/repofile"
+    docker_exec "echo /mnt/restic2 >$repository_file"
+    cat <<HERE >"$extra_env"
+        RESTIC_REPOSITORY_FILE=$repository_file
+HERE
+    When call docker_exec backup
+    The output should include "Backup successful"
+    The output should match pattern "*processed 1 files*"
+    The status should be success
+  End
 End
