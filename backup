@@ -68,7 +68,7 @@ for arg in "${RESTIC_BACKUP_ARGS[@]}"; do
 done
 
 repo_arg="--repo=${RESTIC_REPOSITORY}"
-if [ -n "$RESTIC_REPOSITORY_FILE" ]; then
+if [ -n "${RESTIC_REPOSITORY_FILE:-}" ]; then
   echo Using restic repository file at $RESTIC_REPOSITORY_FILE
   repo_arg="--repository-file=${RESTIC_REPOSITORY_FILE}"
   unset RESTIC_REPOSITORY

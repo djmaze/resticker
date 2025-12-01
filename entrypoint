@@ -20,7 +20,7 @@ rm -f /run/lock/backup.lock
 
 command="${1-}"
 
-if [ -n "$RESTIC_REPOSITORY_FILE" ]; then
+if [ -n "${RESTIC_REPOSITORY_FILE:-}" ]; then
   echo Using restic repository file at $RESTIC_REPOSITORY_FILE
   unset RESTIC_REPOSITORY
 fi
