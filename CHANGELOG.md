@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.8.2](https://github.com/djmaze/resticker/tree/1.8.2) (2025-12-01)
+
+[Full Changelog](https://github.com/djmaze/resticker/compare/1.8.1...1.8.2)
+
+**Fixed bugs:**
+
+- Allow missing RESTIC\_REPOSITORY\_FILE env variable [\#240](https://github.com/djmaze/resticker/pull/240) ([djmaze](https://github.com/djmaze))
+
 ## [1.8.1](https://github.com/djmaze/resticker/tree/1.8.1) (2025-12-01)
 
 [Full Changelog](https://github.com/djmaze/resticker/compare/1.8.0...1.8.1)
