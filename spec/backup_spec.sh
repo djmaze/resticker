@@ -14,7 +14,7 @@ Describe "backup script"
     [[ -f "$extra_env" ]] && extra_args=(--env-file "${extra_env[@]}")
     
     # shellcheck disable=SC2086
-    $DOCKER exec -i \
+    $DOCKER exec \
       -e RESTIC_PASSWORD=test \
       "${extra_args[@]}" \
       "$container" \
