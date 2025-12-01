@@ -35,6 +35,7 @@ Describe "backup script"
 
   cleanupEach() {
     rm -f "$extra_env"
+    docker_exec rm -f /run/lock/backup.lock
   }
 
   It "Runs a backup successfully"
@@ -121,5 +122,15 @@ HERE
     When call docker_exec "backup && backup"
     The status should be success
     The output should match pattern "*keep 1 snapshots*"
+  End
+
+  It "Runs SKIP_COMMANDS if backup is already running"
+    docker_exec touch /run/lock/backup.lock
+    cat <<HERE >"$extra_env"
+        SKIP_COMMANDS=echo Well, I skipped this
+HERE
+    When call docker_exec backup
+    The status should eq 1
+    The output should include "Well, I skipped this"
   End
 End
