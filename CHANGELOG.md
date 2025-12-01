@@ -1,5 +1,26 @@
 # Changelog
 
+## [1.8.1](https://github.com/djmaze/resticker/tree/1.8.1) (2025-12-01)
+
+[Full Changelog](https://github.com/djmaze/resticker/compare/1.8.0...1.8.1)
+
+**Implemented enhancements:**
+
+- Update rclone to v1.72.0 [\#239](https://github.com/djmaze/resticker/pull/239) ([djmaze](https://github.com/djmaze))
+- Update restic to v0.18.1 [\#238](https://github.com/djmaze/resticker/pull/238) ([djmaze](https://github.com/djmaze))
+- Specify restic repository either via variable or via file [\#234](https://github.com/djmaze/resticker/pull/234) ([DaruZero](https://github.com/DaruZero))
+- Execute commands when skipping backup [\#232](https://github.com/djmaze/resticker/pull/232) ([jljl1337](https://github.com/jljl1337))
+
+**Fixed bugs:**
+
+- Docker Client Version outdated [\#236](https://github.com/djmaze/resticker/issues/236)
+- RESTIC\_REPOSITORY\_FILE cannot be used [\#112](https://github.com/djmaze/resticker/issues/112)
+
+**Merged pull requests:**
+
+- Update alpine image to v3.22 [\#237](https://github.com/djmaze/resticker/pull/237) ([djmaze](https://github.com/djmaze))
+- Use secret for Docker Compose [\#233](https://github.com/djmaze/resticker/pull/233) ([mbrodala](https://github.com/mbrodala))
+
 ## [1.8.0](https://github.com/djmaze/resticker/tree/1.8.0) (2025-04-21)
 
 [Full Changelog](https://github.com/djmaze/resticker/compare/1.7.2...1.8.0)
@@ -9,7 +30,7 @@
 - Add example for restarting containers to the readme [\#231](https://github.com/djmaze/resticker/pull/231) ([djmaze](https://github.com/djmaze))
 - Update restic and rclone [\#227](https://github.com/djmaze/resticker/pull/227) ([dodgex](https://github.com/dodgex))
 - Skip backup if already running [\#225](https://github.com/djmaze/resticker/pull/225) ([jljl1337](https://github.com/jljl1337))
-- Update restic, rclone, alpine to latest versions [\#223](https://github.com/djmaze/resticker/pull/223) ([thueske](https://github.com/thueske))
+- Update restic, rclone, alpine to latest versions [\#223](https://github.com/djmaze/resticker/pull/223) ([twiesing](https://github.com/twiesing))
 - Update restic to v0.17.0 [\#210](https://github.com/djmaze/resticker/pull/210) ([djmaze](https://github.com/djmaze))
 
 **Fixed bugs:**
@@ -291,7 +312,7 @@ The new version does not indicate any kind of stability or feature freeze. It is
 **Implemented enhancements:**
 
 - Post commands [\#8](https://github.com/djmaze/resticker/pull/8) ([nikkoura](https://github.com/nikkoura))
-- Support `rclone` [\#6](https://github.com/djmaze/resticker/pull/6) ([maximbaz](https://github.com/maximbaz))
+- Support `rclone` [\#6](https://github.com/djmaze/resticker/pull/6) ([max-baz](https://github.com/max-baz))
 - Fix various things & add support for precommands [\#3](https://github.com/djmaze/resticker/pull/3) ([jlelse](https://github.com/jlelse))
 
 **Fixed bugs:**
