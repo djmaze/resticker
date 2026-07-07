@@ -1,5 +1,5 @@
 IMAGE=restic:dev
-DOCKER="docker"
+CONTAINER_RUNTIME="${CONTAINER_RUNTIME:-docker}"
 
 Describe "backup script"
   BeforeAll "setup"
@@ -14,7 +14,7 @@ Describe "backup script"
     [[ -f "$extra_env" ]] && extra_args=(--env-file "${extra_env[@]}")
     
     # shellcheck disable=SC2086
-    $DOCKER exec \
+    $CONTAINER_RUNTIME exec \
       -e RESTIC_PASSWORD=test \
       "${extra_args[@]}" \
       "$container" \
@@ -22,15 +22,15 @@ Describe "backup script"
   }
 
   setup() {
-    $DOCKER build --build-arg ARCH="${ARCH:-amd64}" -t "$IMAGE" .
-    container=$($DOCKER run -d --entrypoint bash "$IMAGE" -c "sleep 10000")
+    $CONTAINER_RUNTIME build --build-arg ARCH="${ARCH:-amd64}" -t "$IMAGE" .
+    container=$($CONTAINER_RUNTIME run -d --entrypoint bash "$IMAGE" -c "sleep 10000")
     extra_env="$(mktemp /tmp/extra.env.XXXXXXXX)"
     docker_exec restic init
     docker_exec "mkdir -p /data && echo 123 >/data/dummy && mkdir -p /my\ data && echo 123 >/my\ data/dummy && echo 456 >/my\ data/dreck"
   }
 
   cleanup() {
-    $DOCKER rm -f "$container"
+    $CONTAINER_RUNTIME rm -f "$container"
   }
 
   cleanupEach() {
