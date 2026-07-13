@@ -184,6 +184,8 @@ PRE_COMMANDS: |-
 ```
 
 The commands specified in `PRE_COMMANDS` are executed one by one.
+In case of a failure, `PRE_COMMANDS_FAILURE` will be executed, if set.
+The backup will be aborted if `ABORT_ON_PRE_COMMANDS_FAILURE` is set to `"true"`.
 
 ## Execute commands after backup
 
